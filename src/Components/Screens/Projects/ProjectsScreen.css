@@ -1,0 +1,125 @@
+.title{
+    font: 800 28px Montserrat;
+    color: rgb(0, 0, 0);
+    text-align: left;
+    display: flex;
+    align-items: center;
+}
+.header-container{
+    display: flex;
+    display: flex;
+    margin: 0 1rem 1rem;
+}
+.search-container{
+    border: 1px solid orange;
+    background: white;
+    border-radius: 20px;
+    margin: 0 7px;
+    padding: 1rem;
+}
+.p-accordion .p-accordion-header .p-accordion-header-link {
+    padding: 1rem 1.25rem;
+    border: none;
+    color: #212529;
+    background:none;
+    font-weight: 600;
+    border-radius: 4px;
+    transition: box-shadow 0.15s;
+}
+.input-text-inline{
+    border-radius: 10px;
+    margin-top: 1rem;
+}
+.project-table{
+    margin-top: 1rem;
+    border: 1px solid grey;
+    border-radius: 10px;
+    padding: 1rem;
+    margin: 1rem auto;
+    overflow-y: auto;
+}
+.table-style{
+    padding: 0.5rem;
+}
+.table-header{
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    background-color: #605f5f!important;
+}
+.search-inputs{
+    font-size: 14px;
+    padding: 8px 15px;
+    margin: 5px 0px;
+    border: 2px solid rgb(217, 217, 217);
+    border-radius: 10px;
+    display: block;
+    width: 100%;
+    font-weight: 500;
+}
+.search-inputs span{
+    margin-right: 5px;
+}
+
+.mapboxgl-ctrl-geocoder--icon-search{
+    visibility: hidden;
+}
+
+.project-details-view{
+    padding: 10px;
+}
+.details-group{
+    background: aliceblue;
+    border-radius: 12px;
+    padding: 10px;
+    margin:10px;
+    margin-top: 0.1rem;
+}
+.details-fields{
+    display:flex;
+}
+.details{
+    margin-left: 10px;
+    /* border: 2px solid gray; */
+    border-radius: 14px;
+    width: 73%;
+}
+.details-labels{
+    color: grey;
+    font-weight: 500;
+}
+.p-chip {
+    background-color:none !important;
+    color: #116fbf;
+    border-radius: 16px;
+    padding: 0 0.429rem;
+    text-transform: capitalize;
+    border: 1px solid #116fcd7d;
+    background: none !important;
+}
+.details-group-chips{
+    border-radius: 12px;
+    padding: 10px;
+    margin:10px;
+    margin-top: -1.5rem;
+}
+.show-interest{
+    display: flex;
+    justify-content: end;
+}
+.show-interest-button{
+    background: orange;
+    border: none;
+    border-radius: 20px;
+    font-weight: 700;
+    line-height: 20px;
+}
+
+/*  user profile  modal */
+
+.img-clipped{
+    object-fit: cover;
+    border-radius: 50%;
+    margin:2px;
+    height: 100px;
+    width: 100px;
+}

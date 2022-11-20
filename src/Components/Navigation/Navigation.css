@@ -1,0 +1,213 @@
+.main-dashboard{
+    padding: 0 3rem;
+    line-height: 3.5rem;
+    color: #227699;
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+.dashboard-content{
+    /* margin: 9px; */
+}
+.banner-container{
+    margin:1rem 0 0;
+}
+.banners{
+    border: 1px solid orange;
+    padding: 10px;
+    border-radius: 19px;
+    margin: 0 15px 0 5px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.banner-text{
+    font-family: 'varela round';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #605F5F;
+}
+.banners-content {
+    border: 2px solid #D9D9D9;
+    padding: 20px;
+    border-radius: 19px;
+    margin: 0 0 0 5px;
+    margin-top: 20px;
+}
+.date-title{
+    color:orange;
+    left: calc(50% - 218.2px/2 - 280.55px);
+    font-family: 'varela round';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 17px;
+}
+.project-title{
+   color: #000000;
+   /* font-family: 'Montserrat'; */
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 20px;
+}
+.project-content{
+    color:  #605F5FB2;
+    /* font-family: 'Montserrat'; */
+     font-style: normal;
+     font-weight: 700;
+     font-size: 13px;
+     line-height: 20px;
+ }
+ .more{
+    text-align: end;
+    font-size: 12px;
+    margin-right: 7px;
+    padding-right: 5px;
+    color:#227699;
+    font-weight: bold;
+    display: flex;
+    justify-content: end;
+    cursor: pointer;
+ }
+ .more > i{
+    padding-left: 5px;
+    margin-top: 5px;
+ }
+ .project-headers{
+    text-align: start;
+    font-size: 20px;
+    margin-right: 7px;
+    padding-right: 5px;
+    color:#227699;
+    font-weight: bold;
+    display: flex;
+    justify-content: start;
+ }
+ .events-container{
+    display: flex;
+ }
+ .calender{
+    margin: 1rem;
+ }
+ .rcvp-inline {
+    background: #227699;
+    padding: 8px;
+    border-radius: 20px;
+    color: #FFFFFF;
+    font-size: 0.7rem;
+    height: 1.8rem;
+    width: 5rem;
+    display: flex;
+    justify-content: center;
+ }
+ .p-calender{
+    width: 20rem;
+    height: 18rem;
+ }
+ .p-datepicker table {
+    font-size: 0.8rem;
+}
+.p-datepicker table td {
+    padding: 0rem !important;
+}
+.p-datepicker table td > span {
+    width: 1.5rem !important;
+    height: 1.5rem;
+}
+.calender-container{
+  width: 300px !important;
+}
+.p-calendar .p-datepicker {
+    min-width: 100%;
+    width: 270px;
+    border-radius: 20px;
+    background: #FAEACDAD;
+}
+.events-title{
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 20px;
+/* identical to box height */
+    display: flex;
+    align-items: center;
+    color: #000000;
+    margin: 0px;
+    padding: 0px;
+    margin-top: 1rem;
+}
+.event-name{
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 20px;
+    margin: 0px;
+    padding: 0px;
+}
+.events-footer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.event-org{
+    color:#605F5F;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    display: flex;
+    align-items: center;
+}
+.user-feedback{
+    text-align: center;
+    line-height: 2rem;
+}
+.feedback{
+    background:#227699;
+    border-radius: 26.5px;
+    color: #FFFFFF;
+    border: 0px;
+    padding: 0.7rem;
+    font-size: 15px;
+    font-weight: bold;
+    font-family: 'Varela Round';
+}
+.active-links{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    width: 175px;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    align-self: center;
+    text-decoration: none;
+    background-color: #ffa5001a;
+    border-radius: 0 25px 25px 0;
+    padding-left: 5px;
+    color: black;
+}
+.link{
+    color:#227699;
+}
+.banner-inlineTitle{
+    color: #227699;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 36px;
+    display: flex;
+    align-items: center;
+    font-family: "varela round";
+    margin:0px;
+}
+.banner-name{
+    color:#605F5F;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    font-family: "varela round";
+}
+.sign-out-button{
+    cursor: pointer;
+}

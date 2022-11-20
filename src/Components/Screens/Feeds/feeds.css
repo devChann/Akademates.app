@@ -1,0 +1,169 @@
+.user-feeds-header{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 5rem;
+    padding: 1rem;
+}
+.feeds-container{
+    /* border: 4px solid #D9D9D9; */
+    padding: 10px;
+    border-radius: 19px;
+    margin: 0 0 0 5px;
+    justify-content: space-between;
+}
+.item-group{
+    border: 1px solid #D9D9D9;
+    padding: 10px;
+    border-radius: 15px;
+    margin: 0 0 15px;
+    display: flex;
+    justify-content: space-between;
+}
+.post-input{
+    font-family: "Varela Round";
+    color: #227699;
+    border: 1px solid orange;
+    height: 3rem;
+    padding: 1rem;
+    width: 100%;
+    background: #80808040;
+    border-radius: 30px;
+    line-height: 1rem;
+    cursor: pointer;
+}
+.p-editor-container .p-editor-toolbar.ql-snow{
+    background: none;
+    border: none;
+}
+.p-dialog .p-dialog-content{
+    padding: 0px !important;
+    border-radius: 15px;
+    margin-top: -10px;
+}
+.p-editor-container .p-editor-content.ql-snow{
+    border: none;
+}
+.p-editor-container .p-editor-content .ql-editor{
+    font-size: 14px;
+    font-family: "Varela Round";
+    font-style: normal !important;
+}
+.p-editor-container .p-editor-content .ql-editor > p{
+    font-style: normal;
+}
+
+.post-button{
+    display: flex;
+    justify-content: end;
+    margin: 1rem;
+}
+.button-inline{
+    width: 5rem;
+    height: auto;
+    padding: 10px;
+    border-radius: 20px;
+    border: none;
+    font-size: 14px;
+    font-weight: bold;
+    font-family: 'Varela Round';
+    cursor: pointer;
+    background: orange;
+    color: white;
+}
+.button-inline :hover{
+    background: orange;
+    color: #D9D9D9;
+}
+
+.profile-picture-container {
+    align-items: flex-start;
+    /* background-color: #c4c4c4; */
+    border-radius: 70px;
+    display: flex;
+    height: 105px;
+    margin-top: -0.5px;
+    min-width: 81px;
+    border: 1px solid orange;
+    padding-bottom: 10px;
+    display: block;
+    width: min-content;
+}
+.img-clipped{
+    object-fit: cover;
+    border-radius: 50%;
+    margin:2px;
+    height: 100px;
+    width: 100px;
+}
+.img-overlay{
+    object-fit: cover;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    height: 194px;
+    width: auto;
+}
+.profile-container{
+    display: grid;
+    max-height: 10rem;
+}
+.profile-group{
+    border: 1px solid orange;
+    padding: 1px;
+    border-radius: 19px;
+    margin: 0 15px 0 5px;
+    display: flex;
+    justify-content: space-between;
+}
+.profile-overlap{
+    display: flex;
+    justify-content: center;
+    margin-top:-4rem;
+}
+.profile-bio{
+    text-align: center;
+    padding: 5px;
+}
+.user-title{
+    font-size: 20px;
+    font-weight: 700;
+    color: #227699;
+}
+.user-profession{
+    font-size: 15px;
+    color: #227699;
+    font-weight: 500;
+}
+.custom-skeleton{
+    border-radius: 4px;
+    width: 100%;
+}
+.custom-skeleton ul{
+    list-style: none;
+}
+.container{
+    margin-top: 1.5rem;
+}
+.p-speeddial-button.p-button.p-button-icon-only{
+    width: 1.5rem;
+    height: 1.5rem;
+}
+.pi .pi-bars{
+    font-size: 0.5rem !important;
+}
+.p-speeddial-button.p-button.p-button-icon-only>span{
+    font-size: 0.5rem !important;
+    margin-right: 0px !important;
+}
+.p-speeddial-action{
+    width: 1.5rem;
+    height: 1.5rem;
+}
+.p-speeddial-action span{
+    font-size: 0.5rem !important;
+    margin-right: 0px !important;
+}
+.post-actions{
+    display: flex;
+    justify-content: space-evenly;
+}

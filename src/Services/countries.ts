@@ -1,0 +1,39 @@
+export const AllCountries = [
+    {
+        value:1,
+        label:"Kenya"
+    },
+    {
+        value:2,
+        label:"Uganda"
+    },
+    {
+        value:3,
+        label:"Tanzania"
+    },
+    {
+        value:4,
+        label:"Rwanda"
+    },
+    {
+        value:5,
+        label:"Burundi"
+    },
+    {
+        value:6,
+        label:"Mozambique"
+    },
+    {
+        value:7,
+        label:"Australia"
+    },
+    {
+        value:8,
+        label:"Japan"
+    },
+    {
+        value:9,
+        label:"South Africa"
+    },
+
+]

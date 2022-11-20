@@ -1,3 +1,8 @@
+@font-face {
+  font-family: "Varela Round";
+  src: url("./assets/Fonts/VarelaRound-Regular.otf");
+}
+
 .App {
   text-align: center;
 }
@@ -35,4 +40,33 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.pi-chevron-down{
+  position:absolute !important;
+  right: 0 !important;
+}
+.pi-chevron-up{
+  position:absolute !important;
+  right: 0 !important;
+  color: #227699;
+}
+.p-datatable .p-datatable-header{
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+.p-toast .p-toast-message .p-toast-message-content .p-toast-message-icon{
+	font-size:1rem;
+}
+.p-toast .p-toast-message .p-toast-message-content .p-toast-summary{
+	font-weight:400;
+}
+.p-accordion .p-accordion-content{
+  border: none !important;
+}
+.p-overlaypanel .p-overlaypanel-content {
+  padding: 0px !important;
+}
+.p-toast .p-toast-message .p-toast-message-content .p-toast-message-icon {
+  font-size: 1rem !important;
 }

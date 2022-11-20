@@ -1,0 +1,123 @@
+.main{
+    overflow: hidden;
+}
+.login-container-right {
+   width: 60%; 
+   align-items: center;
+   align-content: center;
+   border-style: solid;
+   border-width: 7px 0px 0px 0px;
+   border-color: #227699;
+   box-shadow: 0px 0px 58px 0px rgb(0 0 0 / 32%);
+   transition: background 0.3s, border 0.3s, border-radius 0.3s, box-shadow 0.3s;
+   margin:  0 auto;
+   padding: 5px 25px 5px 25px;
+   border-radius: 7px 7px 0px 0px;
+}
+.login-container-right-inner{
+    max-width: 400px;
+    display: inline-block;
+    margin-right: auto;
+    margin-left: auto;
+    position: relative;
+    box-sizing: border-box;
+}
+.left-panel{
+    margin: 0px auto;
+}
+.login-panels{
+    text-align: center;
+    margin: auto;
+    width: 50%;
+    padding: 25px;
+}
+.login-info-text{
+    color:  #227699;
+    font-family: "Varela Round", Sans-serif;
+    font-size: 2.3em;
+    font-weight: bold;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    line-height: 1;
+}
+.login-info-content{
+    text-align: center;
+    color: #227699;
+    font-size: 1.3rem;
+    font-weight: bold;
+    line-height: 3rem;
+}
+.login-info-button{
+    background: #227699;
+    border-radius: 10px;
+    border-radius: 25px;
+    border: none;
+}
+.login-info-button  i {
+    /* font-family: "Varela Round", Sans-serif; */
+    font-weight: bold;
+    padding-left: 5px;
+}
+.inline-text{
+    font-family: "Varela Round", Sans-serif;
+    margin-left: 10px;
+}
+.form-container{display: grid;}
+
+input{
+    color: #666666;
+    background-color: #ffffff;
+    border-radius: 2rem;
+    background: transparent;
+    padding: 0 12px !important;
+    width: 100%;
+    display: block !important;
+    -moz-border-radius: 2px;
+    cursor: text !important;
+    font-size: 15px !important;
+    height: 40px !important;
+    box-sizing: border-box !important;
+    box-shadow: none !important;
+    margin: 0 0 37px;
+    position: static;
+    outline: none !important;
+    line-height: 1.8;
+    font-weight: 400;
+}
+.login-field-labels{
+    margin: 0 0 15px;
+}
+.pi{
+    margin-right: 5px;
+}
+.icons-text{
+    margin: 12px;
+    font-family: "varela round";
+    color: #227699;
+}
+.icons{
+    color: #227699;
+    font-weight: bold;
+}
+.login-button{
+    border-radius: 2rem !important;
+    min-width: 150px;
+    font-size: 15px;
+    color: white;
+    height: 44px;
+    text-align: center;
+    background: #227699;
+    border: none;
+    font-family: "varela round";
+    font-weight: bold;
+    cursor: pointer;
+}
+.inner-footer{
+    display: grid;
+    text-align: center;
+}
+
+a:link{
+    text-decoration: none !important;
+}

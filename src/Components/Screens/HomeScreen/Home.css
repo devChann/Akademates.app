@@ -1,0 +1,165 @@
+.home-container {
+    min-height: 100vh;
+    overflow: hidden;
+}
+.logo{
+    color: #227699;
+    font-family: "Varela Round", Sans-serif;
+    font-size: 2.6em;
+    font-weight: bold;
+    margin: 0.5rem 2rem;
+}
+.login-header-title{
+    color: #227699;
+    text-align: center;
+}
+.nav-container{
+    display: flex;
+    justify-content: end;
+
+}
+.nav-container > p {
+    padding: 1rem;
+    font-size: 0.9rem;
+    color: #227699;
+    font-family: "Varela Round";
+}
+.nav-header{
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+    position: relative;
+    display: block;
+}
+.SectionHeader-overlay {
+    font-size: 2.5rem;
+    text-align: center;
+    color: #227699;
+    font-weight: bold;
+    /* background-image: url('../../../assets/images/sectionbackground.jpg'); */
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0.35;
+    width: 100%;
+    height: 15rem;
+}
+
+.footerSection{
+    font-size:1rem;
+    text-align: center;
+    color: #227699;
+    font-weight: bold;
+    background-image: url('../../../assets/images/head2.jpg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0.65;
+    width: 100%;
+    height: 30rem;
+    display: inline-block;
+}
+.footerSection > li, ol {
+    line-height: 40px;
+    text-align: left;
+    color: white;
+    font-weight: normal;
+    font-size: 13px;
+}
+.footerSection-titles{
+    text-align: left;
+    color: white;
+}
+.bg-image{
+    opacity: 0.4;
+}
+.titleContainer{
+    position: absolute;
+    width: 100%;
+    padding: 1rem;
+}
+.main-title-container{
+    justify-content: center;
+    text-align: center;
+}
+.main-title{
+    text-align: center;
+    width: 100%;
+}
+.main-title > p {
+    color: #227699;
+    font-family: "Varela Round", Sans-serif;
+    font-weight: bold;
+    padding: 0;
+    margin: 0;
+    line-height: 1;
+    font-size: 1.875rem;
+    margin-top: 15rem;
+}
+
+.join-button{
+    border-radius: 20px;
+    background: #227699;
+    font-family: "Varela Round";
+    border: none;
+    margin-top: 20px;
+    font-weight: bold;
+}
+/*  subsections */
+.subsectionsbackground{
+    position:absolute;
+    width: 100%;
+    text-align: center;
+}
+.subsectionsbackground > h2{
+  font-size: 2.5rem;
+  color: #227699;
+}
+.bg-image-subsection{
+    opacity: 0.2;
+    margin-top: 5px;
+}
+.post-project-title{
+    justify-content: center;
+    text-align: center;
+    margin: auto;
+}
+.post-project-title > p{
+    font-size: 1.875rem;
+    color: #227699;
+    font-weight: bold;
+    line-height: 50px;
+    padding: 1.5rem;
+}
+.post-project-container{
+    height: 50vh;
+}
+/* map container */
+
+.map-container{
+
+}
+.leaflet-container {
+    width: 100%;
+    height: 100vh;
+}
+
+/* about us */
+
+.about-us-img {
+    border-radius: 38px 38px 38px 38px;
+    box-shadow: 0px 0px 10px 0px rgb(26 115 139 / 58%);
+    width: auto;
+    height: 25rem;
+}
+/*  Our presence */
+.our-presence-container{
+    padding:0.7rem;
+}
+.nav-links{
+    color: #227699;
+    margin: 1rem;
+    text-decoration: none;
+    font-weight: bold;
+}
