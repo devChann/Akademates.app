@@ -204,12 +204,12 @@ export default function UserScreen() {
                         //   scrollable = {true}
                             >
                         
-                            <Column 
+                            {/* <Column 
                                 field="acronym"
-                                header="Code"
+                                header=value
                                 headerStyle={styles.headerStyle(70)}
                                 style={styles.columnStyle(30)}
-                                />
+                                /> */}
                             <Column field="name" header="Name" 
                                 headerStyle={styles.headerStyle(200)} style={styles.columnStyle(200)}/>
                             <Column field="budget" header="Category" headerStyle={styles.headerStyle(200)} />

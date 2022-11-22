@@ -23,6 +23,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    margin-top: 0.8rem;
 }
 .name-inputs{
     font-size: 14px;

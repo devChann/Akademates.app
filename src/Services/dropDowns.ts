@@ -1133,7 +1133,6 @@ export  const Industries = [
     }
    ]
 
-
   export const Fields = [
     {
       code: 3001,
@@ -10971,3 +10970,3248 @@ export  const Industries = [
       label: "Other psychology not elsewhere classified"
     }
    ]
+
+  export const ANZSIC_Subdivision = [
+    {
+      value: "01",
+      label: "Agriculture"
+    },
+    {
+      value: "02",
+      label: "Aquaculture"
+    },
+    {
+      value: "03",
+      label: "Forestry and logging"
+    },
+    {
+      value: "04",
+      label: "Fishing, hunting and trapping"
+    },
+    {
+      value: "05",
+      label: "Agriculture, forestry and fishing support services"
+    },
+    {
+      value: "06",
+      label: "Coal mining"
+    },
+    {
+      value: "07",
+      label: "Oil and gas extraction"
+    },
+    {
+      value: "08",
+      label: "Metal ore mining"
+    },
+    {
+      value: "09",
+      label: "metallic mineral mining and quarrying"
+    },
+    {
+      value: 10,
+      label: "Exploration and other mining support services"
+    },
+    {
+      value: 11,
+      label: "Food product mfg"
+    },
+    {
+      value: 12,
+      label: "Beverage and tobacco product mfg"
+    },
+    {
+      value: 13,
+      label: "Textile. Leather, clothing and footwear mfg"
+    },
+    {
+      value: 14,
+      label: "Wood product mfg"
+    },
+    {
+      value: 15,
+      label: "Pulp, paper and converted paper product mfg"
+    },
+    {
+      value: 16,
+      label: "Printing (including the reproduction of recorded media)"
+    },
+    {
+      value: 17,
+      label: "Petroleum and coal product mfg"
+    },
+    {
+      value: 18,
+      label: "Basic chemical and chemical product mfg"
+    },
+    {
+      value: 19,
+      label: "Polymer product and rubber product mfg"
+    },
+    {
+      value: 20,
+      label: "metallic mineral product mfg"
+    },
+    {
+      value: 21,
+      label: "Primary metal and metal product mfg"
+    },
+    {
+      value: 22,
+      label: "Fabricated metal product mfg"
+    },
+    {
+      value: 23,
+      label: "Transport equipment mfg"
+    },
+    {
+      value: 24,
+      label: "Machinery and equipment mfg"
+    },
+    {
+      value: 25,
+      label: "Furniture and other mfg"
+    },
+    {
+      value: 26,
+      label: "Electricity supply"
+    },
+    {
+      value: 27,
+      label: "Gas supply"
+    },
+    {
+      value: 28,
+      label: "Water supply, sewerage and drainage services"
+    },
+    {
+      value: 29,
+      label: "Waste collection, treatment and disposal services"
+    },
+    {
+      value: 30,
+      label: "Building construction"
+    },
+    {
+      value: 31,
+      label: "Heavy and civil engineering construction"
+    },
+    {
+      value: 32,
+      label: "Construction services"
+    },
+    {
+      value: 33,
+      label: "Basic metal wholesaling"
+    },
+    {
+      value: 34,
+      label: "Machinery and equipment wholesaling"
+    },
+    {
+      value: 35,
+      label: "Motor vehicle and motor vehicle parts wholesaling"
+    },
+    {
+      value: 36,
+      label: "Grocery. Liquor and tobacco product wholesaling"
+    },
+    {
+      value: 37,
+      label: "Other goods wholesaling"
+    },
+    {
+      value: 38,
+      label: "based wholesaling"
+    },
+    {
+      value: 39,
+      label: "Motor vehicle and motor vehicle parts retailing"
+    },
+    {
+      value: 40,
+      label: "Fuel retailing"
+    },
+    {
+      value: 41,
+      label: "Food retailing"
+    },
+    {
+      value: 42,
+      label: "based retailing"
+    },
+    {
+      value: 43,
+      label: "based buying and/or selling"
+    },
+    {
+      value: 44,
+      label: "Accommodation"
+    },
+    {
+      value: 45,
+      label: "Food and beverage services"
+    },
+    {
+      value: 46,
+      label: "Road transport"
+    },
+    {
+      value: 47,
+      label: "Rail transport"
+    },
+    {
+      value: 48,
+      label: "Water transport"
+    },
+    {
+      value: 49,
+      label: "Air and space transport"
+    },
+    {
+      value: 50,
+      label: "Other transport"
+    },
+    {
+      value: 51,
+      label: "up and delivery services"
+    },
+    {
+      value: 52,
+      label: "Transport support services"
+    },
+    {
+      value: 53,
+      label: "Warehousing and storage services"
+    },
+    {
+      value: 54,
+      label: "Publishing (except internet and music publishing)"
+    },
+    {
+      value: 55,
+      label: "Motion picture and sound recording activities"
+    },
+    {
+      value: 56,
+      label: "Broadcasting (except internet)"
+    },
+    {
+      value: 57,
+      label: "Internet publishing and broadcasting"
+    },
+    {
+      value: 58,
+      label: "Telecommunications services"
+    },
+    {
+      value: 59,
+      label: "Internet service providers, web search portals and data processing services"
+    },
+    {
+      value: 60,
+      label: "Library and other information services"
+    },
+    {
+      value: 62,
+      label: "Finance"
+    },
+    {
+      value: 63,
+      label: "Insurance and superannuation funds"
+    },
+    {
+      value: 64,
+      label: "Auxiliary finance and insurance services"
+    },
+    {
+      value: 66,
+      label: "Rental and hiring services (except real estate)"
+    },
+    {
+      value: 67,
+      label: "Property operators and real estate services"
+    },
+    {
+      value: 69,
+      label: "Professional, scientific and technical services (except computer system design and related services)"
+    },
+    {
+      value: 70,
+      label: "Computer system design and related services"
+    },
+    {
+      value: 72,
+      label: "Administrative services"
+    },
+    {
+      value: 73,
+      label: "Building cleaning, pest control and other support services"
+    },
+    {
+      value: 75,
+      label: "Public administration"
+    },
+    {
+      value: 76,
+      label: "Defence"
+    },
+    {
+      value: 77,
+      label: "Public order, safety and regulatory services"
+    },
+    {
+      value: 80,
+      label: "Preschool and school education"
+    },
+    {
+      value: 81,
+      label: "Tertiary education"
+    },
+    {
+      value: 82,
+      label: "Adult, community and other education"
+    },
+    {
+      value: 84,
+      label: "Hospitals"
+    },
+    {
+      value: 85,
+      label: "Medical and other health care services"
+    },
+    {
+      value: 86,
+      label: "Residential care services"
+    },
+    {
+      value: 87,
+      label: "Social assistance services"
+    },
+    {
+      value: 89,
+      label: "Heritage activities"
+    },
+    {
+      value: 90,
+      label: "Creative and performing arts activities"
+    },
+    {
+      value: 91,
+      label: "Sports and recreation activities"
+    },
+    {
+      value: 92,
+      label: "Gambling activities"
+    },
+    {
+      value: 94,
+      label: "Repair and maintenance"
+    },
+    {
+      value: 95,
+      label: "Personal and other services"
+    },
+    {
+      value: 96,
+      label: "producing activities of households for own use"
+    }
+  ]
+
+  export const ANZSIC_Group = [
+    {
+      value: "011",
+      label: "Nursery and floriculture production"
+    },
+    {
+      value: "012",
+      label: "Mushroom and vegetable growing"
+    },
+    {
+      value: "013",
+      label: "Fruit and tree nut growing"
+    },
+    {
+      value: "014",
+      label: "Sheep, beef cattle and grain farming"
+    },
+    {
+      value: "015",
+      label: "Other crop growing"
+    },
+    {
+      value: "016",
+      label: "Dairy cattle farming"
+    },
+    {
+      value: "017",
+      label: "Poultry farming"
+    },
+    {
+      value: "018",
+      label: "Deer farming"
+    },
+    {
+      value: "019",
+      label: "Other livestock farming"
+    },
+    {
+      value: "020",
+      label: "Aquaculture"
+    },
+    {
+      value: "030",
+      label: "Forestry and logging"
+    },
+    {
+      value: "041",
+      label: "Fishing"
+    },
+    {
+      value: "042",
+      label: "Hunting and trapping"
+    },
+    {
+      value: "051",
+      label: "Forestry support services"
+    },
+    {
+      value: "052",
+      label: "Agriculture and fishing support services"
+    },
+    {
+      value: "060",
+      label: "Coal mining"
+    },
+    {
+      value: "070",
+      label: "Oil and gas extraction"
+    },
+    {
+      value: "080",
+      label: "Metal ore mining"
+    },
+    {
+      value: "091",
+      label: "Construction material mining"
+    },
+    {
+      value: "099",
+      label: "metallic mineral mining and quarrying"
+    },
+    {
+      value: 101,
+      label: "Exploration"
+    },
+    {
+      value: 109,
+      label: "Other mining support services"
+    },
+    {
+      value: 111,
+      label: "Meat and meat product mfg"
+    },
+    {
+      value: 112,
+      label: "Seafood processing"
+    },
+    {
+      value: 113,
+      label: "Dairy product mfg"
+    },
+    {
+      value: 114,
+      label: "Fruit and vegetable processing"
+    },
+    {
+      value: 115,
+      label: "Oil and fat mfg"
+    },
+    {
+      value: 116,
+      label: "Grain mill and cereal product mfg"
+    },
+    {
+      value: 117,
+      label: "Bakery product mfg"
+    },
+    {
+      value: 118,
+      label: "Sugar and confectionery mfg"
+    },
+    {
+      value: 119,
+      label: "Other food product mfg"
+    },
+    {
+      value: 121,
+      label: "Beverage mfg"
+    },
+    {
+      value: 122,
+      label: "Cigarette and tobacco product mfg"
+    },
+    {
+      value: 131,
+      label: "Textile mfg"
+    },
+    {
+      value: 132,
+      label: "Leather tanning, fur dressing and leather product mfg"
+    },
+    {
+      value: 133,
+      label: "Textile product mfg"
+    },
+    {
+      value: 134,
+      label: "Knitted product mfg"
+    },
+    {
+      value: 135,
+      label: "Clothing and footwear mfg"
+    },
+    {
+      value: 141,
+      label: "Log sawmilling and timber dressing"
+    },
+    {
+      value: 149,
+      label: "Other wood product mfg"
+    },
+    {
+      value: 151,
+      label: "Pulp, paper and paperboard mfg"
+    },
+    {
+      value: 152,
+      label: "Converted paper product mfg"
+    },
+    {
+      value: 161,
+      label: "Printing"
+    },
+    {
+      value: 162,
+      label: "Reproduction of recorded media"
+    },
+    {
+      value: 170,
+      label: "Petroleum and coal product mfg"
+    },
+    {
+      value: 181,
+      label: "Basic chemical mfg"
+    },
+    {
+      value: 182,
+      label: "Basic polymer mfg"
+    },
+    {
+      value: 183,
+      label: "Fertiliser and pesticide mfg"
+    },
+    {
+      value: 184,
+      label: "Pharmaceutical and medicinal product mfg"
+    },
+    {
+      value: 185,
+      label: "Cleaning compound and toiletry preparation mfg"
+    },
+    {
+      value: 189,
+      label: "Other basic chemical product mfg"
+    },
+    {
+      value: 191,
+      label: "Polymer product mfg"
+    },
+    {
+      value: 192,
+      label: "Natural rubber product mfg"
+    },
+    {
+      value: 201,
+      label: "Glass and glass product mfg"
+    },
+    {
+      value: 202,
+      label: "Ceramic product mfg"
+    },
+    {
+      value: 203,
+      label: "Cement, lime, plaster and concrete product mfg"
+    },
+    {
+      value: 209,
+      label: "metallic mineral product mfg"
+    },
+    {
+      value: 211,
+      label: "Basic ferrous metal mfg"
+    },
+    {
+      value: 212,
+      label: "Basic ferrous metal product mfg"
+    },
+    {
+      value: 213,
+      label: "ferrous metal mfg"
+    },
+    {
+      value: 214,
+      label: "ferrous metal product mfg"
+    },
+    {
+      value: 221,
+      label: "Iron and steel forging"
+    },
+    {
+      value: 222,
+      label: "Structural metal product mfg"
+    },
+    {
+      value: 223,
+      label: "Metal container mfg"
+    },
+    {
+      value: 224,
+      label: "Sheet metal product mfg (except metal structural and container products)"
+    },
+    {
+      value: 229,
+      label: "Other fabricated metal product mfg"
+    },
+    {
+      value: 231,
+      label: "Motor vehicle and motor vehicle part mfg"
+    },
+    {
+      value: 239,
+      label: "Other transport equipment mfg"
+    },
+    {
+      value: 241,
+      label: "Professional and scientific equipment mfg"
+    },
+    {
+      value: 242,
+      label: "Computer and electronic equipment mfg"
+    },
+    {
+      value: 243,
+      label: "Electrical equipment mfg"
+    },
+    {
+      value: 244,
+      label: "Domestic appliance mfg"
+    },
+    {
+      value: 245,
+      label: "Pump, compressor, heating and ventilation equipment mfg"
+    },
+    {
+      value: 246,
+      label: "Specialised machinery and equipment mfg"
+    },
+    {
+      value: 249,
+      label: "Other machinery and equipment mfg"
+    },
+    {
+      value: 251,
+      label: "Furniture mfg"
+    },
+    {
+      value: 259,
+      label: "Other mfg"
+    },
+    {
+      value: 261,
+      label: "Electricity generation"
+    },
+    {
+      value: 262,
+      label: "Electricity transmission"
+    },
+    {
+      value: 263,
+      label: "Electricity distribution"
+    },
+    {
+      value: 264,
+      label: "selling electricity and electricity market operation"
+    },
+    {
+      value: 270,
+      label: "Gas supply"
+    },
+    {
+      value: 281,
+      label: "Water supply, sewerage and drainage services"
+    },
+    {
+      value: 291,
+      label: "Waste collection services"
+    },
+    {
+      value: 292,
+      label: "Waste treatment, disposal and remediation services"
+    },
+    {
+      value: 301,
+      label: "Residential building construction"
+    },
+    {
+      value: 302,
+      label: "residential building construction"
+    },
+    {
+      value: 310,
+      label: "Heavy and civil engineering construction"
+    },
+    {
+      value: 321,
+      label: "Land development and site preparation services"
+    },
+    {
+      value: 322,
+      label: "Building structure services"
+    },
+    {
+      value: 323,
+      label: "Building installation services"
+    },
+    {
+      value: 324,
+      label: "Building completion services"
+    },
+    {
+      value: 329,
+      label: "Other construction services"
+    },
+    {
+      value: 331,
+      label: "Agricultural product wholesaling"
+    },
+    {
+      value: 332,
+      label: "Mineral, metal and chemical wholesaling"
+    },
+    {
+      value: 333,
+      label: "Timber and hardware goods wholesaling"
+    },
+    {
+      value: 341,
+      label: "Specialised industrial machinery and equipment wholesaling"
+    },
+    {
+      value: 349,
+      label: "Other machinery and equipment wholesaling"
+    },
+    {
+      value: 350,
+      label: "Motor vehicle and motor vehicle parts wholesaling"
+    },
+    {
+      value: 360,
+      label: "Grocery, liquor and tobacco product wholesaling"
+    },
+    {
+      value: 371,
+      label: "Textile, clothing and footwear wholesaling"
+    },
+    {
+      value: 372,
+      label: "Pharmaceutical and toiletry goods wholesaling"
+    },
+    {
+      value: 373,
+      label: "Furniture, floor coverings and other goods wholesaling"
+    },
+    {
+      value: 380,
+      label: "based wholesaling"
+    },
+    {
+      value: 391,
+      label: "Motor vehicle retailing"
+    },
+    {
+      value: 392,
+      label: "Motor vehicle parts retailing"
+    },
+    {
+      value: 400,
+      label: "Fuel retailing"
+    },
+    {
+      value: 411,
+      label: "Supermarket and grocery stores"
+    },
+    {
+      value: 412,
+      label: "Specialised food retailing"
+    },
+    {
+      value: 421,
+      label: "Furniture, floor coverings, houseware and textile goods retailing"
+    },
+    {
+      value: 422,
+      label: "Electrical and electronic goods retailing"
+    },
+    {
+      value: 423,
+      label: "Hardware, building and garden supplies retailing"
+    },
+    {
+      value: 424,
+      label: "Recreational goods retailing"
+    },
+    {
+      value: 425,
+      label: "Clothing, footwear and personal accessories retailing"
+    },
+    {
+      value: 426,
+      label: "Department stores"
+    },
+    {
+      value: 427,
+      label: "based retailing"
+    },
+    {
+      value: 431,
+      label: "store retailing"
+    },
+    {
+      value: 432,
+      label: "based buying and/or selling"
+    },
+    {
+      value: 440,
+      label: "Accommodation"
+    },
+    {
+      value: 451,
+      label: "Cafes, restaurants and takeaway food services"
+    },
+    {
+      value: 452,
+      label: "Pubs, tavern and bars"
+    },
+    {
+      value: 453,
+      label: "Clubs (Hospitality)"
+    },
+    {
+      value: 461,
+      label: "Road freight transport"
+    },
+    {
+      value: 462,
+      label: "Road passenger transport"
+    },
+    {
+      value: 471,
+      label: "Rail freight transport"
+    },
+    {
+      value: 472,
+      label: "Rail passenger transport"
+    },
+    {
+      value: 481,
+      label: "Water freight transport"
+    },
+    {
+      value: 482,
+      label: "Water passenger transport"
+    },
+    {
+      value: 490,
+      label: "Air and space transport"
+    },
+    {
+      value: 501,
+      label: "Scenic and sightseeing transport"
+    },
+    {
+      value: 502,
+      label: "Pipeline and other transport"
+    },
+    {
+      value: 510,
+      label: "up and delivery services"
+    },
+    {
+      value: 521,
+      label: "Water transport support services"
+    },
+    {
+      value: 522,
+      label: "Airport operations and other air transport support services"
+    },
+    {
+      value: 529,
+      label: "Other transport support services"
+    },
+    {
+      value: 530,
+      label: "Warehousing and storage services"
+    },
+    {
+      value: 541,
+      label: "Newspaper, periodical, book and directory publishing"
+    },
+    {
+      value: 542,
+      label: "Software publishing"
+    },
+    {
+      value: 551,
+      label: "Motion picture and video activities"
+    },
+    {
+      value: 552,
+      label: "Sound recording and music publishing"
+    },
+    {
+      value: 561,
+      label: "Radio broadcasting"
+    },
+    {
+      value: 562,
+      label: "Television broadcasting"
+    },
+    {
+      value: 570,
+      label: "Internet publishing and broadcasting"
+    },
+    {
+      value: 580,
+      label: "Telecommunications services"
+    },
+    {
+      value: 591,
+      label: "Internet service providers and web search portals"
+    },
+    {
+      value: 592,
+      label: "Data processing, web hosting and electronic information storage services"
+    },
+    {
+      value: 601,
+      label: "Libraries and archives"
+    },
+    {
+      value: 602,
+      label: "Other information services"
+    },
+    {
+      value: 621,
+      label: "Central banking"
+    },
+    {
+      value: 622,
+      label: "Depository financial intermediation"
+    },
+    {
+      value: 623,
+      label: "depository financing"
+    },
+    {
+      value: 624,
+      label: "Financial asset investing"
+    },
+    {
+      value: 631,
+      label: "Life insurance"
+    },
+    {
+      value: 632,
+      label: "Health and general insurance"
+    },
+    {
+      value: 633,
+      label: "Superannuation funds"
+    },
+    {
+      value: 641,
+      label: "Auxiliary finance and investment services"
+    },
+    {
+      value: 642,
+      label: "Auxiliary insurance services"
+    },
+    {
+      value: 661,
+      label: "Motor vehicle and transport equipment rental and hiring"
+    },
+    {
+      value: 662,
+      label: "Farm animals and bloodstock leasing"
+    },
+    {
+      value: 663,
+      label: "Other goods and equipment rental and hiring"
+    },
+    {
+      value: 664,
+      label: "financial intangible assets (except copyrights) leasing"
+    },
+    {
+      value: 671,
+      label: "Property operators"
+    },
+    {
+      value: 672,
+      label: "Real estate services"
+    },
+    {
+      value: 691,
+      label: "Scientific research services"
+    },
+    {
+      value: 692,
+      label: "Architectural, engineering and technical services"
+    },
+    {
+      value: 693,
+      label: "Legal and accounting services"
+    },
+    {
+      value: 694,
+      label: "Advertising services"
+    },
+    {
+      value: 695,
+      label: "Market research and statistical services"
+    },
+    {
+      value: 696,
+      label: "Management and other consulting services"
+    },
+    {
+      value: 697,
+      label: "Veterinary services"
+    },
+    {
+      value: 699,
+      label: "Other professional, scientific and technical services"
+    },
+    {
+      value: 700,
+      label: "Computer system design and related services"
+    },
+    {
+      value: 721,
+      label: "Employment services"
+    },
+    {
+      value: 722,
+      label: "Travel agency service and tour arrangement services"
+    },
+    {
+      value: 729,
+      label: "Other administrative services"
+    },
+    {
+      value: 731,
+      label: "Building cleaning, pest control and gardening services"
+    },
+    {
+      value: 732,
+      label: "Packaging services"
+    },
+    {
+      value: 751,
+      label: "Central government administration"
+    },
+    {
+      value: 752,
+      label: "State government administration"
+    },
+    {
+      value: 753,
+      label: "Local government administration"
+    },
+    {
+      value: 754,
+      label: "Justice"
+    },
+    {
+      value: 755,
+      label: "Government representation"
+    },
+    {
+      value: 760,
+      label: "Defence"
+    },
+    {
+      value: 771,
+      label: "Public order and safety services"
+    },
+    {
+      value: 772,
+      label: "Regulatory services"
+    },
+    {
+      value: 801,
+      label: "Preschool education"
+    },
+    {
+      value: 802,
+      label: "School education"
+    },
+    {
+      value: 810,
+      label: "Tertiary education"
+    },
+    {
+      value: 821,
+      label: "Adult, community and other education"
+    },
+    {
+      value: 822,
+      label: "Educational support services"
+    },
+    {
+      value: 840,
+      label: "Hospitals"
+    },
+    {
+      value: 851,
+      label: "Medical services"
+    },
+    {
+      value: 852,
+      label: "Pathology and diagnostic imaging services"
+    },
+    {
+      value: 853,
+      label: "Allied health services"
+    },
+    {
+      value: 859,
+      label: "Other health care services"
+    },
+    {
+      value: 860,
+      label: "Residential care services"
+    },
+    {
+      value: 871,
+      label: "Child care services"
+    },
+    {
+      value: 879,
+      label: "Other social assistance services"
+    },
+    {
+      value: 891,
+      label: "Museum operation"
+    },
+    {
+      value: 892,
+      label: "Parks and gardens operations"
+    },
+    {
+      value: 900,
+      label: "Creative and performing arts activities"
+    },
+    {
+      value: 911,
+      label: "Sport and physical recreation activities"
+    },
+    {
+      value: 912,
+      label: "Horse and dog racing activities"
+    },
+    {
+      value: 913,
+      label: "Amusement and other recreation activities"
+    },
+    {
+      value: 920,
+      label: "Gambling activities"
+    },
+    {
+      value: 941,
+      label: "Automotive repair and maintenance"
+    },
+    {
+      value: 942,
+      label: "Machinery and equipment repair and maintenance"
+    },
+    {
+      value: 949,
+      label: "Other repair and maintenance"
+    },
+    {
+      value: 951,
+      label: "Personal care services"
+    },
+    {
+      value: 952,
+      label: "Funeral, crematorium and cemetery services"
+    },
+    {
+      value: 953,
+      label: "Other personal services"
+    },
+    {
+      value: 954,
+      label: "Religious services"
+    },
+    {
+      value: 955,
+      label: "Civic, professional and other interest group services"
+    },
+    {
+      value: 960,
+      label: "Private households employing staff"
+    }
+  ]
+
+  export const ANZSIC_Class = [
+    {
+      value: "0111",
+      label: "Nursery production (under cover)"
+    },
+    {
+      value: "0112",
+      label: "Nursery production (outdoors)"
+    },
+    {
+      value: "0113",
+      label: "Turf growing"
+    },
+    {
+      value: "0114",
+      label: "Floriculture production (under cover)"
+    },
+    {
+      value: "0115",
+      label: "Floriculture production (outdoors)"
+    },
+    {
+      value: "0121",
+      label: "Mushroom growing"
+    },
+    {
+      value: "0122",
+      label: "Vegetable growing (under cover)"
+    },
+    {
+      value: "0123",
+      label: "Vegetable growing (outdoors)"
+    },
+    {
+      value: "0131",
+      label: "Grape growing"
+    },
+    {
+      value: "0132",
+      label: "Kiwifruit growing"
+    },
+    {
+      value: "0133",
+      label: "Berry fruit growing"
+    },
+    {
+      value: "0134",
+      label: "Apple and pear growing"
+    },
+    {
+      value: "0135",
+      label: "Stone fruit growing"
+    },
+    {
+      value: "0136",
+      label: "Citrus fruit growing"
+    },
+    {
+      value: "0137",
+      label: "Olive growing"
+    },
+    {
+      value: "0139",
+      label: "Other fruit and tree nut growing"
+    },
+    {
+      value: "0141",
+      label: "Sheep farming (specialised)"
+    },
+    {
+      value: "0142",
+      label: "Beef cattle farming (specialised)"
+    },
+    {
+      value: "0143",
+      label: "Beef cattle feedlots (specialised)"
+    },
+    {
+      value: "0144",
+      label: "beef cattle farming"
+    },
+    {
+      value: "0145",
+      label: "beef cattle farming"
+    },
+    {
+      value: "0146",
+      label: "Rice growing"
+    },
+    {
+      value: "0149",
+      label: "Other grain growing"
+    },
+    {
+      value: "0151",
+      label: "Sugar cane growing"
+    },
+    {
+      value: "0152",
+      label: "Cotton growing"
+    },
+    {
+      value: "0159",
+      label: "Other crop growing nec"
+    },
+    {
+      value: "0160",
+      label: "Dairy cattle farming"
+    },
+    {
+      value: "0171",
+      label: "Poultry farming (meat)"
+    },
+    {
+      value: "0172",
+      label: "Poultry farming (eggs)"
+    },
+    {
+      value: "0180",
+      label: "Deer farming"
+    },
+    {
+      value: "0191",
+      label: "Horse farming"
+    },
+    {
+      value: "0192",
+      label: "Pig farming"
+    },
+    {
+      value: "0193",
+      label: "Beekeeping"
+    },
+    {
+      value: "0199",
+      label: "Other livestock farming nec"
+    },
+    {
+      value: "0201",
+      label: "Offshore longline and rack aquaculture"
+    },
+    {
+      value: "0202",
+      label: "Offshore caged aquaculture"
+    },
+    {
+      value: "0203",
+      label: "Onshore aquaculture"
+    },
+    {
+      value: "0301",
+      label: "Forestry"
+    },
+    {
+      value: "0302",
+      label: "Logging"
+    },
+    {
+      value: "0411",
+      label: "Rock lobster and crab potting"
+    },
+    {
+      value: "0412",
+      label: "Prawn fishing"
+    },
+    {
+      value: "0413",
+      label: "Line fishing"
+    },
+    {
+      value: "0414",
+      label: "Fish trawling, seining and netting"
+    },
+    {
+      value: "0149",
+      label: "Other fishing"
+    },
+    {
+      value: "0420",
+      label: "Hunting and trapping"
+    },
+    {
+      value: "0510",
+      label: "Forestry support services"
+    },
+    {
+      value: "0521",
+      label: "Cotton ginning"
+    },
+    {
+      value: "0522",
+      label: "Shearing services"
+    },
+    {
+      value: "0529",
+      label: "Other agriculture and fishing support services"
+    },
+    {
+      value: "0600",
+      label: "Coal mining"
+    },
+    {
+      value: "0700",
+      label: "Oil and gas extraction"
+    },
+    {
+      value: "0801",
+      label: "Iron ore mining"
+    },
+    {
+      value: "0802",
+      label: "Bauxite mining"
+    },
+    {
+      value: "0803",
+      label: "Copper ore mining"
+    },
+    {
+      value: "0804",
+      label: "Gold ore mining"
+    },
+    {
+      value: "0805",
+      label: "Mineral sand mining"
+    },
+    {
+      value: "0806",
+      label: "Nickel ore mining"
+    },
+    {
+      value: "0807",
+      label: "zinc ore mining"
+    },
+    {
+      value: "0809",
+      label: "Other metal ore mining"
+    },
+    {
+      value: "0911",
+      label: "Gravel and sand quarrying"
+    },
+    {
+      value: "0919",
+      label: "Other construction material mining"
+    },
+    {
+      value: "0990",
+      label: "metallic mineral mining and quarrying"
+    },
+    {
+      value: 1011,
+      label: "Petroleum exploration"
+    },
+    {
+      value: 1012,
+      label: "Mineral exploration"
+    },
+    {
+      value: 1090,
+      label: "Other mining support services"
+    },
+    {
+      value: 1111,
+      label: "Meat processing"
+    },
+    {
+      value: 1112,
+      label: "Poultry processing"
+    },
+    {
+      value: 1113,
+      label: "Cured meat and smallgoods mfg"
+    },
+    {
+      value: 1120,
+      label: "Seafood processing"
+    },
+    {
+      value: 1131,
+      label: "Milk and cream processing"
+    },
+    {
+      value: 1132,
+      label: "Ice cream mfg"
+    },
+    {
+      value: 1133,
+      label: "Cheese and other dairy product mfg"
+    },
+    {
+      value: 1140,
+      label: "Fruit and vegetable processing"
+    },
+    {
+      value: 1150,
+      label: "Oil and fat mfg"
+    },
+    {
+      value: 1161,
+      label: "Grain mill product mfg"
+    },
+    {
+      value: 1162,
+      label: "Cereal, pasta and baking mix mfg"
+    },
+    {
+      value: 1171,
+      label: "Bread mfg (factory based)"
+    },
+    {
+      value: 1172,
+      label: "Cake and pastry mfg (factory based)"
+    },
+    {
+      value: 1173,
+      label: "Biscuit mfg (factory based)"
+    },
+    {
+      value: 1174,
+      label: "factory based)"
+    },
+    {
+      value: 1181,
+      label: "Sugar mfg"
+    },
+    {
+      value: 1182,
+      label: "Confectionary mfg"
+    },
+    {
+      value: 1191,
+      label: "Potato, corn and other crisp mfg"
+    },
+    {
+      value: 1192,
+      label: "Prepared animal and bird feed manufacturing"
+    },
+    {
+      value: 1199,
+      label: "Other food product manufacturing nec"
+    },
+    {
+      value: 1211,
+      label: "Soft drink, cordial and syrup mfg"
+    },
+    {
+      value: 1212,
+      label: "Beer mfg"
+    },
+    {
+      value: 1213,
+      label: "Spirit mfg"
+    },
+    {
+      value: 1214,
+      label: "Wine and other alcoholic beverage mfg"
+    },
+    {
+      value: 1220,
+      label: "Cigarette and tobacco product mfg"
+    },
+    {
+      value: 1311,
+      label: "Wool scouring"
+    },
+    {
+      value: 1312,
+      label: "Natural textile mfg"
+    },
+    {
+      value: 1313,
+      label: "Synthetic textile mfg"
+    },
+    {
+      value: 1320,
+      label: "Leather tanning, fur dressing and leather product mfg"
+    },
+    {
+      value: 1331,
+      label: "Textile floor covering mfg"
+    },
+    {
+      value: 1332,
+      label: "Rope, cordage and twine mfg"
+    },
+    {
+      value: 1333,
+      label: "Cut and sewn textile product mfg"
+    },
+    {
+      value: 1334,
+      label: "Textile finishing and other textile product mfg"
+    },
+    {
+      value: 1340,
+      label: "Knitted product mfg"
+    },
+    {
+      value: 1351,
+      label: "Clothing mfg"
+    },
+    {
+      value: 1352,
+      label: "Footwear mfg"
+    },
+    {
+      value: 1411,
+      label: "Log sawmilling"
+    },
+    {
+      value: 1412,
+      label: "Wood chipping"
+    },
+    {
+      value: 1413,
+      label: "Timber resawing and dressing"
+    },
+    {
+      value: 1491,
+      label: "Prefabricated wooden building mfg"
+    },
+    {
+      value: 1492,
+      label: "Wooden structural fitting and component mfg"
+    },
+    {
+      value: 1493,
+      label: "Veneer and plywood mfg"
+    },
+    {
+      value: 1494,
+      label: "Reconstituted wood product mfg"
+    },
+    {
+      value: 1499,
+      label: "Other wood product mfg nec"
+    },
+    {
+      value: 1510,
+      label: "Pulp, paper and paperboard mfg"
+    },
+    {
+      value: 1521,
+      label: "Corrugated paperboard and paperboard container mfg"
+    },
+    {
+      value: 1522,
+      label: "Paper bag mfg"
+    },
+    {
+      value: 1523,
+      label: "Paper stationery mfg"
+    },
+    {
+      value: 1524,
+      label: "Sanitary paper product mfg"
+    },
+    {
+      value: 1529,
+      label: "Other converted paper product mfg"
+    },
+    {
+      value: 1611,
+      label: "Printing"
+    },
+    {
+      value: 1612,
+      label: "Printing support services"
+    },
+    {
+      value: 1620,
+      label: "Reproduction of recorded media"
+    },
+    {
+      value: 1701,
+      label: "Petroleum refining and petroleum fuel mfg"
+    },
+    {
+      value: 1709,
+      label: "Other petroleum and coal product mfg"
+    },
+    {
+      value: 1811,
+      label: "Industrial gas mfg"
+    },
+    {
+      value: 1812,
+      label: "Basic organic chemical mfg"
+    },
+    {
+      value: 1813,
+      label: "Basic inorganic chemical mfg"
+    },
+    {
+      value: 1821,
+      label: "Synthetic resin and synthetic rubber mfg"
+    },
+    {
+      value: 1829,
+      label: "Other basic polymer mfg"
+    },
+    {
+      value: 1831,
+      label: "Fertiliser mfg"
+    },
+    {
+      value: 1832,
+      label: "Pesticide mfg"
+    },
+    {
+      value: 1841,
+      label: "Human pharmaceutical and medicinal product mfg"
+    },
+    {
+      value: 1842,
+      label: "Veterinary pharmaceutical and medicinal product mfg"
+    },
+    {
+      value: 1851,
+      label: "Cleaning compound mfg"
+    },
+    {
+      value: 1852,
+      label: "Cosmetic and toiletry preparation mfg"
+    },
+    {
+      value: 1891,
+      label: "Photographic chemical product mfg"
+    },
+    {
+      value: 1892,
+      label: "Explosive mfg"
+    },
+    {
+      value: 1899,
+      label: "other basic chemical product mfg nec"
+    },
+    {
+      value: 1911,
+      label: "Polymer film and sheet packaging material mfg"
+    },
+    {
+      value: 1912,
+      label: "rigid polymer product mfg"
+    },
+    {
+      value: 1913,
+      label: "Polymer foam product mfg"
+    },
+    {
+      value: 1914,
+      label: "Tyre mfg"
+    },
+    {
+      value: 1915,
+      label: "Adhesive mfg"
+    },
+    {
+      value: 1916,
+      label: "Paint and coatings mfg"
+    },
+    {
+      value: 1919,
+      label: "Other polymer product mfg"
+    },
+    {
+      value: 1920,
+      label: "Natural rubber product mfg"
+    },
+    {
+      value: 2010,
+      label: "Glass and glass product mfg"
+    },
+    {
+      value: 2021,
+      label: "Clay brick mfg"
+    },
+    {
+      value: 2029,
+      label: "Other ceramic product mfg"
+    },
+    {
+      value: 2031,
+      label: "Cement and lime mfg"
+    },
+    {
+      value: 2032,
+      label: "Plaster product mfg"
+    },
+    {
+      value: 2033,
+      label: "mixed concrete mfg"
+    },
+    {
+      value: 2034,
+      label: "Concrete product mfg"
+    },
+    {
+      value: 2090,
+      label: "metallic mineral product mfg"
+    },
+    {
+      value: 2110,
+      label: "Iron smelting and steel mfg"
+    },
+    {
+      value: 2121,
+      label: "Iron and steel casting"
+    },
+    {
+      value: 2122,
+      label: "Steel pipe and tube mfg"
+    },
+    {
+      value: 2131,
+      label: "Alumina production"
+    },
+    {
+      value: 2132,
+      label: "Aluminium smelting"
+    },
+    {
+      value: 2133,
+      label: "Copper, silver, lead and zinc smelting and refining"
+    },
+    {
+      value: 2139,
+      label: "ferrous metal mfg"
+    },
+    {
+      value: 2141,
+      label: "ferrous metal casting"
+    },
+    {
+      value: 2142,
+      label: "Aluminium rolling, drawing, extruding"
+    },
+    {
+      value: 2149,
+      label: "ferrous metal product mfg"
+    },
+    {
+      value: 2210,
+      label: "Iron and steel forging"
+    },
+    {
+      value: 2221,
+      label: "Structural steel fabricating"
+    },
+    {
+      value: 2222,
+      label: "Prefabricated metal building mfg"
+    },
+    {
+      value: 2223,
+      label: "Architectural aluminium product mfg"
+    },
+    {
+      value: 2224,
+      label: "Metal roof and guttering mfg (except aluminium)"
+    },
+    {
+      value: 2229,
+      label: "Other structural metal product mfg"
+    },
+    {
+      value: 2231,
+      label: "Boiler, tank and other heavy gauge metal container mfg"
+    },
+    {
+      value: 2239,
+      label: "Other metal container mfg"
+    },
+    {
+      value: 2240,
+      label: "Sheet metal product mfg (except metal structural and container products)"
+    },
+    {
+      value: 2291,
+      label: "Spring and wire product mfg"
+    },
+    {
+      value: 2292,
+      label: "Nut, bolt, screw and rivet mfg"
+    },
+    {
+      value: 2293,
+      label: "Metal, coating and finishing"
+    },
+    {
+      value: 2299,
+      label: "Other fabricated metal product mfg nec"
+    },
+    {
+      value: 2311,
+      label: "Motor vehicle mfg"
+    },
+    {
+      value: 2312,
+      label: "Motor vehicle body and trailer mfg"
+    },
+    {
+      value: 2313,
+      label: "Automotive electrical component mfg"
+    },
+    {
+      value: 2319,
+      label: "Other motor vehicle parts mfg"
+    },
+    {
+      value: 2391,
+      label: "Shipbuilding and repair services"
+    },
+    {
+      value: 2392,
+      label: "Boatbuilding and repair services"
+    },
+    {
+      value: 2393,
+      label: "Railway rolling stock mfg and repair services"
+    },
+    {
+      value: 2394,
+      label: "Aircraft mfg and repair services"
+    },
+    {
+      value: 2399,
+      label: "Other transport equipment mfg nec"
+    },
+    {
+      value: 2411,
+      label: "Photographic, optical and opthalmic equipment mfg"
+    },
+    {
+      value: 2412,
+      label: "Medical and surgical equipment mfg"
+    },
+    {
+      value: 2419,
+      label: "Other professional and scientific equipment mfg"
+    },
+    {
+      value: 2421,
+      label: "Computer and electronic office equipment mfg"
+    },
+    {
+      value: 2422,
+      label: "Communication equipment mfg"
+    },
+    {
+      value: 2429,
+      label: "Other electronic equipment mfg"
+    },
+    {
+      value: 2431,
+      label: "Electric cable and wire mfg"
+    },
+    {
+      value: 2432,
+      label: "Electric lighting equipment mfg"
+    },
+    {
+      value: 2439,
+      label: "Other electrical equipment mfg"
+    },
+    {
+      value: 2441,
+      label: "Whiteware appliance mfg"
+    },
+    {
+      value: 2449,
+      label: "Other domestic appliance mfg"
+    },
+    {
+      value: 2451,
+      label: "Pump and compressor mfg"
+    },
+    {
+      value: 2452,
+      label: "Fixed space heating, cooling, ventilation equipment mfg"
+    },
+    {
+      value: 2461,
+      label: "Agricultural machinery and equipment mfg"
+    },
+    {
+      value: 2462,
+      label: "Mining and construction machinery mfg"
+    },
+    {
+      value: 2463,
+      label: "Machine tool and parts mfg"
+    },
+    {
+      value: 2469,
+      label: "Other specialised machinery and equipment mfg"
+    },
+    {
+      value: 2491,
+      label: "Lifting and material handling equipment mfg"
+    },
+    {
+      value: 2499,
+      label: "Other machinery and equipment mfg nec"
+    },
+    {
+      value: 2511,
+      label: "Wooden furniture and upholstered seat mfg"
+    },
+    {
+      value: 2512,
+      label: "Metal furniture mfg"
+    },
+    {
+      value: 2513,
+      label: "Mattress mfg"
+    },
+    {
+      value: 2519,
+      label: "Other furniture mfg"
+    },
+    {
+      value: 2591,
+      label: "Jewellery and silverware mfg"
+    },
+    {
+      value: 2592,
+      label: "Toy, sporting and recreational product mfg"
+    },
+    {
+      value: 2599,
+      label: "Other mfg nec"
+    },
+    {
+      value: 2611,
+      label: "Fossil fuel electricity generation"
+    },
+    {
+      value: 2612,
+      label: "electricity generation"
+    },
+    {
+      value: 2619,
+      label: "Other electricity generation"
+    },
+    {
+      value: 2620,
+      label: "Electricity transmission"
+    },
+    {
+      value: 2630,
+      label: "Electricity distribution"
+    },
+    {
+      value: 2640,
+      label: "selling electricity and electricity market operation"
+    },
+    {
+      value: 2700,
+      label: "Gas supply"
+    },
+    {
+      value: 2811,
+      label: "Water supply"
+    },
+    {
+      value: 2812,
+      label: "Sewerage and drainage services"
+    },
+    {
+      value: 2911,
+      label: "Solid waste collection services"
+    },
+    {
+      value: 2919,
+      label: "Other waste collection services"
+    },
+    {
+      value: 2921,
+      label: "Waste treatment and disposal services"
+    },
+    {
+      value: 2922,
+      label: "Waste remediation and materials recovery services"
+    },
+    {
+      value: 3011,
+      label: "House construction"
+    },
+    {
+      value: 3019,
+      label: "Other residential building construction"
+    },
+    {
+      value: 3020,
+      label: "residential building construction"
+    },
+    {
+      value: 3101,
+      label: "Road and bridge construction"
+    },
+    {
+      value: 3109,
+      label: "Other heavy and civil engineering construction"
+    },
+    {
+      value: 3211,
+      label: "Land development and subdivisions"
+    },
+    {
+      value: 3212,
+      label: "Site preparation services"
+    },
+    {
+      value: 3221,
+      label: "Concreting services"
+    },
+    {
+      value: 3222,
+      label: "Bricklaying services"
+    },
+    {
+      value: 3223,
+      label: "Roofing services"
+    },
+    {
+      value: 3224,
+      label: "Structural steel erection services"
+    },
+    {
+      value: 3231,
+      label: "Plumbing services"
+    },
+    {
+      value: 3232,
+      label: "Electrical services"
+    },
+    {
+      value: 3233,
+      label: "Air conditioning and heating services"
+    },
+    {
+      value: 3234,
+      label: "Fire and security alarm installation services"
+    },
+    {
+      value: 3239,
+      label: "Other building installation services"
+    },
+    {
+      value: 3241,
+      label: "Plastering and ceiling services"
+    },
+    {
+      value: 3242,
+      label: "Carpentry services"
+    },
+    {
+      value: 3243,
+      label: "Tiling and carpeting services"
+    },
+    {
+      value: 3244,
+      label: "Painting and decorating services"
+    },
+    {
+      value: 3245,
+      label: "Glazing services"
+    },
+    {
+      value: 3291,
+      label: "Landscape construction services"
+    },
+    {
+      value: 3292,
+      label: "Hire of construction machinery with operator"
+    },
+    {
+      value: 3299,
+      label: "Other construction services nec"
+    },
+    {
+      value: 3311,
+      label: "Wool wholesaling"
+    },
+    {
+      value: 3312,
+      label: "Cereal grain wholesaling"
+    },
+    {
+      value: 3319,
+      label: "Other agricultural product wholesaling"
+    },
+    {
+      value: 3321,
+      label: "Petroleum product wholesaling"
+    },
+    {
+      value: 3322,
+      label: "Metal and mineral wholesaling"
+    },
+    {
+      value: 3323,
+      label: "Industrial and agricultural chemical product wholesaling"
+    },
+    {
+      value: 3331,
+      label: "Timber wholesaling"
+    },
+    {
+      value: 3332,
+      label: "Plumbing goods wholesaling"
+    },
+    {
+      value: 3339,
+      label: "Other hardware goods wholesaling"
+    },
+    {
+      value: 3411,
+      label: "Agricultural and construction machinery wholesaling"
+    },
+    {
+      value: 3419,
+      label: "Other specialised industrial machinery and equipment wholesaling"
+    },
+    {
+      value: 3491,
+      label: "Professional and scientific goods wholesaling"
+    },
+    {
+      value: 3492,
+      label: "Computer and computer peripheral wholesaling"
+    },
+    {
+      value: 3493,
+      label: "Telecommunication goods wholesaling"
+    },
+    {
+      value: 3494,
+      label: "Other electrical and electronic goods wholesaling"
+    },
+    {
+      value: 3499,
+      label: "Other machinery and equipment wholesaling nec"
+    },
+    {
+      value: 3501,
+      label: "Car wholesaling"
+    },
+    {
+      value: 3502,
+      label: "Commercial vehicle wholesaling"
+    },
+    {
+      value: 3503,
+      label: "Trailer and other motor vehicle wholesaling"
+    },
+    {
+      value: 3504,
+      label: "Motor vehicle new parts wholesaling"
+    },
+    {
+      value: 3505,
+      label: "Motor vehicle dismantling and used parts wholesaling"
+    },
+    {
+      value: 3601,
+      label: "General line grocery wholesaling"
+    },
+    {
+      value: 3602,
+      label: "Meat, poultry and smallgoods wholesaling"
+    },
+    {
+      value: 3603,
+      label: "Dairy produce wholesaling"
+    },
+    {
+      value: 3604,
+      label: "Fish and seafood wholesaling"
+    },
+    {
+      value: 3605,
+      label: "Fruit and vegetable wholesaling"
+    },
+    {
+      value: 3606,
+      label: "Liquor and tobacco product wholesaling"
+    },
+    {
+      value: 3609,
+      label: "Other grocery wholesaling"
+    },
+    {
+      value: 3711,
+      label: "Textile product wholesaling"
+    },
+    {
+      value: 3712,
+      label: "Clothing and footwear wholesaling"
+    },
+    {
+      value: 3720,
+      label: "Pharmaceutical and toiletry goods wholesaling"
+    },
+    {
+      value: 3731,
+      label: "Furniture and floor coverings wholesaling"
+    },
+    {
+      value: 3732,
+      label: "Jewellery and watch wholesaling"
+    },
+    {
+      value: 3733,
+      label: "Kitchen and diningware wholesaling"
+    },
+    {
+      value: 3734,
+      label: "Toy and sporting goods wholesaling"
+    },
+    {
+      value: 3735,
+      label: "Book and magazine wholesaling"
+    },
+    {
+      value: 3736,
+      label: "Paper product wholesaling"
+    },
+    {
+      value: 3739,
+      label: "Other goods wholesaling nec"
+    },
+    {
+      value: 3800,
+      label: "based wholesaling"
+    },
+    {
+      value: 3911,
+      label: "Car retailing"
+    },
+    {
+      value: 3912,
+      label: "Motor cycle retailing"
+    },
+    {
+      value: 3913,
+      label: "Trailer and other motor vehicle retailing"
+    },
+    {
+      value: 3921,
+      label: "Motor vehicle parts retailing"
+    },
+    {
+      value: 3922,
+      label: "Tyre retailing"
+    },
+    {
+      value: 4000,
+      label: "Fuel retailing"
+    },
+    {
+      value: 4110,
+      label: "Supermarket and grocery stores"
+    },
+    {
+      value: 4121,
+      label: "Fresh meat, fish and poultry retailing"
+    },
+    {
+      value: 4122,
+      label: "Fruit and vegetable retailing"
+    },
+    {
+      value: 4123,
+      label: "Liquor retailing"
+    },
+    {
+      value: 4129,
+      label: "Other specialised food retailing"
+    },
+    {
+      value: 4211,
+      label: "Furniture retailing"
+    },
+    {
+      value: 4212,
+      label: "Floor coverings retailing"
+    },
+    {
+      value: 4213,
+      label: "Houseware retailing"
+    },
+    {
+      value: 4214,
+      label: "Manchester and other textile goods retailing"
+    },
+    {
+      value: 4221,
+      label: "Electrical, electronic and gas appliance retailing"
+    },
+    {
+      value: 4222,
+      label: "Computer and computer peripheral retailing"
+    },
+    {
+      value: 4229,
+      label: "Other electrical and electronic goods retailing"
+    },
+    {
+      value: 4231,
+      label: "Hardware and building supplies retailing"
+    },
+    {
+      value: 4232,
+      label: "Garden supplies retailing"
+    },
+    {
+      value: 4241,
+      label: "Sport and camping equipment retailing"
+    },
+    {
+      value: 4242,
+      label: "Entertainment media retailing"
+    },
+    {
+      value: 4243,
+      label: "Toy and game retailing"
+    },
+    {
+      value: 4244,
+      label: "Newspaper and book retailing"
+    },
+    {
+      value: 4245,
+      label: "Marine equipment retailing"
+    },
+    {
+      value: 4251,
+      label: "Clothing retailing"
+    },
+    {
+      value: 4252,
+      label: "Footwear retailing"
+    },
+    {
+      value: 4253,
+      label: "Watch and jewellery retailing"
+    },
+    {
+      value: 4259,
+      label: "Other personal accessory retailing"
+    },
+    {
+      value: 4260,
+      label: "Department stores"
+    },
+    {
+      value: 4271,
+      label: "Pharmaceutical, cosmetic and toiletry goods retailing"
+    },
+    {
+      value: 4272,
+      label: "Stationery goods retailing"
+    },
+    {
+      value: 4273,
+      label: "Antique and used goods retailing"
+    },
+    {
+      value: 4274,
+      label: "Flower retailing"
+    },
+    {
+      value: 4279,
+      label: "based retailing nec"
+    },
+    {
+      value: 4310,
+      label: "store retailing"
+    },
+    {
+      value: 4320,
+      label: "based buying and/or selling"
+    },
+    {
+      value: 4400,
+      label: "Accommodation"
+    },
+    {
+      value: 4511,
+      label: "Cafes and restaurants"
+    },
+    {
+      value: 4512,
+      label: "Takeaway food services"
+    },
+    {
+      value: 4513,
+      label: "Catering services"
+    },
+    {
+      value: 4520,
+      label: "Pubs, tavern and bars"
+    },
+    {
+      value: 4530,
+      label: "Clubs (Hospitality)"
+    },
+    {
+      value: 4610,
+      label: "Road freight transport"
+    },
+    {
+      value: 4621,
+      label: "Interurban and rural bus transport"
+    },
+    {
+      value: 4622,
+      label: "Urban bus transport (including tramway)"
+    },
+    {
+      value: 4623,
+      label: "Taxi and other road transport"
+    },
+    {
+      value: 4710,
+      label: "Rail freight transport"
+    },
+    {
+      value: 4720,
+      label: "Rail passenger transport"
+    },
+    {
+      value: 4810,
+      label: "Water freight transport"
+    },
+    {
+      value: 4820,
+      label: "Water passenger transport"
+    },
+    {
+      value: 4900,
+      label: "Air and space transport"
+    },
+    {
+      value: 5010,
+      label: "Scenic and sightseeing transport"
+    },
+    {
+      value: 5021,
+      label: "Pipeline transport"
+    },
+    {
+      value: 5029,
+      label: "Other transport nec"
+    },
+    {
+      value: 5101,
+      label: "Postal services"
+    },
+    {
+      value: 5102,
+      label: "up and delivery services"
+    },
+    {
+      value: 5211,
+      label: "Stevedoring services"
+    },
+    {
+      value: 5212,
+      label: "Port and water transport terminal operations"
+    },
+    {
+      value: 5219,
+      label: "Other water transport support services"
+    },
+    {
+      value: 5220,
+      label: "Airport operations and other air transport support services"
+    },
+    {
+      value: 5291,
+      label: "Customs agency services"
+    },
+    {
+      value: 5292,
+      label: "Freight forwarding services"
+    },
+    {
+      value: 5299,
+      label: "Other transport support services nec"
+    },
+    {
+      value: 5301,
+      label: "Grain storage services"
+    },
+    {
+      value: 5309,
+      label: "Other warehousing and storage services"
+    },
+    {
+      value: 5411,
+      label: "Newspaper publishing"
+    },
+    {
+      value: 5412,
+      label: "Magazine and other periodical publishing"
+    },
+    {
+      value: 5413,
+      label: "Book publishing"
+    },
+    {
+      value: 5414,
+      label: "Directory and mailing list publishing"
+    },
+    {
+      value: 5419,
+      label: "Other publishing (except software, music and internet)"
+    },
+    {
+      value: 5420,
+      label: "Software publishing"
+    },
+    {
+      value: 5511,
+      label: "Motion picture and video production"
+    },
+    {
+      value: 5512,
+      label: "Motion picture and video distribution"
+    },
+    {
+      value: 5513,
+      label: "Motion picture exhibition"
+    },
+    {
+      value: 5514,
+      label: "production services and other motion picture and video activities"
+    },
+    {
+      value: 5521,
+      label: "Music publishing"
+    },
+    {
+      value: 5522,
+      label: "Music and other sound recording activities"
+    },
+    {
+      value: 5610,
+      label: "Radio broadcasting"
+    },
+    {
+      value: 5621,
+      label: "air television broadcasting"
+    },
+    {
+      value: 5622,
+      label: "Cable and other subscription broadcasting"
+    },
+    {
+      value: 5700,
+      label: "Internet publishing and broadcasting"
+    },
+    {
+      value: 5801,
+      label: "Wired telecommunications network operations"
+    },
+    {
+      value: 5802,
+      label: "Other telecommunications network operations"
+    },
+    {
+      value: 5809,
+      label: "Other telecommunications services"
+    },
+    {
+      value: 5910,
+      label: "Internet service providers and web search portals"
+    },
+    {
+      value: 5921,
+      label: "Data processing and web hosting services"
+    },
+    {
+      value: 5922,
+      label: "Electronic information storage services"
+    },
+    {
+      value: 6010,
+      label: "Libraries and archives"
+    },
+    {
+      value: 6020,
+      label: "Other information services"
+    },
+    {
+      value: 6210,
+      label: "Central banking"
+    },
+    {
+      value: 6221,
+      label: "Banking"
+    },
+    {
+      value: 6222,
+      label: "Building society operation"
+    },
+    {
+      value: 6223,
+      label: "Credit union operation"
+    },
+    {
+      value: 6229,
+      label: "Other depository financial intermediation"
+    },
+    {
+      value: 6230,
+      label: "depository financing"
+    },
+    {
+      value: 6240,
+      label: "Financial asset investing"
+    },
+    {
+      value: 6310,
+      label: "Life insurance"
+    },
+    {
+      value: 6321,
+      label: "Health insurance"
+    },
+    {
+      value: 6322,
+      label: "General insurance"
+    },
+    {
+      value: 6330,
+      label: "Superannuation funds"
+    },
+    {
+      value: 6411,
+      label: "Financial asset broking services"
+    },
+    {
+      value: 6419,
+      label: "Other auxiliary finance and investment services"
+    },
+    {
+      value: 6420,
+      label: "Auxiliary insurance services"
+    },
+    {
+      value: 6611,
+      label: "Passenger car rental and hiring"
+    },
+    {
+      value: 6619,
+      label: "Other motor vehicle and transport equipment rental and hiring"
+    },
+    {
+      value: 6620,
+      label: "Farm animals and bloodstock leasing"
+    },
+    {
+      value: 6631,
+      label: "Heavy machinery and scaffolding rental and hiring"
+    },
+    {
+      value: 6632,
+      label: "Video and other electronic media rental and hiring"
+    },
+    {
+      value: 6639,
+      label: "Other goods and equipment rental and hiring nec"
+    },
+    {
+      value: 6640,
+      label: "financial intangible assets (except copyrights) leasing"
+    },
+    {
+      value: 6711,
+      label: "Residential property operators"
+    },
+    {
+      value: 6712,
+      label: "residential property operators"
+    },
+    {
+      value: 6720,
+      label: "Real estate services"
+    },
+    {
+      value: 6910,
+      label: "Scientific research services"
+    },
+    {
+      value: 6921,
+      label: "Architectural services"
+    },
+    {
+      value: 6922,
+      label: "Surveying and mapping services"
+    },
+    {
+      value: 6923,
+      label: "Engineering design and engineering consulting services"
+    },
+    {
+      value: 6924,
+      label: "Other specialised design services"
+    },
+    {
+      value: 6925,
+      label: "Scientific testing and analysis services"
+    },
+    {
+      value: 6931,
+      label: "Legal services"
+    },
+    {
+      value: 6932,
+      label: "Accounting services"
+    },
+    {
+      value: 6940,
+      label: "Advertising services"
+    },
+    {
+      value: 6950,
+      label: "Market research and statistical services"
+    },
+    {
+      value: 6961,
+      label: "Corporate head office management services"
+    },
+    {
+      value: 6962,
+      label: "Management advice and related consulting services"
+    },
+    {
+      value: 6970,
+      label: "Veterinary services"
+    },
+    {
+      value: 6991,
+      label: "Professional photographic services"
+    },
+    {
+      value: 6999,
+      label: "Other professional, scientific and technical services nec"
+    },
+    {
+      value: 7000,
+      label: "Computer system design and related services"
+    },
+    {
+      value: 7211,
+      label: "Employment placement and recruitment services"
+    },
+    {
+      value: 7212,
+      label: "Labour supply services"
+    },
+    {
+      value: 7220,
+      label: "Travel agency service and tour arrangement services"
+    },
+    {
+      value: 7291,
+      label: "Office administrative services"
+    },
+    {
+      value: 7292,
+      label: "Document preparation services"
+    },
+    {
+      value: 7293,
+      label: "Credit reporting and debt collection services"
+    },
+    {
+      value: 7294,
+      label: "Call centre operation"
+    },
+    {
+      value: 7299,
+      label: "Other administrative services nec"
+    },
+    {
+      value: 7311,
+      label: "Building and other industrial cleaning services"
+    },
+    {
+      value: 7312,
+      label: "Building pest control services"
+    },
+    {
+      value: 7313,
+      label: "Gardening services"
+    },
+    {
+      value: 7320,
+      label: "Packaging services"
+    },
+    {
+      value: 7510,
+      label: "Central government administration"
+    },
+    {
+      value: 7520,
+      label: "State government administration"
+    },
+    {
+      value: 7530,
+      label: "Local government administration"
+    },
+    {
+      value: 7504,
+      label: "Justice"
+    },
+    {
+      value: 7551,
+      label: "Domestic government representation"
+    },
+    {
+      value: 7552,
+      label: "Foreign government representation"
+    },
+    {
+      value: 7600,
+      label: "Defence"
+    },
+    {
+      value: 7711,
+      label: "Police services"
+    },
+    {
+      value: 7712,
+      label: "Investigation and security services"
+    },
+    {
+      value: 7713,
+      label: "Fire protection and other emergency services"
+    },
+    {
+      value: 7714,
+      label: "Correctional and detention services"
+    },
+    {
+      value: 7719,
+      label: "Other public order and safety services"
+    },
+    {
+      value: 7720,
+      label: "Regulatory services"
+    },
+    {
+      value: 8010,
+      label: "Preschool education"
+    },
+    {
+      value: 8021,
+      label: "Primary education"
+    },
+    {
+      value: 8022,
+      label: "Secondary education"
+    },
+    {
+      value: 8023,
+      label: "Combined primary and secondary education"
+    },
+    {
+      value: 8024,
+      label: "Special school education"
+    },
+    {
+      value: 8101,
+      label: "Technical and vocational education and training"
+    },
+    {
+      value: 8102,
+      label: "Higher education"
+    },
+    {
+      value: 8211,
+      label: "Sports and physical recreation instruction"
+    },
+    {
+      value: 8212,
+      label: "Arts education"
+    },
+    {
+      value: 8219,
+      label: "Adult, community and other education nec"
+    },
+    {
+      value: 8220,
+      label: "Educational support services"
+    },
+    {
+      value: 8401,
+      label: "Hospitals (except psychiatric hospitals)"
+    },
+    {
+      value: 8402,
+      label: "Psychiatric hospitals"
+    },
+    {
+      value: 8511,
+      label: "General practice medical services"
+    },
+    {
+      value: 8512,
+      label: "Specialist medical services"
+    },
+    {
+      value: 8520,
+      label: "Pathology and diagnostic imaging services"
+    },
+    {
+      value: 8531,
+      label: "Dental services"
+    },
+    {
+      value: 8532,
+      label: "Optometry and optical dispensing"
+    },
+    {
+      value: 8533,
+      label: "Physiotherapy services"
+    },
+    {
+      value: 8534,
+      label: "Chiropractic and osteopathic services"
+    },
+    {
+      value: 8539,
+      label: "Other allied health services"
+    },
+    {
+      value: 8591,
+      label: "Ambulance services"
+    },
+    {
+      value: 8599,
+      label: "Other health care services nec"
+    },
+    {
+      value: 8601,
+      label: "Aged care residential services"
+    },
+    {
+      value: 8609,
+      label: "Other residential care services"
+    },
+    {
+      value: 8710,
+      label: "Child care services"
+    },
+    {
+      value: 8790,
+      label: "Other social assistance services"
+    },
+    {
+      value: 8910,
+      label: "Museum operation"
+    },
+    {
+      value: 8921,
+      label: "Zoological and botanical gardens operation"
+    },
+    {
+      value: 8922,
+      label: "Nature reserves and conservation parks operation"
+    },
+    {
+      value: 9001,
+      label: "Performing arts operation"
+    },
+    {
+      value: 9002,
+      label: "Creative artists, musicians, writers and performers"
+    },
+    {
+      value: 9003,
+      label: "Performing arts venue operation"
+    },
+    {
+      value: 9111,
+      label: "Health and fitness centres and gymnasia operation"
+    },
+    {
+      value: 9112,
+      label: "Sports and physical recreation clubs and sports professionals"
+    },
+    {
+      value: 9113,
+      label: "Sports and physical recreation venues, grounds and facilities operation"
+    },
+    {
+      value: 9114,
+      label: "Sports and physical recreation administrative service"
+    },
+    {
+      value: 9121,
+      label: "Horse and dog racing administration and track operations"
+    },
+    {
+      value: 9129,
+      label: "Other horse and dog racing activities"
+    },
+    {
+      value: 9131,
+      label: "Amusement parks and centres operation"
+    },
+    {
+      value: 9139,
+      label: "Amusement and other recreational activities nec"
+    },
+    {
+      value: 9201,
+      label: "Casino operation"
+    },
+    {
+      value: 9202,
+      label: "Lottery operation"
+    },
+    {
+      value: 9209,
+      label: "Other gambling activities"
+    },
+    {
+      value: 9411,
+      label: "Automotive electrical services"
+    },
+    {
+      value: 9412,
+      label: "Automotive body, paint and interior repair"
+    },
+    {
+      value: 9419,
+      label: "Other automotive repair and maintenance"
+    },
+    {
+      value: 9421,
+      label: "Domestic appliance and repair and maintenance"
+    },
+    {
+      value: 9422,
+      label: "Electronic (except domestic appliance) and precision equipment repair and maintenance"
+    },
+    {
+      value: 9429,
+      label: "Other machinery and equipment repair maintenance"
+    },
+    {
+      value: 9491,
+      label: "Clothing and footwear repair"
+    },
+    {
+      value: 9499,
+      label: "Other repair and maintenance nec"
+    },
+    {
+      value: 9511,
+      label: "Hairdressing and beauty services"
+    },
+    {
+      value: 9512,
+      label: "Diet and weight reduction centre operation"
+    },
+    {
+      value: 9520,
+      label: "Funeral, crematorium and cemetery services"
+    },
+    {
+      value: 9531,
+      label: "cleaning services"
+    },
+    {
+      value: 9532,
+      label: "Photographic film processing"
+    },
+    {
+      value: 9533,
+      label: "Parking services"
+    },
+    {
+      value: 9534,
+      label: "Brothel keeping and prostitution services"
+    },
+    {
+      value: 9539,
+      label: "Other personal services nec"
+    },
+    {
+      value: 9540,
+      label: "Religious services"
+    },
+    {
+      value: 9551,
+      label: "Business and professional association services"
+    },
+    {
+      value: 9552,
+      label: "Labour association services"
+    },
+    {
+      value: 9559,
+      label: "Other interest group services nec"
+    },
+    {
+      value: 9601,
+      label: "Private households employing staff"
+    },
+    {
+      value: 9602,
+      label: "producing activities of private households for own use"
+    },
+    {
+      value: 9603,
+      label: "producing activities of private households for own use"
+    }
+  ]
+
+  export const SPECIALIZATION = [
+    {
+      code:"ACADEMICS", label :"ACADEMICS"
+    },
+    {
+      code:"INDUSTRY", label :"INDUSTRY"
+    },
+    {
+      code:"BOTH", label :"BOTH"
+    }
+  ]

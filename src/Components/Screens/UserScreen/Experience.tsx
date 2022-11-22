@@ -75,7 +75,7 @@ export default function Experience() {
             End:fieldValues.end,
             Nature:fieldValues.nature,
             Location:fieldValues.location,
-            UserIdForeignKey:id
+            UserId:id
         }).then((res)=>{
             growl.current.show({
                 severity:"success",

@@ -24,6 +24,7 @@ import { Chip } from 'primereact/chip';
 import { Divider } from 'primereact/divider';
 import { Button } from 'primereact/button';
 import { Tooltip } from 'primereact/tooltip';
+import { InputTextarea } from 'primereact/inputtextarea';
 
 type MapCoords ={
   long:number,
@@ -57,22 +58,20 @@ type selectedTypes = {
   code:number,
   label:string,
 }
-const customStyle = {
-  sectionHeader:{
-    fontSize:"1.5rem",
-    marginTop:"5px"
-  }
-}
-type Project = {
-  project:ProjectRecord
-}
 let defaultDate = new Date()
 
 export const ViewProject : FunctionComponent<ProjectDto> = ({name,id,
-  budget, desc,country,startDate,category,industry,fields})=>{
+  desc,country,category,industry,fields})=>{
+    const [showDialog,setShowdialog] = React.useState(false)
+    const showCustomDialog = ()=>{
+      setShowdialog(true)
+    }
+    const hideCustomDialog = ()=>{
+      setShowdialog(false)
+    }
     const userToken = window.localStorage.getItem("refreshToken")
     const growl = React.useContext(GrowlContext);
-
+    const [msg,setMsg] = React.useState("I would like to learn more a bout your project..");
     const userID = JSON.parse(userToken!)
     const theme = React.useContext(ThemeContext);
     const disp = category.split('|');
@@ -83,14 +82,15 @@ export const ViewProject : FunctionComponent<ProjectDto> = ({name,id,
       axios.post(getFullUrl(`/api/projects/newinterest/${id}`),{
         UserID:userID.id,
         ProjectID:id,
-        Read:false
-      }).then((res)=>{
+        Read:false,
+        Message:msg
+      }).then(()=>{
         growl.current.show({
           severity:"success",
           summary:"Successfully, your profile  has been shared with the project owner"
        })
-         
-      }).catch((msg)=>{
+       setShowdialog(false)  
+      }).catch(()=>{
         growl.current.show({
           severity:"error",
           summary:"We could not save your interest in this project"
@@ -98,9 +98,6 @@ export const ViewProject : FunctionComponent<ProjectDto> = ({name,id,
       })
     }
 
-    const tooltips = (
-      <Tooltip></Tooltip>
-    )
  return(
   <>
     <div className='project-details-view'>
@@ -160,8 +157,18 @@ export const ViewProject : FunctionComponent<ProjectDto> = ({name,id,
         )}
          <Divider />
       <div className="show-interest">
-        <Button onClick={expressInterest} className='show-interest-button' tooltip='Please, note that your profile will be shared with project owner. 
-        ' tooltipOptions={{position: 'top'}}>Express Interest</Button>
+        <Dialog header="Interest" visible={showDialog} onHide={hideCustomDialog}>
+        <InputTextarea value={msg} rows={4} cols={45}
+                        placeholder="custom message"   className='custom-message'  
+                        onChange={(e)=> setMsg(e.target.value)} />
+        <div className='button-custom'>
+        <Button onClick={expressInterest} className="google p-2" aria-label="msg">
+                        <i className="pi pi-send px-0"></i>
+                        <span className="px-0">Send</span>
+        </Button>
+        </div>
+        </Dialog>
+        <Button onClick={showCustomDialog} className='show-interest-button' tooltip='Please, note that your profile will be shared with project owner.' tooltipOptions={{position: 'top'}}>Express Interest</Button>
       </div>
     </div>
   </>
@@ -193,17 +200,6 @@ export default function ProjectScreen() {
   const [rowData,setRowData] = React.useState<ProjectDto>(defaultSettings);
   const [showDialog,setShowDialog] =  React.useState(false);
 
-  const onShowDialog = ()=>{
-    setShowDialog(true)
-  }
-  
-  const onHideDialog = ()=>{
-    setShowDialog(false)
-  }
-
-  const theme = React.useContext(ThemeContext)
-
-  let countries : string[] = ["Kenya","Austria", "Ghana"]
 
   function queryData(event:{
     first: number;
@@ -261,11 +257,6 @@ export default function ProjectScreen() {
         setTotalItems(totalItems);
         const d = data as Array<ProjectRecord>
        
-         const x = d.map((r )=>{
-          return {
-            long:r.long, lat:r.lat
-          }
-         })
         setData(d)
         if(totalItems > 0){
             growl.current.show({
@@ -280,7 +271,7 @@ export default function ProjectScreen() {
         }
        
         
-    }).catch((error)=>{
+    }).catch(()=>{
         growl.current.show({
             severity:"error",
             summary:"error loading data"
@@ -415,7 +406,7 @@ export default function ProjectScreen() {
       <div className="grid grid-margins">
       <Dialog className='dialog-box' header="Project Details" 
         visible={showDialog}  modal style={{ width: '50vw' }}  
-          onHide={onHideDialog}>
+          onHide={()=> setShowDialog(false) }>
       <ViewProject name={rowData.name} id = {rowData.id}
               industry={rowData.industry} 
               category={rowData.category} 
@@ -449,7 +440,7 @@ export default function ProjectScreen() {
                               <Column field="quantity" header="Actions" 
                                   body={(row:ProjectDto)=>(
                                   <div>
-                                      <button onClick={(e)=> {
+                                      <button onClick={()=> {
                                         setShowDialog(true)
                                         setRowData(row)
                                         console.log(row)

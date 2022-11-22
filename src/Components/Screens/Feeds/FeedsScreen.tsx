@@ -101,27 +101,7 @@ export default function FeedsScreen() {
         </div>
       </div> */}
       <div className="grid">
-        <div className="col-3 profile-group">
-           <div className="profile-container">
-              <div className="div">
-                {/* <Image  className='img-overlay' src={backgroundImage} alt="Image Text" /> */}
-                  <img src={backgroundImage} className='img-overlay' alt=''></img>
-                </div>
-                <div className="profile-overlap">
-                  <div className="profile-picture-container">
-                    <img src={profileImage} className='img-clipped' alt=''></img>
-                    {/* <Image src={profileImage} template="Preview Content" className='img-clipped' width='100' alt='' preview/> */}
-                  </div>
-                </div>
-                <div className='profile-bio'>
-                  <p className='user-title'>Chann Isaac</p>
-                  <p className='user-profession'>Software Engineer</p>
-                  <p className='user-profession'>AidKonek Data | Denver Colorado</p>
-                </div>
-                <hr />
-           </div>
-        </div>
-        <div className="col-6 feeds-container">
+        <div className="col-8 feeds-container">
            <div className="item-group">
                <Dialog className='dialog-box' header="Write a new post"  visible={showDialog}  modal style={{ width: '45vw',padding:"3px" }}  onHide={hideDialogBox}>
                <Editor headerTemplate={header} 
@@ -158,7 +138,7 @@ export default function FeedsScreen() {
           
            <div className="item-group">.....</div>
         </div>
-        <div className="col-2 banners">
+        <div className="col-3 banners">
            <div className="custom-skeleton p-2">
             <ul className="m-0 p-0">
             <li className="mb-3">
