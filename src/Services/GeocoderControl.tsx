@@ -13,6 +13,7 @@ type GeocoderControlProps = Omit<GeocoderOptions, 'accessToken' | 'mapboxgl' | '
   onResults?: (e: object) => void;
   onResult?: (e: object) => void;
   onError?: (e: object) => void;
+  setUpdatedCoords : React.Dispatch<React.SetStateAction<Array<number>>>
 };
 
 /* eslint-disable complexity,max-statements */
@@ -20,8 +21,7 @@ type GeocoderControlProps = Omit<GeocoderOptions, 'accessToken' | 'mapboxgl' | '
 export default function GeocoderControl(props: GeocoderControlProps) {
   const [marker, setMarker] = useState<React.ReactElement | null>(null);
 
-  const  [r,setR] = React.useState<Array<number>>([]);
-
+  const [updatedCorrds,setUpdatedCoords] = React.useState(Array<number>())
   const [markerState, setMarkerState] = useState({
     latitude: 0,
     longitude: 0
@@ -39,9 +39,13 @@ export default function GeocoderControl(props: GeocoderControlProps) {
     });
   }, []);
   const onMarkerDragEnd = React.useCallback((event: MarkerDragEvent) => {
-    setR([event.lngLat.lng,event.lngLat.lat])
+    setUpdatedCoords([event.lngLat.lng,event.lngLat.lat])
     logEvents(_events => ({..._events, onDragEnd: event.lngLat}));
   }, []);
+
+    React.useEffect(()=>{
+     props.setUpdatedCoords(updatedCorrds)
+    },[updatedCorrds])
 
   const geocoder = useControl<MapboxGeocoder>(
     () => {
@@ -58,16 +62,12 @@ export default function GeocoderControl(props: GeocoderControlProps) {
         const {result} = evt;
         const location =
           result &&
-          (result.center || (result.geometry?.type === 'Point' && result.geometry.coordinates));
-         
-        console.log(location); 
-        setR(location)
-
+          (result.center || (result.geometry?.type === 'Point' && result.geometry.coordinates)) as Array<number>;
         if (location && props.marker) {
-          console.log(r)
+          setUpdatedCoords(location)
           setMarker(<Marker  
-            longitude={r[0] || location[0]} 
-            latitude={r[1] || location[1]}
+            longitude={location[0]} 
+            latitude={location[1]}
             draggable 
             onDragStart={onMarkerDragStart}
             onDrag={onMarkerDrag}

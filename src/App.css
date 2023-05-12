@@ -70,3 +70,60 @@
 .p-toast .p-toast-message .p-toast-message-content .p-toast-message-icon {
   font-size: 1rem !important;
 }
+.admin-panel-1st{
+  max-width: 2rem;
+  background: #227699;
+  height: 100vh;
+}
+.col-2{
+  padding: 0px;
+}
+.admin-panel-2nd{
+  background: #22769952;
+  /* border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px; */
+  height: 100vh;
+  /* -webkit-box-shadow: 0px 0px 5px rgba(0,0,0,0.4);
+  -moz-box-shadow: 5px 5px 15px rgba(0,0,0,0.4); */
+}
+.dashboard-content{
+   max-height: 100vh;
+    overflow: auto;
+}
+.button-sign-out{
+  position: absolute;
+  bottom: 0;
+  margin-bottom: 1.5rem;
+  /* display: flex; */
+  cursor: pointer;
+  /* text-align: center; */
+  /* width: 200px; */
+  /* margin: unset; */
+  margin-left: 5rem;
+}
+.navigation-links > span{
+  line-height: 3rem;
+}
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: 0px !important;
+  margin-left: 0px !important;
+  margin-top: 0px !important;
+}
+.p-badge {
+  background: #074f10;
+  color: #ffffff;
+  font-weight: 700;
+  min-width: 0.5rem !important;
+  height: 0.5rem !important;
+  line-height: 1.5rem;}
+.p-overlay-badge .p-badge{
+  font-size: 10px;
+  cursor: pointer;
+}
+.ql-snow .ql-tooltip{
+    left: 30px !important;
+    top: 38px !important;
+    width: 50% !important;
+}

@@ -8,6 +8,7 @@ import ourpresence from '../../../assets/images/ourpresence.png';
 import {MapContainer,TileLayer,useMap,Marker,Popup} from 'react-leaflet'
 import { Link } from 'react-router-dom';
 import { NavHeader } from '../../Navigation/Header';
+import { Divider } from 'primereact/divider';
 type Projects ={
     long:number,
     lat:number,
@@ -36,6 +37,7 @@ export const  MapServices : FunctionComponent<MapProps> = ({Projects}) => {
 }
 
 const Home = ()=>{
+    const [onlineUsers, setOnlineUsers] = React.useState<number>(0);
     const projects = [
         {
             long:36.7974658,lat:-1.2654232
@@ -44,6 +46,21 @@ const Home = ()=>{
             long:36.6646206,lat:-1.8902939
         }
     ]
+    React.useEffect(() => {
+        const interval = setInterval(() => {
+            setOnlineUsers(prevOnlineUsers => {
+                if (prevOnlineUsers < 50) {
+                  return prevOnlineUsers + 1;
+                } else {
+                  clearInterval(interval);
+                  return prevOnlineUsers;
+                }
+              });
+          
+        }, 1000);
+        return () => clearInterval(interval);
+      }, []);
+
   return (
     <div className='home-container'>
         <div className="grid">
@@ -55,7 +72,7 @@ const Home = ()=>{
                </div>
                <div className="grid">
                  <div className='main-title'>
-                    <p>Bridging academia and industry</p>
+                    <p>‘ Forging links between academia and industry ’</p>
                      <Button className='join-button' label='Join Now'></Button>
                  </div>
                </div>
@@ -71,11 +88,13 @@ const Home = ()=>{
         <div className="grid">
             <div className="col post-project-title">
                 <p>
-                ‘Online engagement platform designed to link academia and industry’
+                ‘
+                A transformative online hub that catalyzes new connection between academia and industry 
+                ’
                 </p>
             </div>
             <div className="col">
-                <div style={{padding:"0.5rem"}}>
+                <div className='about-us'>
                     <img src={akademates} alt="lemurs" className="about-us-img" />
                 </div>
             </div>
@@ -89,8 +108,18 @@ const Home = ()=>{
        
         <div className="grid">
         <div className="col">
-                <div className='our-presence-container'>
-                    <img src={ourpresence} alt="lemurs" className="about-us-img" />
+                <div className='our-presence-container about-us-img '>
+                    <div className="total-projects">
+                        <p><h2>{onlineUsers}</h2></p>
+                        <p>Online Users</p>
+                    </div>
+                    <Divider layout='vertical'/>
+                    <div className="total-users">
+                        <p><h2>25</h2></p>
+                        <Divider />
+                        <p>Current Projects</p>
+                    </div>
+                    {/* <img src={ourpresence} alt="lemurs" className="about-us-img" /> */}
                 </div>
             </div>
             <div className="col post-project-title">
@@ -104,7 +133,7 @@ const Home = ()=>{
         <div className="grid">
             <img src={sectionbackground} alt="lemurs" className="bg-image-subsection" />
             <div className='subsectionsbackground'>
-               <h2>Projects</h2>
+               <h2>Ventures</h2>
             </div>
         </div>
         <div className="grid">
@@ -116,14 +145,16 @@ const Home = ()=>{
         </div>
         <div className="grid post-project-container">
             <div className="col post-project-title">
-               <p>Post your project to attract top  talents</p>
+               <p>‘
+                Share your project or venture to draw in exceptional talent, collaborators, and supporters 
+                ’</p>
             </div>
             <div className="col post-project-title"> 
                 <Button label='Post a project' className='join-button' />
             </div>
         </div>
         <div className="grid footerSection">
-            <div className="col">
+            {/* <div className="col">
                <div className="grid">
                 <div className="col">
                     <div className='footerSection-titles'>
@@ -191,9 +222,9 @@ const Home = ()=>{
                 </ol>
                 </div>
                </div>
-            </div>
+            </div> */}
             <hr />
-            <p>All rights reserved Akademates</p>
+            <p>@ 2023 All rights reserved Akademates</p>
         </div>
     </div>
   )

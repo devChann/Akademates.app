@@ -66,16 +66,16 @@
 .form-container{display: grid;}
 
 input{
-    color: #666666;
+    color: #3c4043;
     background-color: #ffffff;
-    border-radius: 2rem;
+    border-radius: 0.5rem;
     background: transparent;
     padding: 0 12px !important;
     width: 100%;
     display: block !important;
     -moz-border-radius: 2px;
     cursor: text !important;
-    font-size: 15px !important;
+    font-size: 14px !important;
     height: 40px !important;
     box-sizing: border-box !important;
     box-shadow: none !important;
@@ -84,34 +84,46 @@ input{
     outline: none !important;
     line-height: 1.8;
     font-weight: 400;
+    font-family: "Google Sans",arial,sans-serif;
+    letter-spacing: 0.25px;
+    text-transform: capitalize;
+    border: 1px solid #dadce0;
 }
 .login-field-labels{
     margin: 0 0 15px;
 }
 .pi{
-    margin-right: 5px;
+    /* margin-right: 5px; */
 }
 .icons-text{
     margin: 12px;
-    font-family: "varela round";
+    font-family: "Google Sans",arial,sans-serif;
     color: #227699;
+    font-size: 1;
+    font-size: 14px;
+    font-weight: 300;
+    letter-spacing: 0.25px;
 }
 .icons{
     color: #227699;
     font-weight: bold;
 }
 .login-button{
-    border-radius: 2rem !important;
+    border-radius: 0.3rem !important;
     min-width: 150px;
-    font-size: 15px;
-    color: white;
-    height: 44px;
+    font-size: 14px;
+    color: #3c4043;
+    height: 39px;
     text-align: center;
-    background: #227699;
+    background: white;
     border: none;
-    font-family: "varela round";
-    font-weight: bold;
+    font-family: "Google Sans",arial,sans-serif;
+    /* font-weight: bold; */
     cursor: pointer;
+    margin-bottom: 10px;
+    border: 1px solid #dadce0;
+    letter-spacing: 0.25px;
+    white-space: nowrap;
 }
 .inner-footer{
     display: grid;

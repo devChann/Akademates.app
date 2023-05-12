@@ -1,7 +1,5 @@
-import React, { FunctionComponent } from 'react'
-import { Panel } from 'primereact/panel';
+import React, { FunctionComponent, useRef } from 'react'
 import {Accordion, AccordionTab} from 'primereact/accordion'
-import { useFormik } from 'formik';
 import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
 import { Calendar } from 'primereact/calendar';
@@ -9,9 +7,7 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import './ProjectsScreen.css'
 import ThemeContext from '../../../configs/theme';
-import Select from 'react-select';
-import { AllCountries } from '../../../Services/countries';
-import { Disciplines, Industries } from '../../../Services/dropDowns';
+import { COUNTRIES, Disciplines, FIELDS, Industries } from '../../../Services/dropDowns';
 import axios from 'axios';
 import getFullUrl from '../../../configs/axios-custom';
 import GrowlContext from '../../../configs/growlContext';
@@ -23,8 +19,9 @@ import SectionHeader from '../Fragments/SectionHeaders';
 import { Chip } from 'primereact/chip';
 import { Divider } from 'primereact/divider';
 import { Button } from 'primereact/button';
-import { Tooltip } from 'primereact/tooltip';
 import { InputTextarea } from 'primereact/inputtextarea';
+import { MultiSelect } from 'primereact/multiselect';
+import { Tooltip } from 'primereact/tooltip';
 
 type MapCoords ={
   long:number,
@@ -54,8 +51,13 @@ interface ProjectRecord {
   status:string;
   budget:number;
 }
+interface ColumnMeta {
+  field: string;
+  header: string;
+}
 type selectedTypes = {
   code:number,
+  value:number
   label:string,
 }
 let defaultDate = new Date()
@@ -175,8 +177,6 @@ export const ViewProject : FunctionComponent<ProjectDto> = ({name,id,
  ) 
 }
 export default function ProjectScreen() {
-
-
   const growl= React.useContext(GrowlContext)
   const [data, setData] = React.useState(Array<ProjectRecord>());
   const [isLoading, setIsLoading] = React.useState(false);
@@ -187,10 +187,17 @@ export default function ProjectScreen() {
   const [sortOrder, setSortOrder] = React.useState(-1);
   const [title,setTitle] = React.useState<string>('')
 
-  const [industry,setIndustry] =  React.useState(Array<selectedTypes>());
+ 
   const [discipline,setDiscipline] =  React.useState(Array<selectedTypes>());
+  const [subDisciplines,setSubDisciplines] =  React.useState(Array<selectedTypes>());
   const [country,setCountry] =  React.useState(Array<selectedTypes>());
   const [field,setFields]  = React.useState(Array<selectedTypes>());
+
+
+  // Filtered Options
+  const [industryFilteredOptions,setIndustryFilteredOptions] =  React.useState(Array<selectedTypes>());
+  const [FilteredOptions,setFilteredOptions] =  React.useState(Array<selectedTypes>());
+  // 
   const [keyword,setKeyword]= React.useState("")
   const [totalItems,setTotalItems] = React.useState(0); 
   const [Coords,setCoords] = React.useState<MapProps>(defaultMapSettings);
@@ -200,6 +207,27 @@ export default function ProjectScreen() {
   const [rowData,setRowData] = React.useState<ProjectDto>(defaultSettings);
   const [showDialog,setShowDialog] =  React.useState(false);
 
+  const dt = useRef<DataTable>(null);
+
+  React.useEffect(()=>{
+        const industriesOptions = Industries.filter((sa)=>{
+            return discipline.some((f)=>{
+                return f.code == sa.code
+            })
+        }) as Array<selectedTypes>
+        setIndustryFilteredOptions(industriesOptions)
+  },[discipline])
+
+  React.useEffect(()=>{
+    console.log(subDisciplines)
+    const f = FIELDS.filter((sa)=>{
+        return subDisciplines.some((f)=>{
+            return f.code == sa.code
+        })
+    }) as Array<selectedTypes>
+    console.log(f)
+    setIndustryFilteredOptions(f)
+  },[subDisciplines])
 
   function queryData(event:{
     first: number;
@@ -209,8 +237,8 @@ export default function ProjectScreen() {
   }){
     setRowsPerPage(event.rows)
     setIsLoading(true)
-
-    const selectedindustry = industry.map((s)=>(s.label))
+    console.log(subDisciplines)
+    const selectedindustry = subDisciplines.map((s)=>(s.label))
     const selectedCountries = country.map((s)=>(s.label))
     const selectedfield= field.map((s)=>(s.label))
     const selecteddiscipline= discipline.map((s)=>(s.label))
@@ -279,18 +307,67 @@ export default function ProjectScreen() {
     })
 
   }
+
+  // export data
+
+  // const exportColumns = cols.map((col) => ({ title: col.header, dataKey: col.field }));
+
+    const exportCSV = (selectionOnly: boolean) => {
+      if (dt && dt.current) {
+        dt.current.exportCSV({ selectionOnly });
+      }
+    };
+
+  //   const exportPdf = () => {
+  //     import('jspdf').then((jsPDF) => {
+  //         import('jspdf-autotable').then(() => {
+  //             const doc = new jsPDF.default(0, 0);
+
+  //             doc.autoTable(exportColumns, data);
+  //             doc.save('products.pdf');
+  //         });
+  //     });
+  //  };
+    const exportExcel = () => {
+      import('xlsx').then((xlsx) => {
+          const worksheet = xlsx.utils.json_to_sheet(data);
+          const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
+          const excelBuffer = xlsx.write(workbook, {
+              bookType: 'xlsx',
+              type: 'array'
+          });
+
+          saveAsExcelFile(excelBuffer, 'products');
+      });
+  };
+
+    const saveAsExcelFile = (buffer: BlobPart, fileName: string) => {
+      import('file-saver').then((module) => {
+          if (module && module.default) {
+              let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+              let EXCEL_EXTENSION = '.xlsx';
+              const data = new Blob([buffer], {
+                  type: EXCEL_TYPE
+              });
+
+              module.default.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+          }
+      });
+  };
   const tableHeader = ()=>{
     return(
       <div className='table-header'>
         <div className="grid">
             <div className="col">
-              Total records
+              <p className='total-records-p'>Total records : {data.length}</p>
             </div>
+           
             <div className="col">
-              last updated 
-            </div>
-            <div className="col">
-
+              <div className="flex align-items-center justify-content-end gap-2">
+                  <Button type="button" icon="pi pi-file"   onClick={() => exportCSV(false)} data-pr-tooltip="CSV" className='export-table' />
+                  <Button type="button" icon="pi pi-file-excel" onClick={exportExcel} data-pr-tooltip="XLS"  className='export-table'/>
+                  <Button type="button" icon="pi pi-file-pdf"  data-pr-tooltip="PDF"  className='export-table'/>
+              </div>
             </div>
         </div>
       </div>
@@ -301,9 +378,10 @@ export default function ProjectScreen() {
         long:36.7974658,lat:-1.2654232
     }
   
-]
+  ] 
   return (
     <div>
+       <Tooltip target=".export-buttons>button" position="bottom" />
       {/* <div className="grid">
         <SectionHeader  title='Poject +' 
           icontext='pi pi-th-large' sectionStyle={theme.customStyle.sectionHeader} />
@@ -315,10 +393,10 @@ export default function ProjectScreen() {
           <div className="p-fluid">
               <div className="input-group-user">
                   <label className='input-lable-titles'  htmlFor="email" style={{ marginBottom: 8 }}>
-                     Project Name
+                     Venture Title
                   </label>
                   <InputText value={title} className="search-inputs"
-                  placeholder="Project Name" 
+                  placeholder=" Venture Title" 
                     onChange={(e)=> setTitle(e.target.value)}
                   />
               </div>
@@ -335,51 +413,36 @@ export default function ProjectScreen() {
                     <label className='input-lable-titles'  htmlFor="email" style={{ marginBottom: 8 }}>
                         Country
                     </label>
-                    <Select  
-                        classNamePrefix="Select"
-                        isMulti
-                        name='country'
-                        options={AllCountries}
-                        onChange = {(x:any)=> setCountry(x)}
-                     />
-                    {/* <Dropdown placeholder='select country' className='search-inputs' id="country" name="country" value={""} options={countries} optionLabel="name" /> */}
+                    <Dropdown value={country} options={COUNTRIES} 
+                      onChange={(e)=>setCountry(e.value)} 
+                        optionLabel="label" filter showClear filterBy="label" 
+                           placeholder="Select a Country" className='p-dropdown-custom'
+                    />
+                  </div>
+                <div className="input-group-user">
+                    <label className='input-lable-titles'  htmlFor="email" style={{ marginBottom: 8 }}>
+                    Branch of knowledge
+                    </label>
+                    <MultiSelect value={discipline} options={Disciplines} 
+                        onChange={(e) => setDiscipline(e.value)} optionLabel="label" 
+                        placeholder="Select a branch of knowledge" display="chip" filter className='p-dropdown-custom' />
+                      
                 </div>
                 <div className="input-group-user">
                     <label className='input-lable-titles'  htmlFor="email" style={{ marginBottom: 8 }}>
-                        Discipline
+                      Business Sector/ Trade
                     </label>
-                    <Select  
-                        classNamePrefix="Select"
-                        isMulti
-                        name='discipline'
-                        options={Disciplines}
-                        onChange = {(x:any)=> setDiscipline(x)}
-                     />
-                    {/* <Dropdown placeholder='select discipline' className='search-inputs' id="country" name="country" value={""} options={countries} optionLabel="name" /> */}
+                    <MultiSelect value={subDisciplines} options={industryFilteredOptions} 
+                        onChange={(e) => setSubDisciplines(e.value)} optionLabel="label" 
+                        placeholder="Select a sub discipline" display="chip" filter />
                 </div>
                 <div className="input-group-user">
                     <label className='input-lable-titles'  htmlFor="email" style={{ marginBottom: 8 }}>
-                       Industry
+                    Field of activity
                     </label>
-                    <Select  
-                        classNamePrefix="Select"
-                        isMulti
-                        name='industry'
-                        options={Industries}
-                        onChange = {(x:any)=> setIndustry(x)}
-                     />
-                </div>
-                <div className="input-group-user">
-                    <label className='input-lable-titles'  htmlFor="email" style={{ marginBottom: 8 }}>
-                       Fields
-                    </label>
-                    <Select  
-                        classNamePrefix="Select"
-                        isMulti
-                        name='fields'
-                        options={AllCountries}
-                        onChange = {(x:any)=> setFields(x)}
-                     />
+                    <MultiSelect value={field} options={FilteredOptions} 
+                        onChange={(e) => setFields(e.value)} optionLabel="label" 
+                        placeholder="Select fields" display="chip" filter />
                 </div>
                 <div className="field">
                     <label className='input-lable-titles'  htmlFor="orgname" style={{ marginBottom: 8 }}>
@@ -431,6 +494,7 @@ export default function ProjectScreen() {
                         responsiveLayout="scroll"
                         header={tableHeader}
                         scrollHeight="400px"
+                        ref={dt}
                         >
                               <Column field="name" header="Title"></Column>
                               <Column field="country" header="Country"></Column>
@@ -443,7 +507,6 @@ export default function ProjectScreen() {
                                       <button onClick={()=> {
                                         setShowDialog(true)
                                         setRowData(row)
-                                        console.log(row)
                                       }} className='admin-actions'>View</button>
                                   </div>
                                )}  

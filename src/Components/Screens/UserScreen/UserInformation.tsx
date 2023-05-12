@@ -1,4 +1,3 @@
-
 import axios from 'axios'
 import { Accordion, AccordionTab } from 'primereact/accordion'
 import { Button } from 'primereact/button'
@@ -13,7 +12,6 @@ import GrowlContext from '../../../configs/growlContext'
 import ThemeContext from '../../../configs/theme'
 import { Disciplines, Industries,SPECIALIZATION,ANZSIC_Subdivision,
     ANZSIC_Group,ANZSIC_Class } from '../../../Services/dropDowns'
-
 import SectionHeader from '../Fragments/SectionHeaders'
 import Education from './Education'
 import Experience from './Experience'
@@ -26,7 +24,7 @@ import toBase64 from '../../../configs/convertToBase64'
 import {ProgressBar} from 'primereact/progressbar'
 import { Dropdown } from 'primereact/dropdown'
 import { groupBy } from 'lodash'
-
+import {Buffer} from 'buffer';
 
 interface ExperienceDto  {
     title:string,
@@ -54,7 +52,7 @@ export interface UserDto {
     firstName:string,
     lastName:string,
     email:string,
-    profileImage:[],
+    profileImage:string,
     backgroundImage:[],
     organization:string,
     biodata:string,
@@ -71,7 +69,7 @@ const defaultUserSettings:UserDto={
     firstName:"",
     lastName:"",
     email:"",
-    profileImage:[],
+    profileImage:"",
     backgroundImage:[],
     organization:"",
     biodata:"",
@@ -202,6 +200,31 @@ export const UserInformation = (props:any) => {
     //  load user information
     React.useEffect(()=>{
       loadUserData()
+      axios
+        .get(
+          getFullUrl(`/api/auth/logo/${props.id}`))
+        .then((r) => {
+            let base64ToString = ''
+        //   let base64ToString =new Buffer() Buffer.from(r.data, "base64").toString()
+          if (typeof Buffer.from === "function") {
+            // Node 5.10+
+           base64ToString = Buffer.from(r.data, 'base64').toString(); // Ta-da
+            } else {
+            // older Node versions, now deprecated
+            base64ToString = new Buffer(r.data, 'base64').toString(); // Ta-da
+            }
+          setorgBase64String(base64ToString)
+
+        })
+        .catch((e) => {
+          console.error(e);
+          if (growl.current) {
+            growl.current.show({
+              severity: "error",
+              summary: "Unable to load data",
+            });
+          }
+        });
     },[])
 
 
@@ -300,7 +323,7 @@ export const UserInformation = (props:any) => {
         let basestring = base64string.split("base64,")[1];
         axios
             .post(
-                getFullUrl("/api/organization/logo", {
+                getFullUrl(`/api/auth/logo/${props.id}`, {
                 useDedicatedEnvironment: true,
                 }),
             basestring,
@@ -389,7 +412,7 @@ export const UserInformation = (props:any) => {
          <div className="grid">
             <div className="col-4 profile-image-container">
                 <div className="profile-picture-title">
-                <h3> Upload logo here</h3>
+                    <h3> Upload logo here</h3>
                 </div>
                 <div className='profile-logo'>
                     <label htmlFor="upload-button">
@@ -471,16 +494,16 @@ export const UserInformation = (props:any) => {
                     </div>
                     <div className="input-group-user">
                         <label className='input-lable-titles'  htmlFor="orgname" style={{ marginBottom: 8 }}>
-                            Specialization<span className='required'>*</span>
+                            Domain<span className='required'>*</span>
                         </label>
                         <Dropdown value={userSpecialization} options={SPECIALIZATION}  optionLabel = "label"
                             onChange={(e) => setuserSpecialization(e.value)} placeholder="Select your specialization"/>
                     </div>
 
-                    {userSpecialization?.label === "BOTH" ? <>
+                    {userSpecialization?.label === "CROSS CUTTING" ? <>
                     <div className="input-group-user">
                         <label className='input-lable-titles'  htmlFor="orgname" style={{ marginBottom: 8 }}>
-                            Discipline<span className='required'>*</span>
+                        Branch of knowledge<span className='required'>*</span>
                         </label>   
                         <MultiSelect
                             optionLabel="label"
@@ -507,7 +530,7 @@ export const UserInformation = (props:any) => {
                         <div className="input-group-user">
                             <label className='input-lable-titles'  htmlFor="orgname" 
                                 style={{ marginBottom: 8 }}>
-                                Industry<span className='required'>*</span>
+                                 Group<span className='required'>*</span>
                             </label>   
                             <Select  
                             classNamePrefix="Select your industry"
@@ -521,10 +544,10 @@ export const UserInformation = (props:any) => {
                         <div className="input-group-user">
                         <label className='input-lable-titles'  htmlFor="orgname" 
                         style={{ marginBottom: 8 }}>
-                            ANZSIC Subdivision<span className='required'>*</span>
+                             Subdivision<span className='required'>*</span>
                         </label>   
                             <Select  
-                            classNamePrefix="Select  ANZSIC Subdivision"
+                            classNamePrefix="Select   Subdivision"
                             isMulti
                             name='ANZSIC Subdivision'
                             options={ANZSIC_Subdivision}
@@ -606,11 +629,11 @@ export const UserInformation = (props:any) => {
                             />
                     </div>
                     </>: null}
-                   {userSpecialization?.label === "ACADEMICS" ? 
+                   {userSpecialization?.label === "ACADEMIA" ? 
                     <>
                      <div className="input-group-user">
                         <label className='input-lable-titles'  htmlFor="orgname" style={{ marginBottom: 8 }}>
-                            Discipline<span className='required'>*</span>
+                        Branch of knowledge<span className='required'>*</span>
                         </label>   
                         <Select  
                             classNamePrefix="Select your discipline"
@@ -624,7 +647,7 @@ export const UserInformation = (props:any) => {
                     <div className="input-group-user">
                         <label className='input-lable-titles'  htmlFor="orgname" 
                         style={{ marginBottom: 8 }}>
-                            Industry<span className='required'>*</span>
+                            Field of activity<span className='required'>*</span>
                         </label>   
                             <Select  
                             classNamePrefix="Select your industry"
@@ -636,7 +659,44 @@ export const UserInformation = (props:any) => {
                             />
                     </div>
                     </>: null}
-                                           
+                    
+                    <label className='input-lable-titles'  htmlFor="orgname" 
+                        style={{ marginBottom: 8 }}>
+                            Interest<span className='required'>*</span>
+                    </label>
+
+                    {userSpecialization?.label === "ACADEMIA"  &&(
+                    <>
+                     <label className='input-lable-titles'  htmlFor="orgname" 
+                        style={{ marginBottom: 8 }}>
+                            Field of activity<span className='required'>*</span>
+                    </label>
+                        <Select  
+                            classNamePrefix="Select your industry"
+                            isMulti
+                            name='industry'
+                            options={indOptions}
+                            className='select-inputs'
+                            onChange = {(x:any)=> setIndustry(x)}
+                            />
+                    </> )
+                    }     
+                     {userSpecialization?.label === "INDUSTRY"  &&(
+                    <>
+                     <label className='input-lable-titles'  htmlFor="orgname" 
+                        style={{ marginBottom: 8 }}>
+                            Body of knowledge<span className='required'>*</span>
+                    </label>
+                        <Select  
+                            classNamePrefix="Select your discipline"
+                            isMulti
+                            name='discipline'
+                            options={Disciplines}
+                            className='select-inputs'
+                            onChange = {(x:any)=> setDiscipline(x)}
+                            />
+                    </> )
+                    }                
                    <div className="center-buttons ">
                         <Button onClick={UpdateUserInformation}  style={styles.saveButtons}>Save</Button>
                    </div>   

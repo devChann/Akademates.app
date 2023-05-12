@@ -5,14 +5,18 @@ import { Column } from 'primereact/column'
 import { DataTable } from 'primereact/datatable'
 import { Dropdown } from 'primereact/dropdown'
 import { InputText } from 'primereact/inputtext'
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import getFullUrl from '../../../configs/axios-custom'
 import ThemeContext from '../../../configs/theme'
 import SectionHeader from '../Fragments/SectionHeaders'
 import Select from 'react-select';
 import { AllCountries } from '../../../Services/countries';
-import { Disciplines, Industries } from '../../../Services/dropDowns'
+import { COUNTRIES, Disciplines, FIELDS, Industries } from '../../../Services/dropDowns'
 import GrowlContext from '../../../configs/growlContext'
+import { Dialog } from 'primereact/dialog'
+import Profile from '../Projects/Fragments/Profile'
+import { UserDto } from '../UserScreen/UserInformation'
+import { Button } from 'primereact/button'
 
 export interface UserProfile {
     firstName: string;
@@ -32,8 +36,10 @@ type selectedTypes = {
     label:string,
 }
 export default function ExpertsScreen() {
-    const growl = React.useContext(GrowlContext);
+  const growl = React.useContext(GrowlContext);
   const  theme = React.useContext(ThemeContext)
+  const userToken = window.localStorage.getItem("refreshToken")
+  const {id} = JSON.parse(userToken!)
   const [isLoading,setIsLoading] = React.useState(false)
   const[rows,setRows]= React.useState(20);
   const [first, setFirst] = React.useState(0);
@@ -52,9 +58,10 @@ export default function ExpertsScreen() {
    const [sortBy,setSortBy] = React.useState('firstName');
    const [sortOrder,setSortOrder] = React.useState(-1);
    const [totalItems,setTotalItems] = React.useState(0); 
-
+   const [showProfile,setShowProfile] = React.useState(false) 
+   const [userid,setUserId] = React.useState('');
    const[data,setData] = React.useState(Array<UserProfile>());
-
+   const dt = useRef<DataTable>(null);
     function queryData(event:{
         rows:number,
         first:number,
@@ -99,11 +106,10 @@ export default function ExpertsScreen() {
         .then((res)=>{
             const {totalItems,data} = res.data
             setTotalItems(totalItems);
-
             const d = data as Array<UserProfile>
-            console.log(d)
-            setData(d)
-            if(totalItems > 0){
+            const experts = d.filter((x)=> x.id !== id)
+            setData(experts)
+            if(experts.length > 0){
                 growl.current.show({
                     severity:"success",
                     summary:"data loaded successfully"
@@ -115,7 +121,6 @@ export default function ExpertsScreen() {
                 })
             }
            
-            
         }).catch((error)=>{
             growl.current.show({
                 severity:"error",
@@ -123,32 +128,76 @@ export default function ExpertsScreen() {
             })
         })
     }
-    React.useEffect(()=>{
-        console.log(data)
-    })
-  const tableHeader = ()=>{
-    return(
-      <div className='table-header'>
-        <div className="grid">
-            <div className="col">
-             Experts {totalItems}
-            </div>
-            <div className="col">
-              last updated 
-            </div>
-            <div className="col">
 
+    // export data
+
+  // const exportColumns = cols.map((col) => ({ title: col.header, dataKey: col.field }));
+
+  const exportCSV = (selectionOnly: boolean) => {
+    if (dt && dt.current) {
+      dt.current.exportCSV({ selectionOnly });
+    }
+  };
+
+//   const exportPdf = () => {
+//     import('jspdf').then((jsPDF) => {
+//         import('jspdf-autotable').then(() => {
+//             const doc = new jsPDF.default(0, 0);
+
+//             doc.autoTable(exportColumns, data);
+//             doc.save('products.pdf');
+//         });
+//     });
+//  };
+  const exportExcel = () => {
+    import('xlsx').then((xlsx) => {
+        const worksheet = xlsx.utils.json_to_sheet(data);
+        const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
+        const excelBuffer = xlsx.write(workbook, {
+            bookType: 'xlsx',
+            type: 'array'
+        });
+
+        saveAsExcelFile(excelBuffer, 'products');
+    });
+};
+
+    const saveAsExcelFile = (buffer: BlobPart, fileName: string) => {
+        import('file-saver').then((module) => {
+            if (module && module.default) {
+                let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+                let EXCEL_EXTENSION = '.xlsx';
+                const data = new Blob([buffer], {
+                    type: EXCEL_TYPE
+                });
+
+                module.default.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+            }
+        });
+    };
+    const tableHeader = ()=>{
+        return(
+          <div className='table-header'>
+            <div className="grid">
+                <div className="col">
+                  <p className='total-records-p'>Total records : {data.length}</p>
+                </div>
+               
+                <div className="col">
+                  <div className="flex align-items-center justify-content-end gap-2">
+                      <Button type="button" icon="pi pi-file"   onClick={() => exportCSV(false)} data-pr-tooltip="CSV" className='export-table' />
+                      <Button type="button" icon="pi pi-file-excel" onClick={exportExcel} data-pr-tooltip="XLS"  className='export-table'/>
+                      <Button type="button" icon="pi pi-file-pdf"  data-pr-tooltip="PDF"  className='export-table'/>
+                  </div>
+                </div>
             </div>
-        </div>
-      </div>
-    )
+          </div>
+        )
+      }
+  const showUserProfile = (id:string)=>{
+    setUserId(id)
+    setShowProfile(true)
   }
-
-  // On page load data
-  
-  React.useEffect(()=>{
-    //queryData(first,rows,sortBy,sortOrder)
-  })
   return (
     <div>
         {/* <div className="grid">
@@ -159,24 +208,23 @@ export default function ExpertsScreen() {
       <div className="grid grid-margins" style={{marginTop:"10px"}}>
         <div className="col">
         <Accordion className='search-container'activeIndex={0}>
-          <AccordionTab header="Search Experts">
+          <AccordionTab header="Search specialists">
           <div className="p-fluid">
- 
                 <div className="input-group-user">
                     <label className='input-lable-titles'  htmlFor="email" style={{ marginBottom: 8 }}>
                         First name
                     </label>
                     <InputText value={firstName} className="search-inputs" onChange={(e)=>setFirstName(e.target.value)}
-                    placeholder="first name"    
+                    placeholder="First name"    
                     />
                 </div>
                 
                 <div className="input-group-user">
                     <label className='input-lable-titles'  htmlFor="email" style={{ marginBottom: 8 }}>
-                        Last name
+                      Other Names
                     </label>
                     <InputText value={lastName} className="search-inputs" onChange={(e)=>setLastName(e.target.value)}
-                    placeholder="first name"    
+                    placeholder="Other Names"    
                     />
                 </div>
                 <div className="input-group-user">
@@ -187,14 +235,14 @@ export default function ExpertsScreen() {
                         classNamePrefix="Select"
                         isMulti
                         name='country'
-                        options={AllCountries}
+                        options={COUNTRIES}
                         onChange = {(x:any)=> setCountry(x)}
                      />
                     {/* <Dropdown placeholder='select country' className='search-inputs' id="country" name="country" value={""} options={countries} optionLabel="name" /> */}
                 </div>
                 <div className="input-group-user">
                     <label className='input-lable-titles'  htmlFor="email" style={{ marginBottom: 8 }}>
-                        Discipline
+                        Branch of knowledge
                     </label>
                     <Select  
                         classNamePrefix="Select"
@@ -207,7 +255,7 @@ export default function ExpertsScreen() {
                 </div>
                 <div className="input-group-user">
                     <label className='input-lable-titles'  htmlFor="email" style={{ marginBottom: 8 }}>
-                       Industry
+                       Business Sector/ Trade
                     </label>
                     <Select  
                         classNamePrefix="Select"
@@ -219,13 +267,13 @@ export default function ExpertsScreen() {
                 </div>
                 <div className="input-group-user">
                     <label className='input-lable-titles'  htmlFor="email" style={{ marginBottom: 8 }}>
-                       Fields
+                       Field of activity
                     </label>
                     <Select  
                         classNamePrefix="Select"
                         isMulti
                         name='industry'
-                        options={AllCountries}
+                        options={FIELDS}
                         onChange = {(x:any)=> setFields(x)}
                      />
                 </div>
@@ -239,6 +287,13 @@ export default function ExpertsScreen() {
       {/* table */}
 
       <div className="grid grid-margins">
+         <Dialog className='dialog-box' header="User Profile"    visible={showProfile}  modal style={{ width: '60vw' }}  onHide={()=> setShowProfile(false)}>
+             {
+                userid && (
+                    <Profile UserID={userid} />
+                )
+             } 
+        </Dialog>
         <div className="col">
             
             <div className="table-style">
@@ -254,18 +309,13 @@ export default function ExpertsScreen() {
                               <Column field="industry" header="Industry"></Column>
                               <Column field="fields" header="Field"></Column>
                               <Column field="quantity" header="Actions" 
-                                  body={()=>(
+                                  body={(r:UserProfile)=>(
                                   <div>
-                                      <button className='admin-actions'>View</button>
+                                      <button onClick={()=> showUserProfile(r.id)} className='admin-actions'>View</button>
                                   </div>
                                )}  
                               />
-                              {/* <Column field="Status" header="Status"></Column>
-                              <Column field="Partners" header="Partners"></Column>
-                              <Column field="Budget" header="Budget"></Column>
-                              <Column field="Country" header="Country"></Column>
-                              <Column field="Status" header="Status"></Column>
-                              <Column field="Status" header="Status"></Column> */}
+                           
                         </DataTable>
                 :<></>
                 }

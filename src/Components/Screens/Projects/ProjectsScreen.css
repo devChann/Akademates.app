@@ -54,7 +54,7 @@
     border-radius: 10px;
     display: block;
     width: 100%;
-    font-weight: 500;
+    font-weight: 300;
 }
 .search-inputs span{
     margin-right: 5px;
@@ -142,4 +142,26 @@
     border-radius: 20px;
     font-weight: 600;
     height: 2rem;
+}
+.export-table{
+    border-radius: 50%;
+    background: #227699 !important;
+}
+.export-table > span{
+    margin: 0px !important;
+}
+.total-records-p{
+    font-family: "Varela Round";
+}
+.p-dropdown-trigger-icon{
+    margin-right: 5px;
+}
+.p-multiselect-trigger-icon{
+    margin-right: 5px;
+}
+.p-dropdown-custom >div >span{
+    margin-right: 5px;
+}
+.p-multiselect-trigger{
+    margin-right:5px ;
 }

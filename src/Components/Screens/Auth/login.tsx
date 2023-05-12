@@ -15,31 +15,41 @@ import { NavHeader } from '../../Navigation/Header';
 import getFullUrl from '../../../configs/axios-custom';
 import axios from 'axios';
 import GrowlContext from '../../../configs/growlContext';
+import { ProgressBar } from 'primereact/progressbar';
+import { GoogleLogin } from '@react-oauth/google';
 interface UserTypes {
   username: string;
   password: string;
 }
 export const Login: React.FC<{}> = () => {
  let navigate = useNavigate();
+ const [isloading, setisloading] = React.useState(false);
  const growl = React.useContext(GrowlContext);
   const defaultSettings: UserTypes = { username: '', password:'' };
   
   const signin = (value:UserTypes	)=>{
+    setisloading(true)
     axios.post(getFullUrl('/api/auth/login'), {
       Email: value.username,
       Password : value.password, 
     })
     .then(function (response) {  
+        console.log(response)
        window.localStorage.setItem("refreshToken",JSON.stringify(response.data))
-       navigate('/') 
+       setisloading(false)
+       navigate('/dashboard') 
     })
     .catch(function (error) {
       growl.current.show({
         severity:"error",
         summary:"Wrong credentials"
      }) 
+     setisloading(false)
     });
   }
+
+  const handleSuccess = (res:any) => {}
+  const handleFailure = ()=>{}
   return (
     <div className='main'>
     <div className="grid">
@@ -91,8 +101,13 @@ export const Login: React.FC<{}> = () => {
               </div>
               <div className='inner-footer'>
                 <button className='login-button' type="submit">Submit</button>
+                <GoogleLogin
+                    onSuccess={(res:any)=>handleSuccess(res)}
+                    onError={()=>handleFailure}
+                  />
                 <p><a href=''>Forgot Password</a></p>
               </div>
+              {isloading &&(<ProgressBar mode="indeterminate" style={{ height: '6px' }}></ProgressBar>)}
             </Form>
             </Formik>
           </div>

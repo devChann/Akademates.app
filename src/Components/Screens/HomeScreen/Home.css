@@ -5,13 +5,19 @@
 .logo{
     color: #227699;
     font-family: "Varela Round", Sans-serif;
-    font-size: 2.6em;
+    font-size: 1.6em;
     font-weight: bold;
-    margin: 0.5rem 2rem;
+    /* margin: 0.5rem 2rem; */
+    /* margin-top: 2rem; */
+    margin-bottom: 1rem;
 }
 .login-header-title{
     color: #227699;
     text-align: center;
+    font-family: "Google Sans",arial,sans-serif;
+    font-size: 1.5rem;
+    font-weight: 300;
+
 }
 .nav-container{
     display: flex;
@@ -49,7 +55,7 @@
 .footerSection{
     font-size:1rem;
     text-align: center;
-    color: #227699;
+    color: #f9f9f9;
     font-weight: bold;
     background-image: url('../../../assets/images/head2.jpg');
     background-position: center center;
@@ -57,7 +63,7 @@
     background-size: cover;
     opacity: 0.65;
     width: 100%;
-    height: 30rem;
+    height: 5rem;
     display: inline-block;
 }
 .footerSection > li, ol {
@@ -89,18 +95,20 @@
 }
 .main-title > p {
     color: #227699;
-    font-family: "Varela Round", Sans-serif;
+    font-family: "Varela Round";
     font-weight: bold;
     padding: 0;
     margin: 0;
-    line-height: 1;
+    line-height: 1.3;
     font-size: 1.875rem;
-    margin-top: 15rem;
+    margin-top: 15rem !important;
+    /* background: #8dcdff5c; */
+    border-radius: 22px;
 }
 
 .join-button{
     border-radius: 20px;
-    background: #227699;
+    background: #227699 !important;
     font-family: "Varela Round";
     border: none;
     margin-top: 20px;
@@ -152,14 +160,59 @@
     box-shadow: 0px 0px 10px 0px rgb(26 115 139 / 58%);
     width: auto;
     height: 25rem;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+.total-projects {
+    display: block;
+    text-align: center;
+    line-height: 3rem;
+}
+.total-projects >p {
+    font-size: 2.5rem;
+    color: #227699;
+    font-weight: 700;
+}
+.total-users{
+    display: block;
+    text-align: center;
+    line-height: 3rem;
+    letter-spacing: 5px;
+}
+.total-users >p{
+    font-size: 2.5rem;
+    color: #227699;
+    font-weight: 700;
 }
 /*  Our presence */
 .our-presence-container{
     padding:0.7rem;
+    padding: 0.7rem;
+    display: flex;
+    justify-content: space-around;
 }
 .nav-links{
     color: #227699;
     margin: 1rem;
     text-decoration: none;
     font-weight: bold;
+}
+.about-us{
+    padding: 0.5rem;
+}
+/* responsive */
+@media screen and (min-width: 375px) {
+    /* .logo {
+       text-align: center;
+    } */
+    /* .about-us-img {
+        border-radius: 38px 38px 38px 38px;
+        box-shadow: 0px 0px 10px 0px rgb(26 115 139 / 58%);
+        width: auto;
+        height: 17.4rem;
+    } */
+    /* .about-us{
+        padding: 0px;
+    } */
 }

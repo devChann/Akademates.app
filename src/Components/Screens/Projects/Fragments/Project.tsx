@@ -8,7 +8,7 @@ import getFullUrl from '../../../../configs/axios-custom'
 import GrowlContext from '../../../../configs/growlContext'
 import Select from 'react-select';
 import { AllCountries } from '../../../../Services/countries'
-import { Disciplines, Industries, Fields } from '../../../../Services/dropDowns'
+import { Disciplines, Industries, FIELDS } from '../../../../Services/dropDowns'
 import { Dialog } from 'primereact/dialog'
 import Mapwraper from '../../UserScreen/Mapwraper'
 import { Chips } from 'primereact/chips';
@@ -83,7 +83,7 @@ export default function Project({ID,rowData,toggleEditing}:ProjectProps) {
     const [country,setCountry] =  React.useState(Array<selectedTypes>());
     const [field,setFields]  = React.useState(Array<selectedTypes>());
     const [showDialog,setShowDialog] = React.useState(false);
-
+    const [coords,setCoords] = React.useState(Array<number>());
     const [sponsors, setSponsors] = React.useState<any>([]);
     const [partners, setPartners] = React.useState<any>([]);
     const [interests,setInterest] = React.useState()
@@ -98,8 +98,10 @@ export default function Project({ID,rowData,toggleEditing}:ProjectProps) {
             setPartners(rowData.partners.split('|'))
            }
         }
-    },[])
-    console.log(rowData)
+        console.log(coords)
+        fieldValues.long = coords[0]
+        fieldValues.lat = coords[1]
+    },[coords])
 
     const showDialogBox = ()=>{
         setShowDialog(true)
@@ -120,7 +122,7 @@ export default function Project({ID,rowData,toggleEditing}:ProjectProps) {
     },[discipline])
 
     React.useEffect(()=>{
-        const i = Fields.filter((sa)=>{
+        const i = FIELDS.filter((sa)=>{
             return industry.some((f)=>{
                 return f.value ==  sa.code
             })
@@ -146,8 +148,8 @@ export default function Project({ID,rowData,toggleEditing}:ProjectProps) {
             Fields:selectedfield.join('|').toString(),
             Budget:fieldValues.budget,
             Created:fieldValues.createdOn,
-            Lat:0,
-            Long:0,
+            Lat:fieldValues.lat,
+            Long:fieldValues.long,
             Sponsors:sponsors.join('|').toString(),
             Partners:partners.join('|').toString(),
             UserID:ID
@@ -174,7 +176,7 @@ export default function Project({ID,rowData,toggleEditing}:ProjectProps) {
             </label>
         
             <InputTextarea value={fieldValues.name} onChange={(e)=>{onvalueChange("name",e.currentTarget.value)}} rows={3} cols={35} 
-            placeholder="Project title"   className='space-textarea input-textarea'  
+            placeholder="Venture title"   className='space-textarea input-textarea'  
             />
         </div>
         <div className="input-group-inline">
@@ -239,7 +241,7 @@ export default function Project({ID,rowData,toggleEditing}:ProjectProps) {
         </div>
         <div className="choose-from-map">
             <Dialog className='dialog-box' header="Select Project location"    visible={showDialog}  modal style={{ width: '70vw' }}  onHide={hideDialogBox}>
-                <Mapwraper />                          
+                <Mapwraper getCoords = {setCoords}/>                          
             </Dialog>
             <i  onClick={showDialogBox} className="pi pi-map-marker" style={{'fontSize': '1em'}}></i>
             <p>Choose from a map</p>

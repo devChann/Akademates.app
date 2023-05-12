@@ -226,7 +226,6 @@ export default function UserScreen() {
                                         setRowData(row)
                                         setEditMode(true)
                                         axios.get(getFullUrl(`/api/Projects/interests/nortifications/${row.id}`)).then((res)=>{
-                                            console.log(res.data)
                                             setTotals(res.data.length)
                                           }).catch((msg)=>{
                                             console.log('error could not load interest')

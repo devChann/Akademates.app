@@ -46,8 +46,9 @@
 }
 .p-editor-container .p-editor-content .ql-editor{
     font-size: 14px;
-    font-family: "Varela Round";
+    font-family: cursive;
     font-style: normal !important;
+    border: 2px solid #227699;
 }
 .p-editor-container .p-editor-content .ql-editor > p{
     font-style: normal;
@@ -59,9 +60,9 @@
     margin: 1rem;
 }
 .button-inline{
-    width: 5rem;
-    height: auto;
-    padding: 10px;
+    /* width: 5rem; */
+    height: 20px;
+    padding: 16px;
     border-radius: 20px;
     border: none;
     font-size: 14px;

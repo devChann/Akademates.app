@@ -10,21 +10,64 @@ import { NavHeader } from '../../Navigation/Header';
 import axios from 'axios';
 import GrowlContext from '../../../configs/growlContext';
 import getFullUrl from '../../../configs/axios-custom';
-
-
+import { CLIENT_ID } from '../../../configs/constants';
+import { GoogleLogin } from '@react-oauth/google';
+import { Generator } from '../../../Hooks/Generator';
+import { useNavigate } from 'react-router-dom';
 interface UserTypes {
   username: string;
   password: string;
 
 }
 
-  	
+interface GoogleAuthProps {
+  credential:string;
+  clientId :string;
+  select_by :string
+}
+interface GoogleUserProfile {
+  id: string;
+  name: string;
+  email: string;
+  imageUrl: string;
+}  	
 export const Sign: React.FC<{}> = () => {
   const  growl = React.useContext(GrowlContext)
   const defaultSettings: UserTypes = { username: '', password:'' };
+  const [User, setUser] = React.useState<GoogleAuthProps>();
+  const [userProfile, setUserProfile] = React.useState<GoogleUserProfile | null >(null);
+  const navigate = useNavigate()
+  const handleSuccess = (response: GoogleAuthProps) => {
+      console.log(response)
+      if (response) {
+        axios
+            .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${response.credential}`, {
+                headers: {
+                    Authorization: `Bearer ${response.credential}`,
+                    Accept: 'application/json'
+                }
+            })
+            .then((res) => {
+              console.log(res)
+              // setUserProfile(res.data);
+            })
+        .catch((err) => console.log(err));
+      }
+  };
+
+  const handleFailure = (error: any) => {
+    console.error(error);
+  };
+
 
   const  login = (values:UserTypes)=>{
-
+    if (values.password === "" || values.username ==="") {
+      growl.current.show({
+        severity:"error",
+        summary:"Auth values cannot be empty"
+     })
+     return
+    }
     axios.post(getFullUrl('/api/auth/register'), {
       Email: values.username,
       Password : values.password, 
@@ -34,6 +77,27 @@ export const Sign: React.FC<{}> = () => {
           severity:"success",
           summary:"Account created successfully, check your email to activate your account"
        })   
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
+  const createUserProfile = (username:string)=>{
+    const password = Generator()
+    axios.post(getFullUrl('/api/auth/register'), {
+      Email: username,
+      Password : password, 
+    })
+    .then(function (response) {
+       growl.current.show({
+          severity:"success",
+          summary:"Account created successfully"
+       })
+       const data = {
+        Id:response.data, token:""
+       }
+       window.localStorage.setItem("refreshToken",JSON.stringify(data));
+      navigate('/dashboard')    
     })
     .catch(function (error) {
       console.log(error);
@@ -52,8 +116,8 @@ export const Sign: React.FC<{}> = () => {
             Hi there,
           </p>
           <p className="login-info-content">
-            We are happy to  have you onboard, create account and
-           access special membership benefits. 
+            "Welcome! We're thrilled to have you with us, Sign up now to unlock exclusive
+            membership benefits and gain access to our platform"
           </p>
           <Button className="login-info-button">
             <i className="pi pi-info-circle" style={{'fontSize': '1em'}}>
@@ -65,7 +129,7 @@ export const Sign: React.FC<{}> = () => {
         <div className="col">
           <div className='login-container-right'>
           <div>
-            <h2 className='login-header-title'>Register</h2>
+            <p className='login-header-title'>Sign In</p>
             <Formik
                initialValues={defaultSettings}
               onSubmit={(values, actions) => {
@@ -91,7 +155,11 @@ export const Sign: React.FC<{}> = () => {
                 <Field type="password" id="password"  name="password" placeholder="password" />
               </div>
               <div className='inner-footer'>
-                <button className='login-button' type="submit">Register</button>
+                <button className='login-button' type="submit">Sign in</button>
+                <GoogleLogin
+                    onSuccess={(res:any)=>handleSuccess(res)}
+                    onError={()=>handleFailure}
+                  />
                 <p><a href=''></a></p>
               </div>
             </Form>
