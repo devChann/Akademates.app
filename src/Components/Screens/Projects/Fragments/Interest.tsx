@@ -5,6 +5,12 @@ import React, { FunctionComponent } from 'react'
 import getFullUrl from '../../../../configs/axios-custom';
 import './Interest.css';
 import Profile from './Profile';
+import styled from 'styled-components';
+
+const Main = styled.div`
+  font-family: 'Plus Jakarta Sans';
+  font-size:1rem;
+`
 interface InterestProps {
   id:string
   getInterest : (i:number)=> void
@@ -42,9 +48,9 @@ const Interest:FunctionComponent<InterestProps> = ({id,getInterest}) => {
   //<p className='view-user-profile' onClick={onShow}>View user profile</p>
   //<p className='view-user-profile' onClick={onShow}>View user profile</p>
   return (
-    <div>
+    <Main>
        <Dialog className='dialog-box' header="User Profile"    visible={showDialog}  modal style={{ width: '60vw' }}  onHide={onHideDialog}>
-              <Profile UserID={profileId} />
+              <Profile userId={id} />
        </Dialog>
       <p className='view-label'>Project Interests</p>
       {interest?.map((x:interests)=>
@@ -56,7 +62,7 @@ const Interest:FunctionComponent<InterestProps> = ({id,getInterest}) => {
           }}> Un Read: {" "} View user profile</p>}
         </div><Divider /></>
       )}
-    </div>
+    </Main>
   )
 }
 

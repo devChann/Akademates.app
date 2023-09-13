@@ -1,31 +1,363 @@
-import React, { FunctionComponent } from 'react';
+import React, { FC, FunctionComponent } from 'react';
 import './Home.css';
-import  {Button} from 'primereact/button';
-import ContactPic from '../../../assets/images/ContactPic.png';
-import sectionbackground from '../../../assets/images/sectionbackground.jpg';
-import akademates from '../../../assets/images/akademates.png';
-import ourpresence from '../../../assets/images/ourpresence.png';
-import {MapContainer,TileLayer,useMap,Marker,Popup} from 'react-leaflet'
-import { Link } from 'react-router-dom';
-import { NavHeader } from '../../Navigation/Header';
+import {MapContainer,TileLayer,Marker,Popup} from 'react-leaflet'
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import CounterComponent from './Fragment/Counter';
+import ProjectCategories from './Fragment/ProjectCategories';
+import HowItsWorks from './Fragment/HowItsWorks';
+import Footer from './Fragment/Footer';
+import { HomeTotals, Notification, UserDto } from '../../../types';
+import { Sidebar } from 'primereact/sidebar';
+import { HttpTransportType, HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
+import getFullUrl from '../../../configs/axios-custom';
+import axios from 'axios';
 import { Divider } from 'primereact/divider';
-type Projects ={
-    long:number,
+// styles
+const NairobiKenya = styled.div`
+  position: relative;
+  line-height: 22px;
+`;
+const HelpCircleIcon = styled.img`
+  overflow: hidden;
+  flex-shrink: 0;
+  width:24px;
+  cursor:pointer;
+  @media(max-width: 768px) {
+      /* display : none; */
+    }
+`;
+const Login = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--gap-5xs);
+  cursor: pointer;
+`;
+const Header = styled.div`
+    font-family:var(--title);
+    display: flex;
+    width: 100vw;
+    justify-content: space-between;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    border-bottom: 1px solid #8080801f;
+    top: 0;
+    position: fixed;
+    z-index: 1000;
+    background:white;
+    .innerHeader{
+      display:flex;
+      gap:8px;
+      p{
+        margin:auto;
+      }
+    }
+    .icons-header{
+      display:flex;
+      flex-direction:row;
+      gap:var( --gap-5xs);
+      line-height: 42px;
+      height:69px
+    }
+    .logo{
+        font-style: normal;
+        font-weight: 700;
+        font-size: 30px;
+        line-height: 42px;
+        color: #227699;
+        font-family:var(--title);
+        padding-top:10px;
+        cursor:pointer;
+    }
+    .user-name{
+      margin:auto;
+      cursor:pointer;
+    }
+    @media (max-width: 768px) {
+      padding-left:20px;
+      padding-right:20px;
+      background: #cfcfcf1a;
+      .logo{
+        display:none;
+      }
+    .innerHeader{
+      display: none;
+    }
+    }
+`;
+const Slide = styled.div`
+  background: linear-gradient(-77.98deg, #fff);
+  width: 100%;
+  height: 547px;
+  overflow: hidden;
+  font-size: var(--label-large-label-size);
+  display:flex;
+  margin-top:68px;
+
+  .image-background{
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-end;
+        width: 100%;
+    
+    img{
+      height: 600px;
+      width: 604px;
+      padding: 3rem;
+      opacity: 0.4;
+    }
+  }
+  @media (max-width: 768px) {
+    .image-background{
+      display:none
+    }
+    height:fit-content;
+  }
+`;
+const TitleWrapper = styled.div`
+    /* width: 612px; */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    -webkit-box-pack: start;
+    justify-content: flex-start;
+    font-size: var(--heading-02-size);
+    color: var(--color-steelblue);
+    padding: 5rem;
+    .logo{
+        font-style: normal;
+        font-weight: 700;
+        font-size: 30px;
+        line-height: 42px;
+        color: #227699;
+        font-family:var(--title);
+        padding-top:10px;
+        cursor:pointer;
+        display:none;
+    }
+    @media (max-width: 768px) {
+      padding:5px;
+      align-items:center;
+      .logo{
+        display:flex;
+      }
+    }
+`;
+
+const TitleWrapperInner = styled.div`
+  /* width: 612px; */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+    @media (max-width: 768px) {
+        justify-content:center
+    }
+    @media (max-width: 400px) {
+        justify-content:center
+    }
+   
+`;
+const ForgingLinksBetween = styled.b`
+  position: relative;
+  line-height: 68px;
+  text-transform: capitalize;
+  display: inline-block;
+  /* width: 562px; */
+  margin:5px;
+  @media (max-width: 768px) {
+    font-size: 21px;
+    width: 100%;
+    text-align: center;
+    line-height: 44px;
+  }
+`;
+
+const CreatingNewConnections = styled.div`
+  font-size: var(--body-02-size);
+  line-height: 28px;
+  font-family: var(--font-lato);
+  color: var(--secondary);
+  display: inline-block;
+  /* width: 612px; */
+  margin:5px;
+  @media (max-width: 768px) {
+    text-align:center;
+    font-size:14px;
+  }
+`;
+const Button= styled.div`
+  border-radius: var(--br-9xs);
+  background-color: var(--color-steelblue);
+  display: flex;
+  flex-direction: row;
+  padding: var(--padding-xs) var(--padding-13xl);
+  align-items: flex-start;
+  justify-content: flex-start;
+  text-align: center;
+  margin:15px;
+  cursor: pointer;
+`;
+const AllCategories = styled.b`
+  position: relative;
+  line-height: 26px;
+  text-transform: capitalize;
+  color:white;
+  font-size:13px;
+`;
+const Heading8 = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--gap-base);
+  font-size: var(--heading-04-size);
+  color: var(--on-surface2);
+  margin-top:5rem;
+  margin-bottom:10px;
+`;
+const SmallToMedium = styled.b`
+  position: relative;
+  line-height: 44px;
+`;
+const Subtitle = styled.div`
+  position: relative;
+  font-size: var(--body-02-size);
+  line-height: 28px;
+  color: var(--secondary);
+  text-align: center;
+  display: inline-block;
+  width: 708px;
+`;
+
+const NortificationContainer = styled.div`
+    cursor: pointer;
+    .unread{
+    background: aliceblue;
+    color: black;
+    padding: 1rem;
+    font-family: var(--title);
+    border-radius: 10px;
+    }
+    .read{
+      color: black;
+      padding: 1rem;
+      font-family: var(--title);
+      border-radius: 10px;
+    }
+`
+const  NortificationHeader = styled.div`
+  font-family:var(--title);
+  font-size:15px;
+  font-weight:500;
+`
+type CoordsProps ={
+    lng:number,
     lat:number,
 }
-interface MapProps {
-    Projects : Array<Projects>;
+export interface MapProps {
+    coordinates : Array<CoordsProps>;
 }
-export const  MapServices : FunctionComponent<MapProps> = ({Projects}) => {
-    const position  = [51.505, -0.09];
+
+interface UserData {
+  user: UserDto | null
+}
+export  const  NavBar:FC<UserData> = ({user})=>{
+  const [showSideBar,setShowSidebar] =  React.useState(false)
+  const navigate = useNavigate();
+  const [connection, setConnection] = React.useState<HubConnection |null>(null);
+  const [notification, setNotification] = React.useState<Array<Notification>>([]);
+  const userObject =JSON.parse( window.localStorage.getItem("refreshToken") || "{}")
+  const {id} = userObject
+
+  React.useEffect(()=>{
+    const connect = new HubConnectionBuilder()
+        .withUrl(getFullUrl(`/notificationHub`), {
+            skipNegotiation: true,
+            transport: HttpTransportType.WebSockets
+          })
+        .configureLogging(LogLevel.Information)
+        .withAutomaticReconnect()
+        .build();
+    setConnection(connect);
+  },[])
+
+  React.useEffect(() => {
+    if (connection) {
+        connection
+            .start()
+            .then(() => {
+                console.log("SignalR Connected");
+            })
+            .catch(err => console.log("SignalR Connection Error: ", err));
+
+        connection.on("ReceiveNotification", message => {
+          // console.log(message)
+            // setNotification(message);
+            
+        });
+    }
+    
+  }, [connection]);
+
+  React.useEffect(()=>{
+    try {
+      axios.get(getFullUrl(`/api/Auth/notifications/${id}`)).then((res)=>{
+        
+          const n = res.data as Array<Notification>
+          setNotification(n)
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  },[])
+    return(
+
+     <Header>
+       <Sidebar  visible={showSideBar} onHide={() => setShowSidebar(false)} position="right" style={{width:"25rem"}}>
+        <NortificationHeader>Notification</NortificationHeader>
+        
+        <Divider />
+        <NortificationContainer>
+              {notification.map((r,i)=> 
+                <> <p className={r.status !== 'true' ? "unread" : "read"} key={i}>{r.message}</p>
+                <Divider /></>
+              )}
+        </NortificationContainer>
+        
+      </Sidebar>
+        <p className='logo' onClick={()=> navigate('/')}>Akademates</p>
+        <div className="innerHeader">
+          <p>For Industry</p>
+          <p>For Academia</p>
+        </div>
+        <div className="icons-header">
+          { user ? <>
+          <HelpCircleIcon alt="" src="/assets/message.svg" onClick={()=> navigate('/workspace/messages')} />
+          <HelpCircleIcon alt="" src="/assets/bell1.svg" onClick={()=> setShowSidebar(true)}/>
+         
+          <p onClick={()=> navigate('workspace/cockpit')} className='user-name'>{user.firstName + " " + user.lastName}</p>
+          </>
+          :  
+            <Login>
+              <NairobiKenya onClick={()=> navigate('/auth')}>Login</NairobiKenya>
+            </Login>}
+        </div>
+     </Header>
+    )
+}
+export const  MapServices : FunctionComponent<MapProps> = ({coordinates}) => {
+    
     return (
-        <MapContainer center={[0, 0]} zoom={2} scrollWheelZoom={true}>
+        <MapContainer style={{width:"100%", height:"40vh"}} center={[coordinates[0].lat,  coordinates[0].lng]} zoom={6} scrollWheelZoom={true} className='maps'>
             <TileLayer 
                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                  attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             />
-            {Projects.map((p)=> 
-                 <Marker position={[p.lat	, p.long]}>
+            {coordinates && coordinates.map((p)=> 
+                 <Marker position={[p.lat	, p.lng]}>
                  <Popup>
  
                  </Popup>
@@ -37,197 +369,58 @@ export const  MapServices : FunctionComponent<MapProps> = ({Projects}) => {
 }
 
 const Home = ()=>{
-    const [onlineUsers, setOnlineUsers] = React.useState<number>(0);
-    const projects = [
-        {
-            long:36.7974658,lat:-1.2654232
-        },
-        {
-            long:36.6646206,lat:-1.8902939
-        }
-    ]
+    const navigate = useNavigate();
+    const [totals, setTotals] = React.useState<HomeTotals>();
+    const [projectcoords, setprojectcoords] = React.useState<Array<CoordsProps>>()
+    
     React.useEffect(() => {
-        const interval = setInterval(() => {
-            setOnlineUsers(prevOnlineUsers => {
-                if (prevOnlineUsers < 50) {
-                  return prevOnlineUsers + 1;
-                } else {
-                  clearInterval(interval);
-                  return prevOnlineUsers;
-                }
-              });
-          
-        }, 1000);
-        return () => clearInterval(interval);
-      }, []);
+     axios.post(getFullUrl('/api/Auth/totals')).then((res)=>{
+      const data =  res.data as HomeTotals
+      console.log(data)
+      setTotals(data)
+     })
+
+     axios.get(getFullUrl('/api/Projects/coordinates')).then((res)=>{
+           const d =  res.data
+           setprojectcoords(d as Array<CoordsProps>)
+     })
+
+    }, []);
 
   return (
-    <div className='home-container'>
-        <div className="grid">
-           <img src={ContactPic} alt="lemurs" className="bg-image" />
-           <div className='titleContainer'>
-           <div className="grid  nav-header">
-               <div className="grid">
-                   <NavHeader />
-               </div>
-               <div className="grid">
-                 <div className='main-title'>
-                    <p>‘ Forging links between academia and industry ’</p>
-                     <Button className='join-button' label='Join Now'></Button>
-                 </div>
-               </div>
-           </div>
-           </div>
+      <>
+      <Slide>
+        <TitleWrapper>
+            <p className='logo'>Akademates</p>
+            <TitleWrapperInner>
+              <ForgingLinksBetween>
+                Forging links between academia and industry
+              </ForgingLinksBetween>
+            </TitleWrapperInner>
+            <CreatingNewConnections>
+                Creating new connections, innovations, and opportunities with our
+                transformative online hub.
+            </CreatingNewConnections>
+            <Button>
+              <AllCategories onClick={()=> navigate('/register')}>Join Us Now</AllCategories>
+           </Button>
+          </TitleWrapper>
+        <div className='image-background'>
+          <img src='/assets/image_tagline.png' alt=''/>
         </div>
-        <div className="grid">
-            <img src={sectionbackground} alt="lemurs" className="bg-image-subsection" />
-            <div className='subsectionsbackground'>
-               <h2>About us</h2>
-            </div>
-        </div>
-        <div className="grid">
-            <div className="col post-project-title">
-                <p>
-                ‘
-                A transformative online hub that catalyzes new connection between academia and industry 
-                ’
-                </p>
-            </div>
-            <div className="col">
-                <div className='about-us'>
-                    <img src={akademates} alt="lemurs" className="about-us-img" />
-                </div>
-            </div>
-        </div>
-        <div className="grid">
-            <img src={sectionbackground} alt="lemurs" className="bg-image-subsection" />
-            <div className='subsectionsbackground'>
-               <h2>Our Presence</h2>
-            </div>
-        </div>
-       
-        <div className="grid">
-        <div className="col">
-                <div className='our-presence-container about-us-img '>
-                    <div className="total-projects">
-                        <p><h2>{onlineUsers}</h2></p>
-                        <p>Online Users</p>
-                    </div>
-                    <Divider layout='vertical'/>
-                    <div className="total-users">
-                        <p><h2>25</h2></p>
-                        <Divider />
-                        <p>Current Projects</p>
-                    </div>
-                    {/* <img src={ourpresence} alt="lemurs" className="about-us-img" /> */}
-                </div>
-            </div>
-            <div className="col post-project-title">
-                <p>
-                    Small to medium firms collaborating with academia
-                </p>
-            </div>
-           
-        </div>
-
-        <div className="grid">
-            <img src={sectionbackground} alt="lemurs" className="bg-image-subsection" />
-            <div className='subsectionsbackground'>
-               <h2>Ventures</h2>
-            </div>
-        </div>
-        <div className="grid">
-            <div className="col">
-                <div className='map-container'>
-                    <MapServices Projects={projects}/>
-                </div>
-            </div>
-        </div>
-        <div className="grid post-project-container">
-            <div className="col post-project-title">
-               <p>‘
-                Share your project or venture to draw in exceptional talent, collaborators, and supporters 
-                ’</p>
-            </div>
-            <div className="col post-project-title"> 
-                <Button label='Post a project' className='join-button' />
-            </div>
-        </div>
-        <div className="grid footerSection">
-            {/* <div className="col">
-               <div className="grid">
-                <div className="col">
-                    <div className='footerSection-titles'>
-                        Products
-                    </div> 
-                <ol>
-                    <li>Pricing</li>
-                    <li>Teams</li>
-                    <li>Education</li>
-                    <li>Refer a friend</li>
-                    <li>Updates</li>
-                    <li>Pricing</li>
-                </ol>
-                </div>
-                <div className="col">
-                <div className='footerSection-titles'>
-                        Products
-                    </div> 
-                <ol>
-                    <li>Pricing</li>
-                    <li>Teams</li>
-                    <li>Education</li>
-                    <li>Refer a friend</li>
-                    <li>Updates</li>
-                    <li>Pricing</li>
-                </ol>
-                </div>
-                <div className="col">
-                <div className='footerSection-titles'>
-                        Products
-                </div> 
-                <ol>
-                    <li>Pricing</li>
-                    <li>Teams</li>
-                    <li>Education</li>
-                    <li>Refer a friend</li>
-                    <li>Updates</li>
-                    <li>Pricing</li>
-                </ol>
-                </div>
-                <div className="col">
-                    <div className='footerSection-titles'>
-                        Products
-                    </div> 
-                <ol>
-                    <li>Pricing</li>
-                    <li>Teams</li>
-                    <li>Education</li>
-                    <li>Refer a friend</li>
-                    <li>Updates</li>
-                    <li>Pricing</li>
-                </ol>
-                </div>
-                <div className="col">
-                    <div className='footerSection-titles'>
-                        Products
-                    </div> 
-                <ol>
-                    <li>Pricing</li>
-                    <li>Teams</li>
-                    <li>Education</li>
-                    <li>Refer a friend</li>
-                    <li>Updates</li>
-                    <li>Pricing</li>
-                </ol>
-                </div>
-               </div>
-            </div> */}
-            <hr />
-            <p>@ 2023 All rights reserved Akademates</p>
-        </div>
-    </div>
+      </Slide>
+      <CounterComponent total={totals as HomeTotals} />
+      {/* <ProjectCategories /> */}
+      <Heading8>
+        <SmallToMedium>Featured Ventures</SmallToMedium>
+        <Subtitle>Find the right opportunity for you</Subtitle>
+      </Heading8>
+         {projectcoords &&(<MapServices coordinates={projectcoords as CoordsProps[]} />)} 
+      <HowItsWorks />
+      <Footer />
+      </>
   )
 }
 
 export default Home;
+

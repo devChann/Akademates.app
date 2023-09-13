@@ -15,9 +15,99 @@ import { COUNTRIES, Disciplines, FIELDS, Industries } from '../../../Services/dr
 import GrowlContext from '../../../configs/growlContext'
 import { Dialog } from 'primereact/dialog'
 import Profile from '../Projects/Fragments/Profile'
-import { UserDto } from '../UserScreen/UserInformation'
 import { Button } from 'primereact/button'
+import { TableHeaderContainer, VentureParentContainer } from '../Projects/ProjectScreen'
+import styled from 'styled-components'
+import { UserDto } from '../../../types'
+const FormParent = styled.div`
+  align-self: stretch;
+  border-radius: 0px 0px var(--br-5xs) var(--br-5xs);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding: 14px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--gap-23xl);
+`;
 
+const FormParentInner = styled.div`
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--gap-xl);
+`;
+
+const InputWrapper = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--gap-xs);
+`;
+const Titles = styled.b`
+  align-self: flex-start;
+  position: relative;
+  line-height: 1.5rem;
+  font-size:14px;
+`;
+
+const Component = styled.div`
+  .inputs {
+    align-self: stretch;
+    border-radius: var(--br-9xs);
+    background-color: var(--surface);
+    border: 1px solid var(--line);
+    display: flex;
+    flex-direction: row;
+    padding: var(--padding-xs) var(--padding-base);
+    -webkit-box-align: start;
+    align-items: start;
+    -webkit-box-pack: start;
+    justify-content: flex-start;
+    text-align: start;
+    font-size: var(--body-03-default-size);
+    width: 28rem;
+    height: 33px;
+    font-family: 'Plus Jakarta Sans';
+  }
+  .drop-downs{
+    width: 28rem;
+    background-color: var(--surface);
+    border-radius: var(--br-9xs);
+    text-align: start;
+    font-size: var(--body-03-default-size);
+    font-family: 'Plus Jakarta Sans';
+    span{
+      
+    }
+  }
+  @media (max-width: 768px) {
+      .drop-downs{
+        width:18rem;
+      }
+      .inputs{
+        width:18rem;
+      }
+  }
+`;
+
+const CustomButtom =  styled.button`
+  color: #FFF;
+  font-family:Plus Jakarta Sans;
+  font-size: 1;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.625rem; /* 216.667% */
+`
+const MainContainer = styled.div`
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+`
 export interface UserProfile {
     firstName: string;
     lastName:string;
@@ -59,7 +149,7 @@ export default function ExpertsScreen() {
    const [sortOrder,setSortOrder] = React.useState(-1);
    const [totalItems,setTotalItems] = React.useState(0); 
    const [showProfile,setShowProfile] = React.useState(false) 
-   const [userid,setUserId] = React.useState('');
+   const [profile,setProfile] = React.useState<UserDto>();
    const[data,setData] = React.useState(Array<UserProfile>());
    const dt = useRef<DataTable>(null);
     function queryData(event:{
@@ -177,151 +267,186 @@ export default function ExpertsScreen() {
     };
     const tableHeader = ()=>{
         return(
-          <div className='table-header'>
-            <div className="grid">
-                <div className="col">
-                  <p className='total-records-p'>Total records : {data.length}</p>
-                </div>
-               
-                <div className="col">
-                  <div className="flex align-items-center justify-content-end gap-2">
+          <TableHeaderContainer>
+            <p className='total-records-p'>Total records : {data.length}</p>
+            <div className="button-group-table">
                       <Button type="button" icon="pi pi-file"   onClick={() => exportCSV(false)} data-pr-tooltip="CSV" className='export-table' />
                       <Button type="button" icon="pi pi-file-excel" onClick={exportExcel} data-pr-tooltip="XLS"  className='export-table'/>
-                      <Button type="button" icon="pi pi-file-pdf"  data-pr-tooltip="PDF"  className='export-table'/>
+                      {/* <Button type="button" icon="pi pi-file-pdf"  data-pr-tooltip="PDF"  className='export-table'/> */}
                   </div>
-                </div>
-            </div>
-          </div>
+          </TableHeaderContainer>
         )
       }
-  const showUserProfile = (id:string)=>{
-    setUserId(id)
+  const showUserProfile = (user:UserDto)=>{
+    setProfile(user)
     setShowProfile(true)
   }
   return (
-    <div>
-        {/* <div className="grid">
-          <SectionHeader title='Experts' 
-          icontext='pi pi-users' 
-          sectionStyle={theme.customStyle.sectionHeader} />
-      </div> */}
-      <div className="grid grid-margins" style={{marginTop:"10px"}}>
-        <div className="col">
-        <Accordion className='search-container'activeIndex={0}>
-          <AccordionTab header="Search specialists">
-          <div className="p-fluid">
-                <div className="input-group-user">
-                    <label className='input-lable-titles'  htmlFor="email" style={{ marginBottom: 8 }}>
-                        First name
-                    </label>
-                    <InputText value={firstName} className="search-inputs" onChange={(e)=>setFirstName(e.target.value)}
-                    placeholder="First name"    
-                    />
-                </div>
-                
-                <div className="input-group-user">
-                    <label className='input-lable-titles'  htmlFor="email" style={{ marginBottom: 8 }}>
-                      Other Names
-                    </label>
-                    <InputText value={lastName} className="search-inputs" onChange={(e)=>setLastName(e.target.value)}
-                    placeholder="Other Names"    
-                    />
-                </div>
-                <div className="input-group-user">
-                    <label className='input-lable-titles'  htmlFor="email" style={{ marginBottom: 8 }}>
-                        Country
-                    </label>
+    <MainContainer>
+       <Dialog className='dialog-box' header="User Profile"    visible={showProfile}  modal style={{ width: '60vw' }}  onHide={()=> setShowProfile(false)}>
+             {
+                profile && (
+                    <Profile user={profile} />
+                )
+             } 
+        </Dialog>
+         <VentureParentContainer>
+          <div className="rows">
+            <FormParent>
+              <FormParentInner>
+                <InputWrapper>
+                  <Titles>  First name</Titles>
+                  <Component>
+                    {/* <SelectCountry>Venture Title</SelectCountry> */}
+                    <InputText value={firstName} className="inputs"
+                      placeholder="First name" 
+                        onChange={(e)=> setFirstName(e.target.value)}
+                      />
+                  </Component>
+                </InputWrapper>
+              </FormParentInner>
+            </FormParent>
+            <FormParent>
+              <FormParentInner>
+                <InputWrapper>
+                  <Titles>Other names</Titles>
+                  <Component>
+                    {/* <SelectCountry>Venture Title</SelectCountry> */}
+                    <InputText value={lastName} className="inputs"
+                      placeholder="Keyword" 
+                        onChange={(e)=> setLastName(e.target.value)}
+                      />
+                  </Component>
+                </InputWrapper>
+              </FormParentInner>
+            </FormParent>
+          </div>
+          <div className="rows">
+            <FormParent>
+              <FormParentInner>
+                <InputWrapper>
+                  <Titles>Country</Titles>
+                  <Component>
+                    {/* <SelectCountry>Venture Title</SelectCountry> */}
                     <Select  
                         classNamePrefix="Select"
                         isMulti
                         name='country'
                         options={COUNTRIES}
                         onChange = {(x:any)=> setCountry(x)}
+                        className='drop-downs'
                      />
-                    {/* <Dropdown placeholder='select country' className='search-inputs' id="country" name="country" value={""} options={countries} optionLabel="name" /> */}
-                </div>
-                <div className="input-group-user">
-                    <label className='input-lable-titles'  htmlFor="email" style={{ marginBottom: 8 }}>
-                        Branch of knowledge
-                    </label>
-                    <Select  
+                  </Component>
+                </InputWrapper>
+              </FormParentInner>
+            </FormParent>
+            <FormParent>
+              <FormParentInner>
+                <InputWrapper>
+                  <Titles> Branch of knowledge</Titles>
+                  <Component>
+                  <Select  
                         classNamePrefix="Select"
                         isMulti
                         name='discipline'
                         options={Disciplines}
                         onChange = {(x:any)=> setDiscipline(x)}
+                        className='drop-downs'
                      />
-                    {/* <Dropdown placeholder='select discipline' className='search-inputs' id="country" name="country" value={""} options={countries} optionLabel="name" /> */}
-                </div>
-                <div className="input-group-user">
-                    <label className='input-lable-titles'  htmlFor="email" style={{ marginBottom: 8 }}>
-                       Business Sector/ Trade
-                    </label>
-                    <Select  
+                  </Component>
+                </InputWrapper>
+              </FormParentInner>
+            </FormParent>
+          </div>
+          <div className="rows">
+            <FormParent>
+              <FormParentInner>
+                <InputWrapper>
+                  <Titles> Start Date</Titles>
+                  <Component>
+                    {/* <SelectCountry>Venture Title</SelectCountry> */}
+                    <Calendar  id="date" 
+                    name="date" value={new Date()}  dateFormat="dd/mm/yy" 
+                    // onChange={(e)=>onvalueChange("startDate",e.value)}
+                    mask="99/99/9999" showIcon className='drop-downs' />
+                  </Component>
+                </InputWrapper>
+              </FormParentInner>
+            </FormParent>
+            <FormParent>
+              <FormParentInner>
+                <InputWrapper>
+                  <Titles> Business Sector/ Trade</Titles>
+                  <Component>
+                  <Select  
                         classNamePrefix="Select"
                         isMulti
                         name='industry'
                         options={Industries}
                         onChange = {(x:any)=> setIndustry(x)}
+                        className='drop-downs'
                      />
-                </div>
-                <div className="input-group-user">
-                    <label className='input-lable-titles'  htmlFor="email" style={{ marginBottom: 8 }}>
-                       Field of activity
-                    </label>
+                  </Component>
+                </InputWrapper>
+              </FormParentInner>
+            </FormParent>
+          </div>
+          <div className="rows">
+            <FormParent>
+              <FormParentInner>
+                <InputWrapper>
+                  <Titles>Field of activity</Titles>
+                  <Component>
+                    {/* <SelectCountry>Venture Title</SelectCountry> */}
                     <Select  
                         classNamePrefix="Select"
                         isMulti
                         name='industry'
                         options={FIELDS}
                         onChange = {(x:any)=> setFields(x)}
+                        className='drop-downs'
                      />
-                </div>
-                <button onClick={()=>queryData({rows,first,sortBy,sortOrder})} className='reset-password-button'>Search</button>
+                  </Component>
+                </InputWrapper>
+              </FormParentInner>
+            </FormParent>
+            <FormParent>
+              <FormParentInner>
+                <InputWrapper style={{width:"28rem"}}>
+                  <CustomButtom style={{margin:"auto"}} onClick={()=> queryData({rows,first,sortBy,sortOrder}) } className='reset-password-button'>Search</CustomButtom>
+                </InputWrapper>
+              </FormParentInner>
+            </FormParent>
           </div>
-          </AccordionTab>
-        </Accordion>
-        </div>
-      </div>
-
-      {/* table */}
-
-      <div className="grid grid-margins">
-         <Dialog className='dialog-box' header="User Profile"    visible={showProfile}  modal style={{ width: '60vw' }}  onHide={()=> setShowProfile(false)}>
-             {
-                userid && (
-                    <Profile UserID={userid} />
-                )
-             } 
-        </Dialog>
-        <div className="col">
-            
-            <div className="table-style">
+       </VentureParentContainer>
+       <VentureParentContainer>
+       <div className="table-style">
                 {totalItems > 0 ? 
                         <DataTable 
                         value={data} 
                         responsiveLayout="scroll"
                         header={tableHeader}
+                        className="tablestyle"
                         >
-                              <Column field="firstName" header="First Name"></Column>
-                              <Column field="lastName" header="Last Name"></Column>
-                              <Column field="discipline" header="Discipline"></Column>
-                              <Column field="industry" header="Industry"></Column>
-                              <Column field="fields" header="Field"></Column>
-                              <Column field="quantity" header="Actions" 
-                                  body={(r:UserProfile)=>(
-                                  <div>
-                                      <button onClick={()=> showUserProfile(r.id)} className='admin-actions'>View</button>
-                                  </div>
-                               )}  
-                              />
+                          <Column field="firstName" header="First Name"></Column>
+                          <Column field="lastName" header="Last Name"></Column>
+                          <Column field="discipline" header="Discipline"></Column>
+                          <Column field="industry" header="Industry"></Column>
+                          <Column field="fields" header="Field"></Column>
+                          <Column field="quantity" header="Actions" 
+                              body={(r:UserDto)=>(
+                              <div>
+                                  <button onClick={()=> showUserProfile(r)} className='admin-actions'>View</button>
+                              </div>
+                            )}  
+                          />
                            
                         </DataTable>
                 :<></>
                 }
             </div>
-        </div>
-      </div>
-    </div>
+       </VentureParentContainer>
+    </MainContainer>
+   
   )
 }

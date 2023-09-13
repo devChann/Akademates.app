@@ -1,13 +1,11 @@
 import React from 'react'
-import Header, { DashboardManagement, NavHeader } from './Header'
-import {Routes,Route,Link, useLocation, Navigate} from 'react-router-dom';
-import Home from '../Screens/HomeScreen/Home';
-import { Login } from '../Screens/Auth/login';
-import { Sign } from '../Screens/Auth/Sign';
-import ProjectScreen from '../Screens/Projects/ProjectScreen';
-import FeedsScreen from '../Screens/Feeds/FeedsScreen';
-import ExpertsScreen from '../Screens/Experts/ExpertsScreen';
-import UserScreen from '../Screens/UserScreen/UserScreen';
+import {Routes,Route,Navigate} from 'react-router-dom';
+import { SIDEBAR_DATA as sideBarItems } from '../SideBar/Item';
+import Item from './[Items]';
+import styled from 'styled-components';
+import Sidebar from '../SideBar';
+import { UserDto } from '../../types';
+import MessageComponent from '../Screens/Messaging/Message';
 interface ProtectedRoutesProps {
   isSignedIn:boolean;
   children:any
@@ -22,41 +20,71 @@ const navStyle = {
   alignSelf: "center",
   textDecoration: "none",
 };
+const CurrentPage = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--gap-xs);
+  font-size: var(--heading-06-size);
+  font-family: var(--label-large-label);
+  padding:15px;
+  font-size: var(--body-03-default-size);
+  color: var(--on-surface);
+  font-family: var(--font-poppins);
+  @media (max-width: 768px) {
+    margin-left:1rem;
+  }
+`;
+const TitleWrapper = styled.div`
+  position: relative;
+  border-radius: var(--br-81xl);
+  background-color: var(--color-steelblue);
+  width: 8px;
+  height: 32px;
+`;
+const CurrentTitle = styled.b`
+  position: relative;
+  line-height: 30px;
+  text-transform: capitalize;
+`;
 
-const BaseRouter = () =>{
-  const curreRoute = useLocation()
-  const isDashboard= curreRoute.pathname === '/dashboard' || 
-  curreRoute.pathname === '/project' ||
-  curreRoute.pathname === '/experts' ||curreRoute.pathname === '/settings'
-
-
+interface BaseRouterProps {
+  user:UserDto
+  isAuthenticated :boolean
+}
+const BaseRouter:React.FunctionComponent<BaseRouterProps> = ({user,isAuthenticated}) =>{
+  const  [currentPath,setCurrentPath] = React.useState("Cockpit");
+  const userObject =JSON.parse( window.localStorage.getItem("refreshToken") || "{}")
+  
   return(
-    <>
-      <div className="grid">
-       {isDashboard &&(
-        <>
-        <div className="col-1 admin-panel-1st">
-        </div>
-        <div className="col-2 admin-panel-2nd">
-          <div className="col logo">
-            <Link className='nav-links' to="/home"><strong>Akademates</strong></Link>
-          </div>
-          <Header />
-        </div>
-        </>
-       )}
-        <div className="col dashboard-content" >
-          <Routes>
-            <Route path='/dashboard' element={<DashboardManagement /> } />
-            <Route path='/project'  element={<ProjectScreen />}/>
-            <Route path='/feeds'  element={<FeedsScreen />}/>
-            <Route path='/project'  element={<ProjectScreen />}/>
-            <Route path='/experts'  element={<ExpertsScreen />}/>
-            <Route path='/settings'  element={<UserScreen />}/>
-          </Routes>
-        </div>
-      </div>
-    </>
+    <ProtectedRoutes isSignedIn = {userObject? true :false}>
+      <div id="main">
+      <Sidebar>
+        <CurrentPage>
+          <TitleWrapper />
+          <CurrentTitle>{currentPath}</CurrentTitle>
+        </CurrentPage>
+        <Routes>
+            <Route path='messages' index  element={
+                <Item User={user} component = {<MessageComponent />}  setCurrentPath={setCurrentPath} page="Message" />
+              }/>
+                <Route path='notification' index  element={
+                <Item User={user} component = {<></>}  setCurrentPath={setCurrentPath} page="Notification" />
+              }/>
+          {sideBarItems &&
+            sideBarItems.map((item, index) => (
+              <Route
+                key={index}
+                path={item.path}
+                element={<Item User={user} component = {item.element}  setCurrentPath={setCurrentPath} page={item.name} />}
+              />
+            ))}
+        </Routes>
+      </Sidebar>
+    </div>
+    </ProtectedRoutes>
+    
   )
 }
 

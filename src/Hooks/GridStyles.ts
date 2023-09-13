@@ -39,15 +39,16 @@ export const  useGridStyles = ()=>{
     };
 
     const headerStyle = (width: number): React.CSSProperties => ({
-        backgroundColor: theme.v2.darkestGrey,
+        backgroundColor: "#227699",
         width: width,
-        font: theme.v2Fonts.contextHeader,
+        fontFamily:'Inter',
         color: theme.v2.Orange,
         textTransform:"capitalize"
       });
     
       const columnStyle = (width: number): React.CSSProperties => ({
         width: width,
+        fontFamily:'Inter'
       });
       const rowStyle = (width: number): React.CSSProperties => ({
         width: width,

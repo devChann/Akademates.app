@@ -42,9 +42,9 @@
     padding: 0.5rem;
 }
 .table-header{
-    border-top-left-radius: 15px;
+    /* border-top-left-radius: 15px;
     border-top-right-radius: 15px;
-    background-color: #605f5f!important;
+    background-color: #605f5f!important; */
 }
 .search-inputs{
     font-size: 14px;
@@ -82,36 +82,44 @@
     /* border: 2px solid gray; */
     border-radius: 14px;
     width: 73%;
+    font-family: var(--title);
 }
 .details-labels{
     color: grey;
     font-weight: 500;
+    font-family: var(--title);
 }
 .p-chip {
     background-color:none !important;
     color: #116fbf;
-    border-radius: 16px;
+    border-radius: 24px;
     padding: 0 0.429rem;
-    text-transform: capitalize;
+    text-transform: lowercase;
     border: 1px solid #116fcd7d;
     background: none !important;
+    font-family: 'Plus Jakarta Sans';
 }
 .details-group-chips{
     border-radius: 12px;
     padding: 10px;
     margin:10px;
-    margin-top: -1.5rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap:10px;
+    
 }
 .show-interest{
     display: flex;
     justify-content: end;
 }
 .show-interest-button{
-    background: orange;
+    background: #227699;
     border: none;
     border-radius: 20px;
-    font-weight: 700;
-    line-height: 20px;
+    font-weight: 400;
+    line-height: 15px;
+    font-family: 'Plus Jakarta Sans';
 }
 
 /*  user profile  modal */
@@ -126,6 +134,8 @@
 .custom-message{
     margin: 1rem;
     border-radius: 15px;
+    font-family: var(--title);
+    font-size: 15px;
 }
 .button-custom{
     margin: 1rem;
@@ -133,15 +143,16 @@
     justify-content: flex-end;
 }
 .google {
-    background: linear-gradient(to left, #ffa500  50%, #ffa50052 50%);
+    background: #227699;
     background-size: 200% 100%;
     background-position: right bottom;
     transition: background-position 0.5s ease-out;
     color: #fff;
-    border-color: orange;
+    border-color: #0f3646;
     border-radius: 20px;
-    font-weight: 600;
+    font-weight: 400;
     height: 2rem;
+    font-family: var(--title);
 }
 .export-table{
     border-radius: 50%;
@@ -151,7 +162,7 @@
     margin: 0px !important;
 }
 .total-records-p{
-    font-family: "Varela Round";
+    font-family: var(--title);
 }
 .p-dropdown-trigger-icon{
     margin-right: 5px;

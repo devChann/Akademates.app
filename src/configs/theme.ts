@@ -94,7 +94,7 @@ export type Theme = {
 }
 
 const defaultTheme: Theme = {
-    primaryFont: 'Montserrat',
+    primaryFont: 'Plus Jakarta Sans',
     colors: {
         primary: '#187AB5',
         secondary: 'rgba(24, 122, 181, 1)',
@@ -126,9 +126,9 @@ const defaultTheme: Theme = {
         menuRootNode: '800 16px Montserrat',
         gridData: '14px Montserrat',
         menu: '16px Montserrat',
-        inputHeader: 'bold 14px Montserrat',
+        inputHeader: 'bold 14px Plus Jakarta Sans',
         input: '16px Montserrat',
-        contextHeader: 'bold 15px varela round',
+        contextHeader: 'bold 15px  Plus Jakarta Sans',
         context: '14px Open Sans',
         link: '14px Open Sans'
     },
@@ -136,12 +136,12 @@ const defaultTheme: Theme = {
         sectionHeader:{
             fontSize:"1.5rem",
             marginTop:"5px",
-            color:"orange"
+            color:"#116fbf"
         },
         subHeader:{
             fontSize:"1.5rem",
             marginTop:"5px",
-            color:"orange"
+            color:"#116fbf"
         
         },
         headerTitle:{
@@ -154,7 +154,7 @@ const defaultTheme: Theme = {
             marginLeft:"8px"
         },
         subHeaderTitle:{
-            font:"20px varela round",
+            font:"20px Plus Jakarta Sans",
             display:"flex",
             fontWeight:600,
             textAlign:"center",
@@ -164,19 +164,19 @@ const defaultTheme: Theme = {
             color:"#227699"
         },
         modalDialogLabels :{
-            font:"15px varela round",
+            font:"1rem Plus Jakarta Sans",
             display:"flex",
             fontWeight:600,
             textAlign:"center",
             alignItems:"center",
-            marginTop:"5px",
+            marginTop:"0px",
             marginLeft:"8px",
             color:"#227699"
         },
         icons :{
             fontSize:"1rem",
             marginTop:"5px",
-            color:"orange"
+            color:"#175067"
         }
     }
 };

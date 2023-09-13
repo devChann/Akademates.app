@@ -17,24 +17,32 @@
 }
 .input-lable-titles{
     display: block;
-    color: rgb(151, 151, 151);
-    font-weight: 600;
-    font-size: 15px;
+    color:var( --on-surface2);
+    font-size: 14px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     margin-top: 0.8rem;
-    font-family: 'Varela Round';
+    font-family: "Plus Jakarta Sans";
+    line-height: 1.5rem;
 }
 .name-inputs{
-    font-size: 14px;
-    padding: 8px 15px;
-    margin: 5px 0px;
-    border: 2px solid rgb(217, 217, 217);
-    border-radius: 65px;
-    display: block;
-    width: 100%;
-    font-weight: 500;
+    align-self: stretch;
+    border-radius: var(--br-9xs);
+    background-color: var(--surface);
+    border: 1px solid var(--line);
+    display: flex;
+    flex-direction: row;
+    padding: var(--padding-xs) var(--padding-base);
+    -webkit-box-align: start;
+    align-items: start;
+    -webkit-box-pack: start;
+    justify-content: flex-start;
+    text-align: start;
+    font-size: var(--body-03-default-size);
+    width: 25rem;
+    height: 33px;
+    font-family: "Plus Jakarta Sans";
 }
 .input-group{
     display: flex;
@@ -52,6 +60,7 @@
 }
 .input-textarea{
     border-radius: 5px;
+    font-family: 'Plus Jakarta Sans';
 }
 .p-timeline-event-opposite{
     display: none !important;
@@ -112,11 +121,12 @@ h3{
 
 }
 .reset-password{
-    /* width: 18rem; */
+    width: 100%;
     border-radius: 8px;
     /* margin-top: 15px; */
     margin-right: 10px;
     height: 2.5rem;
+    font-family: 'Plus Jakarta Sans';
 }
 .reset-password-container{
     display: flex;
@@ -124,17 +134,22 @@ h3{
 
 }
 .reset-password-button{
-    font-weight: bold;
-    margin: 5px 0px 25px;
-    height: 40px;
-    border-radius: 65px;
-    font-size: 1em;
-    background-color:#227699;
-    width: 10rem;
-    border: none;
-    color: white;
-    font-family: 'Varela Round';
+    border-radius: var(--br-5xl);
+    background-color: var(--color-steelblue);
+    height: 32px;
+    display: flex;
+    flex-direction: row;
+    box-sizing: border-box;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
     cursor: pointer;
+    width: 100px;
+    border: none;
+    color: #FFFFFF;
+    font-family: var(--title);
+    margin-top: 15px;
 }
 .multiselect-custom{
     /* width: 20rem; */
@@ -149,21 +164,22 @@ h3{
     border: none;
     text-decoration: underline;
     cursor: pointer;
+    font-family: var(--title);
+    font-size: 12px;
+    font-weight: 400;
 }
 .table-class{
     font-family: "Varela Round";
     font-size: 13px;
 }
 .p-dialog .p-dialog-header{
-    background: #227699;
-    color: #FFFFFF;
-    font-family: "Varela Round";
-    border-top-left-radius:12px;
-    border-top-right-radius:12px;
+    /* background: #227699; */
+    color: black;
+    font-family: var(--title);
+    /* border-top-left-radius:12px;
+    border-top-right-radius:12px; */
 }
-.p-dialog .p-dialog-header .p-dialog-header-icon{
-    color: orange;
-}
+
 .dialog-box{
     border-radius: 8px;
 }
@@ -199,6 +215,7 @@ h3{
 }
 .space-textarea{
     margin-right: 8px;
+    font-family: 'Plus Jakarta Sans';
 }
 .select-inputs{
     max-width: 66rem;
@@ -208,12 +225,17 @@ h3{
 }
 .modal-inputs{
     width: 20rem;
-    border-radius: 8px;
     margin-right: 10px;
     height: 2.5rem;
+    border-radius: var(--br-9xs) !important;
+    background-color: var(--surface) !important;
+    border: 1px solid var(--line) !important;
+    font-family: "Plus Jakarta Sans" !important;
+    font-size: var(--body-03-default-size) !important;
+    line-height:25px;
 }
 .choose-from-map{
-    max-width: 18rem;
+    /* max-width: 18rem; */
     display: flex;
     justify-content: end;
     align-items: center;
@@ -232,22 +254,22 @@ h3{
     border-radius: 15px;
 }
 .p-chips .p-chips-multiple-container .p-chips-token {
-    padding: 0.2145rem 0.429rem;
+    /* padding: 0.2145rem 0.429rem; */
     margin-right: 0.5rem;
     background: #22769f;
     color: #ffffff;
     border-radius: 15px;
     margin: 5px;
+    font-family: 'Plus Jakarta Sans';
+    font-size: 0.9rem;
 }
-.first-last-name{
-    width: 18rem !important;
-}
+
 .p-multiselect-items-wrapper{
     background: aliceblue;
 }
 .p-datatable .p-datatable-header {
-    background: #605f5f!important;
-    border: 1px solid #605f5f;
+    /* background: #227699!important;
+    border: 1px solid #227699; */
 }
 .table-header-button{
     text-align: end;
@@ -272,19 +294,20 @@ h3{
     padding: none !important;
 }
 .p-tabview-nav {
-    background: #faeacd !important;
+    background:#ffffff !important;
 }
 .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
-    background: #faeacd; 
+    background:  #227699; 
     border-color: #faeacd; 
-    color: #000;
+    color: #ffffff;
 }
 .p-tabview .p-tabview-nav li .p-tabview-nav-link{
     background-color: inherit;
     background: inherit;
     color: #227699;
     border: none;
-    font-family: "varela round";
+    font-family: var(--title);
+    font-weight: 400;
 }
 .project-view-container{
     /* overflow-x: auto; */
@@ -313,14 +336,17 @@ h3{
     margin-top:"8px";
 }
 .image-upload-button > button{
-    background:#ECAC37;
-    width:auto;
+    background: #227699;
+    width: auto;
     border-radius: 14px;
-    padding: 7px;
+    padding:8px;
     border: none;
     cursor: pointer;
     margin-top: 10px !important;
     margin: auto;
+    color: white;
+    font-size: 12px;
+    font-family: 'Inter';
   }
   .profile-logo >input {
     display: none !important;
@@ -333,6 +359,7 @@ h3{
     padding: 6px;
     margin: 8px;
     border: 1px solid #116fcd38;
+    font-family: 'Plus Jakarta Sans';
 }
 .header-container{
     display: flex;
@@ -363,23 +390,25 @@ h3{
 
 .profile-summary{
     margin-left: 10px;
+    font-family: var(--title);
 }
 .name-group{
     margin-left:15px;
     font-size: 21px;
     line-height: 30px;
-
+    font-family: 'Plus Jakarta Sans';
 }
 h5{
     margin: 0px !important;
 }
 p{
-    margin: 5px !important;
+    /* margin: 5px !important; */
 }
 .subname-group {
     color: grey;
     font-size: 15px;
-    font-weight: 550;
+    font-weight: 400;
+    line-height: 30px;
 }
 .user-profile-buttons{
     margin: 5px;
@@ -391,6 +420,20 @@ p{
     background-color: #227699;
     cursor: pointer;
     margin: 5px;
-    font-weight: 600;
+    font-weight: 400;
     text-transform: capitalize;
+}
+textarea{
+    border-radius: var(--br-9xs);
+    background-color: var(--surface);
+    border: 1px solid var(--line); 
+}
+
+/* user profile -chips */
+
+.user-profile-chips{
+    font-family: 'Plus Jakarta Sans';
+    font-size: 15px;
+    text-transform: lowercase;
+    margin: 2px;
 }

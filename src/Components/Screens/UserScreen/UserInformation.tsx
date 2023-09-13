@@ -25,7 +25,97 @@ import {ProgressBar} from 'primereact/progressbar'
 import { Dropdown } from 'primereact/dropdown'
 import { groupBy } from 'lodash'
 import {Buffer} from 'buffer';
+import { UserDto } from '../../../types'
+import { Divider } from 'primereact/divider'
 
+
+const TagButtons = styled.div`
+  border-radius: var(--br-5xl);
+  background-color: var(--color-steelblue);
+  height: 32px;
+  display: flex;
+  flex-direction: row;
+  padding: var(--padding-9xs) var(--padding-xs);
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  /* width:100px; */
+  font-family:var(--title);
+  margin-top:15px;
+`;
+
+const Main =  styled.div`
+    display:flex;
+    flex-direction:column;
+    flex-wrap:wrap;
+    gap:50px;
+`
+const CustomRows = styled.div`
+    display:flex;
+    flex-direction:row;
+    gap:20px;
+    width:100%;
+    justify-content:space-between;
+    .inputs{
+        align-self: stretch;
+        border-radius: var(--br-9xs);
+        background-color: var(--surface);
+        border: 1px solid var(--line);
+        display: flex;
+        flex-direction: row;
+        padding: var(--padding-xs) var(--padding-base);
+        -webkit-box-align: start;
+        align-items: start;
+        -webkit-box-pack: start;
+        justify-content: flex-start;
+        text-align: start;
+        font-size: var(--body-03-default-size);
+        width: 25rem;
+        height: 33px;
+        font-family: "Plus Jakarta Sans";
+    }
+
+    .drop-downs{
+    width: 25rem;
+    background-color: var(--surface);
+    border-radius: var(--br-9xs);
+    text-align: start;
+    font-size: var(--body-03-default-size);
+    font-family: 'Plus Jakarta Sans';
+    span{
+      
+    }
+  }
+  .text-area{
+    border-radius: var(--br-9xs);
+    background-color: var(--surface);
+    border: 1px solid var(--line);
+    font-family: "Plus Jakarta Sans";
+    font-size: var(--body-03-default-size);
+    line-height:25px;
+  }
+`
+
+const ProfileImageContainer = styled.div`
+    display:flex;
+    flex-direction:row;
+    gap:20px;
+    width:100%;
+    justify-content:center;
+    margin-top:15px;
+    background-color:#80808014;
+    padding:15px;
+    border-radius:14px;
+`
+const All = styled.div`
+  position: relative;
+  line-height: 16px;
+  font-weight: 500;
+  color:white;
+  font-size:0.75rem;
+  margin:auto;
+`
 interface ExperienceDto  {
     title:string,
     desc:string,
@@ -47,39 +137,24 @@ type selectedSpecialization = {
     value:string | number,
     label:string,
 }
-export interface UserDto {
-    id:string,
-    firstName:string,
-    lastName:string,
-    email:string,
-    profileImage:string,
-    backgroundImage:[],
-    organization:string,
-    biodata:string,
-    industry:string,
-    discipline:string,
-    field:string,
-    country:string 
-    address:string;
-    dateOfBirth : Date | Date[] | undefined
-    phone: string
-}
-const defaultUserSettings:UserDto={
-    id:"",
-    firstName:"",
-    lastName:"",
-    email:"",
-    profileImage:"",
-    backgroundImage:[],
-    organization:"",
-    biodata:"",
-    industry:'',
-    discipline:'',
-    field:"",
-    country:"" , address:"",
-    dateOfBirth : new Date(),
-    phone:''
 
+const defaultUserSettings:UserDto={
+    id: "",
+    firstName: "",
+    lastName: "",
+    email: "",
+    profileImage: "",
+    backgroundImage: [],
+    organization: "",
+    biodata: "",
+    industry: '',
+    discipline: '',
+    field: "",
+    country: "", address: "",
+    dateOfBirth: new Date(),
+    phone: '',
+    experiences: [],
+    academics: []
 }
 
 interface ChipProps {
@@ -269,6 +344,7 @@ export const UserInformation = (props:any) => {
         const selectedindustry = industry.map((s)=>(s.label))
         const selecteddiscipline= discipline.map((s)=>(s.label))
         const ANZSICSubdivision = ""
+
         axios.put(getFullUrl(`/api/Auth/edituser/${props.id}`),{
             FirstName: fieldValues.firstName,
             LastName:fieldValues.lastName,
@@ -284,7 +360,8 @@ export const UserInformation = (props:any) => {
                 severity:"success",
                 summary:"Profile has been edited"
             })
-            
+            props.setshowEditwindow(false)
+            window.location.reload()
         }).catch(()=>{
             growl.current.show({
                 severity:"error",
@@ -404,56 +481,51 @@ export const UserInformation = (props:any) => {
         })
     },[])
   return (
-    <div style={{display:"inline-bloc", width:"100%"}}>
-    <Accordion activeIndex={0} collapseIcon="pi pi-chevron-up" expandIcon="pi pi-chevron-down">
-        <AccordionTab header={<SectionHeader title='Account Information' 
-        icontext='pi pi-stop-circle' titleStyle={theme.customStyle.subHeaderTitle}
-        sectionStyle={theme.customStyle.subHeader}/>}>
-         <div className="grid">
-            <div className="col-4 profile-image-container">
-                <div className="profile-picture-title">
-                    <h3> Upload logo here</h3>
-                </div>
-                <div className='profile-logo'>
-                    <label htmlFor="upload-button">
-                    {imgHandler()}
-                    </label>
-                    <input accept="image/*" type="file" id="upload-button" style={{ display: 'none !important' }} onChange={handleImgChange} />
-                </div>
-                <div className="image-upload-button">
-                    <button className='upload-button' onClick={onImageUpload}>{ButtonText}</button>
-                    {isLoading &&(
-                        <ProgressBar mode="indeterminate" style={{ height: '6px' }}></ProgressBar>
-                    )} 
-                </div>
-            </div>
-            <div className="col-8">
-                <h3>Personal Details</h3>
-            <form className="p-fluid">
-                    <div className="input-group">
-                        <div style={{marginRight:"5px"}}>
-                            <label className='input-lable-titles'  htmlFor="firstname" style={{ marginBottom: 8 }}>
-                                Surname<span className='required'>*</span>
+     <Main>
+        <div>
+            <ProfileImageContainer>
+                    <div className="profile-image-container">
+                        <div className='profile-logo'>
+                            <label htmlFor="upload-button">
+                            {imgHandler()}
                             </label>
-                            <InputText value={fieldValues.firstName} className="name-inputs first-last-name"
-                            placeholder="first name"  onChange={(e)=>{onvalueChange("firstName",e.currentTarget.value)}}  
-                            />
+                            <input accept="image/*" type="file" id="upload-button" style={{ display: 'none !important' }} onChange={handleImgChange} />
                         </div>
-                        <div className="input-group-user">
-                            <label className='input-lable-titles'  htmlFor="lastname" style={{ marginBottom: 8 }}>
-                            Other Names<span className='required'>*</span>
-                            </label>
-                            <InputText value={fieldValues.lastName} className="name-inputs first-last-name"
-                            placeholder="last name"    onChange={(e)=> onvalueChange('lastName', e.currentTarget.value)}
-                            />
+                        <div className="image-upload-button">
+                            <button className='upload-button' onClick={onImageUpload}>{ButtonText}</button>
+                            {isLoading &&(
+                                <ProgressBar mode="indeterminate" style={{ height: '6px' }}></ProgressBar>
+                            )} 
                         </div>
                     </div>
-                
+            </ProfileImageContainer>
+            <Divider />
+                <CustomRows>
+                        <div className="input-group">
+                            <div style={{marginRight:"5px"}}>
+                                <label className='input-lable-titles'  htmlFor="firstname" style={{ marginBottom: 8 }}>
+                                    Surname<span className='required'>*</span>
+                                </label>
+                                <InputText value={fieldValues.firstName} className="inputs"
+                                placeholder="first name"  onChange={(e)=>{onvalueChange("firstName",e.currentTarget.value)}}  
+                                />
+                            </div>
+                            <div className="input-group-user">
+                                <label className='input-lable-titles'  htmlFor="lastname" style={{ marginBottom: 8 }}>
+                                Other Names<span className='required'>*</span>
+                                </label>
+                                <InputText value={fieldValues.lastName} className="inputs"
+                                placeholder="last name"    onChange={(e)=> onvalueChange('lastName', e.currentTarget.value)}
+                                />
+                            </div>
+                        </div>
+               </CustomRows>
+                <CustomRows>
                     <div className="input-group-user">
                         <label className='input-lable-titles'  htmlFor="email" style={{ marginBottom: 8 }}>
                             Email<span className='required'>*</span>
                         </label>
-                        <InputText  value={fieldValues.email} className="name-inputs"
+                        <InputText  value={fieldValues.email} className="inputs"
                         placeholder="email"
                         />
                     </div>
@@ -461,46 +533,54 @@ export const UserInformation = (props:any) => {
                         <label className='input-lable-titles'  htmlFor="phone" style={{ marginBottom: 8 }}>
                             Phone<span className='required'>*</span>
                         </label>
-                        <InputText  value={fieldValues.phone} className="name-inputs"
+                        <InputText  value={fieldValues.phone} className="inputs"
                         placeholder="Phone number" onChange={(e)=> onvalueChange('phone', e.currentTarget.value)}
                         />
                     </div>
-                    <div className="input-group-user">
-                        <label className='input-lable-titles'  htmlFor="bio" style={{ marginBottom: 8 }}>
-                            Bio<span className='required'>*</span>
+                
+                </CustomRows>  
+                <CustomRows>
+                <div className="input-group-user">
+                        <label className='input-lable-titles'  htmlFor="orgname" style={{ marginBottom: 8 }}>
+                            Domain<span className='required'>*</span>
                         </label>
-                        <InputTextarea value={fieldValues.biodata} rows={3} cols={45}
-                        placeholder="bio"   className='input-textarea'  
-                        onChange={(e)=> onvalueChange('biodata', e.currentTarget.value)}
-                        />
+                        <Dropdown value={userSpecialization} options={SPECIALIZATION}  optionLabel = "label" className='drop-downs'
+                            onChange={(e) => setuserSpecialization(e.value)} placeholder="Select your specialization"/>
                     </div>
+               
         
                     <div className="input-group-user">
                         <label className='input-lable-titles'  htmlFor="dob" style={{ marginBottom: 8 }}>
                             Date of Birth<span className='required'>*</span>
                         </label>
-                        <Calendar className='reset-password'
+                        <Calendar className='drop-downs'
                         id="date" name="date" value={fieldValues.dateOfBirth}  
                         onChange={(e)=>onvalueChange("dateOfBirth",e.value)}
                         dateFormat="dd/mm/yy" mask="99/99/9999" showIcon />         
+                    </div>
+                </CustomRows>   
+                <CustomRows>
+                    <div className="input-group-user">
+                        <label className='input-lable-titles'  htmlFor="bio" style={{ marginBottom: 8 }}>
+                            Bio<span className='required'>*</span>
+                        </label>
+                        <InputTextarea value={fieldValues.biodata} rows={3} cols={45}
+                        placeholder="bio"   className='text-area'  
+                        onChange={(e)=> onvalueChange('biodata', e.currentTarget.value)}
+                        />
                     </div>
                     <div className="input-group-user">
                         <label className='input-lable-titles'  htmlFor="address" style={{ marginBottom: 8 }}>
                             Address<span className='required'>*</span>
                         </label>
-                        <InputTextarea value={fieldValues.address} rows={3} cols={30}
-                        placeholder="address"   className='input-textarea'  onChange={(e)=> onvalueChange('address', e.currentTarget.value)}
+                        <InputTextarea value={fieldValues.address} rows={3} cols={45}
+                        placeholder="address"   className='text-area'  onChange={(e)=> onvalueChange('address', e.currentTarget.value)}
                         />
                     </div>
-                    <div className="input-group-user">
-                        <label className='input-lable-titles'  htmlFor="orgname" style={{ marginBottom: 8 }}>
-                            Domain<span className='required'>*</span>
-                        </label>
-                        <Dropdown value={userSpecialization} options={SPECIALIZATION}  optionLabel = "label"
-                            onChange={(e) => setuserSpecialization(e.value)} placeholder="Select your specialization"/>
-                    </div>
-
-                    {userSpecialization?.label === "CROSS CUTTING" ? <>
+                    
+                </CustomRows>           
+            <div>
+                  {userSpecialization?.label === "CROSS CUTTING" ? <>
                     <div className="input-group-user">
                         <label className='input-lable-titles'  htmlFor="orgname" style={{ marginBottom: 8 }}>
                         Branch of knowledge<span className='required'>*</span>
@@ -660,11 +740,6 @@ export const UserInformation = (props:any) => {
                     </div>
                     </>: null}
                     
-                    <label className='input-lable-titles'  htmlFor="orgname" 
-                        style={{ marginBottom: 8 }}>
-                            Interest<span className='required'>*</span>
-                    </label>
-
                     {userSpecialization?.label === "ACADEMIA"  &&(
                     <>
                      <label className='input-lable-titles'  htmlFor="orgname" 
@@ -696,139 +771,42 @@ export const UserInformation = (props:any) => {
                             onChange = {(x:any)=> setDiscipline(x)}
                             />
                     </> )
-                    }                
-                   <div className="center-buttons ">
-                        <Button onClick={UpdateUserInformation}  style={styles.saveButtons}>Save</Button>
-                   </div>   
-                 </form>
+                    } 
+                     <TagButtons onClick={UpdateUserInformation}>
+                        <All>Save changes</All>
+                     </TagButtons>               
+                  
             </div>
-         </div>       
-        </AccordionTab>
-        <AccordionTab header={<SectionHeader title='Experience' icontext='pi pi-briefcase'
-        titleStyle={theme.customStyle.subHeaderTitle} sectionStyle={theme.customStyle.subHeader}/>}>
-            <div className="grid">
-                <div className="col">
-                    <div>
-                        <div className='section-group'>
-                            <div className='add-item-group'>
-                                <Dialog className='dialog-box' header="Edit Experience"    visible={showDialog}  modal style={{ width: '50vw' }}  onHide={hideDialogBox}>
-                                    <Experience />
-                                </Dialog>
-                                <h4>AidKonneck</h4>
-                                <div className='add-item'>
-                                 <i className="pi pi-pencil" onClick={showDialogBox}></i>      
-                                 <i className="pi pi-plus" onClick={showDialogBox}></i>
-                                </div>
-                            </div>
-                           
-                            <h4>Software Engineer</h4>
-                            <h4>Nature</h4>
-                            <div>
-                                <p>From: 2021</p>
-                                <p>Present</p>
-                                <p>Nairobi  Kenya</p>
-                            </div>
-                            <p>It is a long established fact that a reader will be 
-                                distracted by the readable content of a page when 
-                                looking at its layout. The point of using Lorem
-                                Ipsum is that it has a more-or-less normal distribution 
-                                of letters, as opposed to using 'Content here, content here', 
-                                making it look like readable English. Many desktop publishing
-                                packages and web page editors now use Lorem Ipsum as their 
-                                default model text, and a search for 'lorem ipsum' will 
-                                uncover many web sites still in their infancy</p>
-                        </div>
-                        <div className='section-group'>
-                        <Timeline value={events}  align="left"
-                            content={()=>(
-                            <div className='time-lines'>
-                                <h4>OSL | Head of product development</h4>
-                                <h6>Full Time</h6>
-                            <div>
-                                <p>From: 2021</p>
-                                <p>Present</p>
-                                <p>Nairobi  Kenya</p>
-                            </div>
-                            <p>It is a long established fact that a reader will be 
-                            distracted by the readable content of a page when 
-                            looking at its layout. The point of using Lorem
-                            Ipsum is that it has a more-or-less normal distribution 
-                            of letters, as opposed to using 'Content here, content here', 
-                            making it look like readable English. Many desktop publishing
-                            packages and web page editors now use Lorem Ipsum as their 
-                            default model text, and a search for 'lorem ipsum' will 
-                            uncover many web sites still in their infancy</p>
-                                </div>
-                            )}
-                        >
-                        </Timeline>
-                        </div>
-                    </div>
+         </div> 
+        <div>
+            <CustomRows>
+               
+            <div className="field">
+                <span className="p-float-label">
+                    <InputText id="name" name="name" value={""} className="inputs"  />
+                    <label htmlFor="name" >Old password*</label>
+                </span>
+            </div>
+            <div className="field">
+                <span className="p-float-label">
+                    <InputText id="name" name="name" value={""} className="inputs" />
+                    <label htmlFor="name" >New Password*</label>
+                </span>
+            </div>
+                
+            </CustomRows>
+            <CustomRows>
+                <div className="field" style={{marginTop:"20px"}}>
+                    <span className="p-float-label">
+                        <InputText id="name" name="name" value={""} className="inputs"  />
+                        <label htmlFor="name" >Repeat Password*</label>
+                    </span>
                 </div>
-            </div>
-        </AccordionTab>
-        <AccordionTab header={<SectionHeader title='Education' 
-        icontext='pi pi-book' titleStyle={theme.customStyle.subHeaderTitle}
-        sectionStyle={theme.customStyle.subHeader}/>}>
-        <div className="grid">
-            <div className="col">
-                <Dialog className='dialog-box' header="Edit Education"    visible={showDialog}  modal style={{ width: '50vw' }}  onHide={hideDialogBox}>
-                    <Education />
-                </Dialog>
-                <div className='section-group'>
-                     <div className='add-item-group'>
-                        <h4>Strathmore University</h4>
-                        <div className='add-item'>
-                            <i className="pi pi-pencil" onClick={showDialogBox}></i>      
-                            <i className="pi pi-plus" onClick={showDialogBox}></i>
-                        </div>
-                    </div>
-                    <h4>GeoInformatics</h4>
-                    <h4>Full Time</h4>
-                    <div>
-                        <p>From: 2021</p>
-                        <p>Present</p>
-                        <p>Country</p>
-                    </div>
-                </div>
-            </div>
+                    <TagButtons onClick={UpdateUserInformation}>
+                        <All>Reset password</All>
+                     </TagButtons> 
+            </CustomRows>
         </div>
-        </AccordionTab>
-        <AccordionTab header={<SectionHeader title='Change Password' 
-        icontext='pi pi-lock' titleStyle={theme.customStyle.subHeaderTitle}
-        sectionStyle={theme.customStyle.subHeader}/>}>
-            <div className="grid">
-                <div className="col-6">
-                    <form className='section-group'>
-                        <div className="reset-password-container">
-                            <div className="field">
-                                <span className="p-float-label">
-                                    <InputText id="name" name="name" value={""} className="reset-password"  />
-                                    <label htmlFor="name" >Old password*</label>
-                                </span>
-                            </div>
-                            <div className="field">
-                                <span className="p-float-label">
-                                    <InputText id="name" name="name" value={""} className="reset-password" />
-                                    <label htmlFor="name" >New Password*</label>
-                                </span>
-                            </div>
-                        </div>
-                       
-                        <div className="field">
-                            <span className="p-float-label">
-                                <InputText id="name" name="name" value={""} className="reset-password"  />
-                                <label htmlFor="name" >Repeat Password*</label>
-                            </span>
-                        </div>
-                        
-                        <button className='reset-password-button'>Save</button>
-                    </form>
-                </div>
-                <div className="col-6"></div>
-            </div>
-        </AccordionTab>
-    </Accordion> 
-</div>
+     </Main>
   )
 }

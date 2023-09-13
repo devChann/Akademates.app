@@ -16,12 +16,12 @@ import { Dialog } from 'primereact/dialog';
 import { Editor } from 'primereact/editor';
 import { Dropdown } from 'primereact/dropdown';
 import { HttpTransportType, HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
-import { UserDto } from '../Screens/UserScreen/UserInformation';
 import { Divider } from 'primereact/divider';
 import { InputText } from 'primereact/inputtext';
 import styled from '@emotion/styled';
 import { googleLogout } from '@react-oauth/google';
 import { PostOptions } from '../../configs/constants';
+import { UserDto } from '../../types';
 
 
 type NavBarProps = {
@@ -503,7 +503,8 @@ React.useEffect(()=>{
          </Dialog>
           <Dialog visible={showChat} onHide={() => setShowChat(false)} style={{ width: '68vw' }}>
              {messages && (
-                  <Chat currentUserContext={id} messages={messages} />     
+                  // <Chat newUserMessage='' currentUserContext={id} messages={messages} />   
+                  <></>  
              )}   
           </Dialog>
           <Dialog visible={showDialog} onHide={() => setShowDialog(false)} style={{ width: '45vw',padding:"3px" }}>

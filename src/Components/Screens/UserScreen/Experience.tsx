@@ -6,7 +6,7 @@ import React, { useCallback } from 'react'
 import getFullUrl from '../../../configs/axios-custom'
 import GrowlContext from '../../../configs/growlContext'
 
-type ExperienceDto = {
+export interface  ExperienceDto {
     title:string,
     desc:string,
     org:string,
@@ -26,7 +26,12 @@ const defaultSettings:ExperienceDto = {
     location:""
 }
 
-export default function Experience() {
+interface ExperienceProps{
+    setshowEditwindow: React.Dispatch<React.SetStateAction<boolean>>
+    editMode : boolean;
+    data ?: ExperienceDto | undefined
+}
+const  ExperienceComponent:React.FunctionComponent<ExperienceProps> =({setshowEditwindow,data,editMode})=> {
 
     const growl = React.useContext(GrowlContext)
     const userToken = window.localStorage.getItem("refreshToken")
@@ -37,11 +42,20 @@ export default function Experience() {
         setProjectFields({...fieldValues, [prop]:value})
     }
  
+    React.useEffect(()=>{
+        if (editMode && data) {
+            console.log(data)
+            setProjectFields(data as ExperienceDto)
+        }else{
+            setProjectFields(defaultSettings)
+        }
+    },[editMode])
+
     const saveExperience =()=>{
         if(!id){
             return
         }
-        axios.post(getFullUrl(`/api/auth/experince`),{
+        axios.post(getFullUrl(`/api/Auth/experince/${id}`),{
             Title:fieldValues.title,
             Org:fieldValues.org,
             RoleDesc:fieldValues.desc,
@@ -55,12 +69,14 @@ export default function Experience() {
                 severity:"success",
                 summary:"Data saved successfully"
             })
-            
+            setshowEditwindow(false)
         }).catch((msg)=>{
+            console.log(msg)
             growl.current.show({
                 severity:"error",
                 summary:"Error saving data"
             })
+            setshowEditwindow(false)
         })
     }
     const EditExperience =useCallback(()=>{
@@ -103,7 +119,8 @@ export default function Experience() {
                         <label className='input-lable-titles'  htmlFor="orgname" style={{ marginBottom: 8 }}>
                             Start Date<span className='required'>*</span>
                         </label> 
-                        <Calendar className='modal-inputs' id="date" name="date" value={fieldValues.start as Date} onChange= {((e)=>onvalueChange("start",e.target.value as Date))}  dateFormat="dd/mm/yy" mask="99/99/9999" showIcon />
+                        <Calendar className='modal-inputs' id="date" name="date" value={
+                           new Date(fieldValues.start as Date)} onChange= {((e)=>onvalueChange("start",e.target.value as Date))}  dateFormat="dd/mm/yy" mask="99/99/9999" showIcon />
                     </div>                                                               
                 </div>
                 <div className="reset-password-container">
@@ -120,7 +137,7 @@ export default function Experience() {
                             End date<span className='required'>*</span>
                         </label> 
                             <Calendar className='modal-inputs' 
-                            id="date" name="date" value={fieldValues.end as Date}  onChange={((e)=>onvalueChange("end",e.target.value as Date))}
+                            id="date" name="date" value={new Date(fieldValues.end as Date)}  onChange={((e)=>onvalueChange("end",e.target.value as Date))}
                             dateFormat="dd/mm/yy" mask="99/99/9999" showIcon />   
                     </div>                                                                  
                 </div>
@@ -151,7 +168,8 @@ export default function Experience() {
                         className="modal-inputs"  />
                     </div>
                     <div className="field button-group">
-                        <button onClick={saveExperience} className='reset-password-button'>Save</button>
+                        {!editMode ? <button onClick={saveExperience} className='reset-password-button'>Save</button> :<button onClick={EditExperience} className='reset-password-button'>Save edits</button>}
+                        
                     </div>                                                               
                 </div>
             </div>
@@ -159,3 +177,5 @@ export default function Experience() {
     </div>
   )
 }
+
+export  default ExperienceComponent;

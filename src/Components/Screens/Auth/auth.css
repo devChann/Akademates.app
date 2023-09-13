@@ -65,7 +65,7 @@
 }
 .form-container{display: grid;}
 
-input{
+/* input{
     color: #3c4043;
     background-color: #ffffff;
     border-radius: 0.5rem;
@@ -88,7 +88,7 @@ input{
     letter-spacing: 0.25px;
     text-transform: capitalize;
     border: 1px solid #dadce0;
-}
+} */
 .login-field-labels{
     margin: 0 0 15px;
 }

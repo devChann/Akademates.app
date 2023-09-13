@@ -12,7 +12,13 @@ import { Disciplines, Industries, FIELDS } from '../../../../Services/dropDowns'
 import { Dialog } from 'primereact/dialog'
 import Mapwraper from '../../UserScreen/Mapwraper'
 import { Chips } from 'primereact/chips';
+import styled from 'styled-components'
 
+const Main= styled.div`
+    .input-size{
+        width:100;
+    }
+`
 export interface ProjectDto{
     id:string
     name:string;
@@ -87,7 +93,10 @@ export default function Project({ID,rowData,toggleEditing}:ProjectProps) {
     const [sponsors, setSponsors] = React.useState<any>([]);
     const [partners, setPartners] = React.useState<any>([]);
     const [interests,setInterest] = React.useState()
- 
+
+    const [startdate, setstartdate] = React.useState<Date | string>(new Date)
+    const [enddate, setEndDate] = React.useState<Date | string>(new Date)
+
     React.useEffect(()=>{
         if(toggleEditing){
             setProjectFields(rowData)
@@ -140,8 +149,8 @@ export default function Project({ID,rowData,toggleEditing}:ProjectProps) {
             Name: fieldValues.name,
             Acronym : fieldValues.acronym,
             Description:fieldValues.desc,
-            StartDate:fieldValues.startDate,
-            EndDate:fieldValues.endDate,
+            StartDate:startdate,
+            EndDate:enddate,
             Category:selecteddiscipline.join('|').toString(),
             Industry:selectedindustry.join('|').toString(),
             Country:selectedCountries.join('|').toString(),
@@ -169,7 +178,7 @@ export default function Project({ID,rowData,toggleEditing}:ProjectProps) {
       
     }   
   return (
-    <>
+    <Main>
         <div className="input-group-inline">
             <label className='input-lable-titles'  htmlFor="title" style={{ marginBottom: 8 }}>
             Project Title<span className='required'>*</span>
@@ -192,7 +201,7 @@ export default function Project({ID,rowData,toggleEditing}:ProjectProps) {
             style={{ marginBottom: 8 }}>
                 Budget
             </label>
-            <InputText  id="name" name="budget" value={fieldValues.budget} onChange={(e)=>onvalueChange("budget",Number(e.currentTarget.value))} className="reset-password"  />
+            <InputText  id="name" name="budget" value={fieldValues.budget} onChange={(e)=>onvalueChange("budget",Number(e.currentTarget.value))} className="reset-password input-size"  />
         </div>
                 
         <div className="field" style={{display:'grid'}}>
@@ -211,20 +220,20 @@ export default function Project({ID,rowData,toggleEditing}:ProjectProps) {
             <label className='input-lable-titles'  htmlFor="orgname" style={{ marginBottom: 8 }}>
                 Start Date
             </label> 
-            {/* <Calendar 
+            <Calendar 
             className='reset-password' id="date" 
-            name="date" value={fieldValues.startDate}  dateFormat="dd/mm/yy" 
-            onChange={(e)=>onvalueChange("startDate",e.value)}
-            mask="99/99/9999" showIcon /> */}
+            name="date" value={startdate as Date}  dateFormat="dd/mm/yy" 
+            onChange={(e)=>setstartdate(e.target.value as Date)}
+            mask="99/99/9999" showIcon />
         </div>
         <div className="field" style={{display:'grid'}}>
             <label className='input-lable-titles'  htmlFor="orgname" style={{ marginBottom: 8 }}>
                 End date
             </label> 
-                {/* <Calendar className='reset-password'
-                    id="date" name="date" value={fieldValues.endDate}  
-                    onChange={(e)=>onvalueChange("endDate",e.value)}
-                    dateFormat="dd/mm/yy" mask="99/99/9999" showIcon />    */}
+                <Calendar className='reset-password'
+                    id="date" name="date" value={enddate as Date}  
+                    onChange={(e)=> setEndDate(e.target.value as Date)}
+                    dateFormat="dd/mm/yy" mask="99/99/9999" showIcon />   
         </div>      
            
         <div className="field">
@@ -243,8 +252,10 @@ export default function Project({ID,rowData,toggleEditing}:ProjectProps) {
             <Dialog className='dialog-box' header="Select Project location"    visible={showDialog}  modal style={{ width: '70vw' }}  onHide={hideDialogBox}>
                 <Mapwraper getCoords = {setCoords}/>                          
             </Dialog>
-            <i  onClick={showDialogBox} className="pi pi-map-marker" style={{'fontSize': '1em'}}></i>
-            <p>Choose from a map</p>
+            <i  onClick={showDialogBox} className="pi pi-map-marker" style={{'fontSize': '1em'}}>
+              
+            </i>
+            {/* <p>Choose from a map</p> */}
         </div>
         <div className="input-group-inline">
             <label className='input-lable-titles'  htmlFor="email" style={{ marginBottom: 8 }}>
@@ -315,6 +326,6 @@ export default function Project({ID,rowData,toggleEditing}:ProjectProps) {
         </div>
         <button onClick={CreateProject} className='reset-password-button'>Save</button>
   
-    </>
+    </Main>
   )
 }

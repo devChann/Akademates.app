@@ -1,11 +1,11 @@
 .view-user-profile{
     cursor: pointer;
     text-decoration: underline;
-    color: grey;
+    color: #227699;
     line-height: 40px;
 }
 .view-label{
     font-size: 16px;
-    color: grey;
-    font-weight: 700;
+    color: #227699;
+    font-weight: 400;
 }

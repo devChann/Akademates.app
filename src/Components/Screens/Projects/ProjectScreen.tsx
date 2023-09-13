@@ -22,7 +22,153 @@ import { Button } from 'primereact/button';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { MultiSelect } from 'primereact/multiselect';
 import { Tooltip } from 'primereact/tooltip';
+import styled from 'styled-components';
 
+type CoordsProps ={
+  lng:number,
+  lat:number,
+}
+export const VentureParentContainer = styled.div`
+  display: flex;
+  height:100%;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  flex-shrink: 0;
+  align-self: stretch;
+  border-radius: 0rem 0rem 0.5rem 0.5rem;
+  width:100%;
+  background:white;
+  margin-left: 2rem;
+  .rows{
+    display:flex;
+    flex-direction:row;
+    gap:50px;
+  }
+  .tablestyle{
+    font-family:var(--title);
+    padding:15px;
+    font-size:14px;
+  }
+  @media(max-width: 768px) {
+     .rows{
+      flex-direction:column;
+      gap:15px;
+     }
+     .tablestyle{
+        max-width:70vw;
+     }
+     .p-tabview .p-tabview-panels{
+      width:30rem;
+     } 
+     width:20rem;
+  }
+`
+const FormParent = styled.div`
+  align-self: stretch;
+  border-radius: 0px 0px var(--br-5xs) var(--br-5xs);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding: 14px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--gap-23xl);
+`;
+
+const FormParentInner = styled.div`
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--gap-xl);
+`;
+
+const InputWrapper = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--gap-xs);
+`;
+const Titles = styled.b`
+  align-self: flex-start;
+  position: relative;
+  line-height: 1.5rem;
+  font-size:14px;
+`;
+
+const Component = styled.div`
+  .inputs {
+    align-self: stretch;
+    border-radius: var(--br-9xs);
+    background-color: var(--surface);
+    border: 1px solid var(--line);
+    display: flex;
+    flex-direction: row;
+    padding: var(--padding-xs) var(--padding-base);
+    -webkit-box-align: start;
+    align-items: start;
+    -webkit-box-pack: start;
+    justify-content: flex-start;
+    text-align: start;
+    font-size: var(--body-03-default-size);
+    width: 28rem;
+    height: 33px;
+    font-family: 'Plus Jakarta Sans';
+  }
+  .drop-downs{
+    width: 28rem;
+    background-color: var(--surface);
+    border-radius: var(--br-9xs);
+    text-align: start;
+    font-size: var(--body-03-default-size);
+    font-family: 'Plus Jakarta Sans';
+    span{
+      
+    }
+  }
+  @media (max-width: 768px) {
+      .drop-downs{
+        width:18rem;
+      }
+      .inputs{
+        width:18rem;
+      }
+  }
+`;
+
+const CustomButtom =  styled.button`
+  color: #FFF;
+  font-family:Plus Jakarta Sans;
+  font-size: 1;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.625rem; /* 216.667% */
+`
+const MainContainer = styled.div`
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+`
+export const  TableHeaderContainer =  styled.div`
+  display:flex;
+  flex-direction:row;
+  justify-content:space-between;
+  font-family:var(--title)
+  .records{
+    font-family:var(--title)
+  }
+  .button-group-table{
+    display:flex;
+    flex-direction:row;
+    gap:10px;
+    justify-content:flex-end;
+    margin-right:20px;
+  }
+`
 type MapCoords ={
   long:number,
   lat:number,
@@ -62,8 +208,10 @@ type selectedTypes = {
 }
 let defaultDate = new Date()
 
-export const ViewProject : FunctionComponent<ProjectDto> = ({name,id,
-  desc,country,category,industry,fields})=>{
+interface ViewProjectProps {
+  project:ProjectDto
+}
+export const ViewProject : FunctionComponent<ViewProjectProps> = ({project})=>{
     const [showDialog,setShowdialog] = React.useState(false)
     const showCustomDialog = ()=>{
       setShowdialog(true)
@@ -76,14 +224,14 @@ export const ViewProject : FunctionComponent<ProjectDto> = ({name,id,
     const [msg,setMsg] = React.useState("I would like to learn more a bout your project..");
     const userID = JSON.parse(userToken!)
     const theme = React.useContext(ThemeContext);
-    const disp = category.split('|');
-    const indu = industry.split('|');
-    const field = fields.split('|')
+    const disp = project?.category.split('|');
+    const indu = project?.industry.split('|');
+    const field = project?.fields.split('|')
 
     const expressInterest = ()=>{
-      axios.post(getFullUrl(`/api/projects/newinterest/${id}`),{
+      axios.post(getFullUrl(`/api/projects/newinterest/${project.id}`),{
         UserID:userID.id,
-        ProjectID:id,
+        ProjectID:project.id,
         Read:false,
         Message:msg
       }).then(()=>{
@@ -109,15 +257,15 @@ export const ViewProject : FunctionComponent<ProjectDto> = ({name,id,
       <div className="details-group">
           <div className="details-fields">
             <p className='details-labels'>Title : {" "} </p>
-            <p className="details">{name}</p>
+            <p className="details">{project?.name}</p>
           </div>
           <div className="details-fields">
             <p className='details-labels'>Desc :  {" "}</p>
-            <p className="details">{desc}</p>
+            <p className="details">{project?.desc}</p>
           </div>
           <div className="details-fields">
             <p className='details-labels'>Country : {" "}</p>
-            <p className="details">{country}</p>
+            <p className="details">{project?.country}</p>
           </div>
           <div className="details-fields">
             <p className='details-labels'>Staring Date  {" "}</p>
@@ -176,7 +324,7 @@ export const ViewProject : FunctionComponent<ProjectDto> = ({name,id,
   </>
  ) 
 }
-export default function ProjectScreen() {
+export  const ProjectScreen=()=> {
   const growl= React.useContext(GrowlContext)
   const [data, setData] = React.useState(Array<ProjectRecord>());
   const [isLoading, setIsLoading] = React.useState(false);
@@ -186,7 +334,7 @@ export default function ProjectScreen() {
   const [sortField, setSortField] = React.useState("createdOn");
   const [sortOrder, setSortOrder] = React.useState(-1);
   const [title,setTitle] = React.useState<string>('')
-
+  const [projectCoords,setprojectCoords] =  React.useState<Array<CoordsProps>>()
  
   const [discipline,setDiscipline] =  React.useState(Array<selectedTypes>());
   const [subDisciplines,setSubDisciplines] =  React.useState(Array<selectedTypes>());
@@ -284,7 +432,13 @@ export default function ProjectScreen() {
         const {totalItems,data} = res.data
         setTotalItems(totalItems);
         const d = data as Array<ProjectRecord>
-       
+        const coords =  d.map((r)=> {
+           return {
+            lng: r.long , lat: r.lat
+          }
+        })
+        setprojectCoords(coords)
+
         setData(d)
         if(totalItems > 0){
             growl.current.show({
@@ -318,16 +472,6 @@ export default function ProjectScreen() {
       }
     };
 
-  //   const exportPdf = () => {
-  //     import('jspdf').then((jsPDF) => {
-  //         import('jspdf-autotable').then(() => {
-  //             const doc = new jsPDF.default(0, 0);
-
-  //             doc.autoTable(exportColumns, data);
-  //             doc.save('products.pdf');
-  //         });
-  //     });
-  //  };
     const exportExcel = () => {
       import('xlsx').then((xlsx) => {
           const worksheet = xlsx.utils.json_to_sheet(data);
@@ -356,21 +500,14 @@ export default function ProjectScreen() {
   };
   const tableHeader = ()=>{
     return(
-      <div className='table-header'>
-        <div className="grid">
-            <div className="col">
-              <p className='total-records-p'>Total records : {data.length}</p>
-            </div>
-           
-            <div className="col">
-              <div className="flex align-items-center justify-content-end gap-2">
+      <TableHeaderContainer>
+         <p className="records">Total records : {data.length}</p>
+         <div className="button-group-table">
                   <Button type="button" icon="pi pi-file"   onClick={() => exportCSV(false)} data-pr-tooltip="CSV" className='export-table' />
                   <Button type="button" icon="pi pi-file-excel" onClick={exportExcel} data-pr-tooltip="XLS"  className='export-table'/>
-                  <Button type="button" icon="pi pi-file-pdf"  data-pr-tooltip="PDF"  className='export-table'/>
-              </div>
-            </div>
-        </div>
-      </div>
+                  {/* <Button type="button" icon="pi pi-file-pdf"  data-pr-tooltip="PDF"  className='export-table'/> */}
+          </div>
+      </TableHeaderContainer>
     )
   }
   const projects = [
@@ -380,149 +517,161 @@ export default function ProjectScreen() {
   
   ] 
   return (
-    <div>
+    <MainContainer>
+      <Dialog visible={showDialog} header="View project" onHide={()=> setShowDialog(false)}>
+          {rowData && (<ViewProject project={rowData} />)}
+      </Dialog>
        <Tooltip target=".export-buttons>button" position="bottom" />
-      {/* <div className="grid">
-        <SectionHeader  title='Poject +' 
-          icontext='pi pi-th-large' sectionStyle={theme.customStyle.sectionHeader} />
-      </div> */}
-      <div className="grid grid-margins">
-        <div className="col">
-        <Accordion className='search-container' activeIndex={0}>
-          <AccordionTab header="Search">
-          <div className="p-fluid">
-              <div className="input-group-user">
-                  <label className='input-lable-titles'  htmlFor="email" style={{ marginBottom: 8 }}>
-                     Venture Title
-                  </label>
-                  <InputText value={title} className="search-inputs"
-                  placeholder=" Venture Title" 
-                    onChange={(e)=> setTitle(e.target.value)}
-                  />
-              </div>
-              <div className="input-group-user">
-                  <label className='input-lable-titles'  htmlFor="email" style={{ marginBottom: 8 }}>
-                     Keyword
-                  </label>
-                  <InputText value={keyword} className="search-inputs"
-                  placeholder="keyword filter" 
-                  onChange={(e)=>setKeyword(e.target.value)}   
-                  />
-              </div>
-              <div className="input-group-user">
-                    <label className='input-lable-titles'  htmlFor="email" style={{ marginBottom: 8 }}>
-                        Country
-                    </label>
+       <VentureParentContainer>
+          <div className="rows">
+            <FormParent>
+              <FormParentInner>
+                <InputWrapper>
+                  <Titles>Venture Title</Titles>
+                  <Component>
+                    {/* <SelectCountry>Venture Title</SelectCountry> */}
+                    <InputText value={title} className="inputs"
+                      placeholder=" Venture Title" 
+                        onChange={(e)=> setTitle(e.target.value)}
+                      />
+                  </Component>
+                </InputWrapper>
+              </FormParentInner>
+            </FormParent>
+            <FormParent>
+              <FormParentInner>
+                <InputWrapper>
+                  <Titles>Keyword</Titles>
+                  <Component>
+                    {/* <SelectCountry>Venture Title</SelectCountry> */}
+                    <InputText value={keyword} className="inputs"
+                      placeholder="Keyword" 
+                        onChange={(e)=> setKeyword(e.target.value)}
+                      />
+                  </Component>
+                </InputWrapper>
+              </FormParentInner>
+            </FormParent>
+          </div>
+          <div className="rows">
+            <FormParent>
+              <FormParentInner>
+                <InputWrapper>
+                  <Titles>Country</Titles>
+                  <Component>
+                    {/* <SelectCountry>Venture Title</SelectCountry> */}
                     <Dropdown value={country} options={COUNTRIES} 
                       onChange={(e)=>setCountry(e.value)} 
                         optionLabel="label" filter showClear filterBy="label" 
-                           placeholder="Select a Country" className='p-dropdown-custom'
+                           placeholder="Select" className='drop-downs'
                     />
-                  </div>
-                <div className="input-group-user">
-                    <label className='input-lable-titles'  htmlFor="email" style={{ marginBottom: 8 }}>
-                    Branch of knowledge
-                    </label>
+                  </Component>
+                </InputWrapper>
+              </FormParentInner>
+            </FormParent>
+            <FormParent>
+              <FormParentInner>
+                <InputWrapper>
+                  <Titles> Branch of knowledge</Titles>
+                  <Component>
+                    {/* <SelectCountry>Venture Title</SelectCountry> */}
                     <MultiSelect value={discipline} options={Disciplines} 
                         onChange={(e) => setDiscipline(e.value)} optionLabel="label" 
-                        placeholder="Select a branch of knowledge" display="chip" filter className='p-dropdown-custom' />
-                      
-                </div>
-                <div className="input-group-user">
-                    <label className='input-lable-titles'  htmlFor="email" style={{ marginBottom: 8 }}>
-                      Business Sector/ Trade
-                    </label>
-                    <MultiSelect value={subDisciplines} options={industryFilteredOptions} 
-                        onChange={(e) => setSubDisciplines(e.value)} optionLabel="label" 
-                        placeholder="Select a sub discipline" display="chip" filter />
-                </div>
-                <div className="input-group-user">
-                    <label className='input-lable-titles'  htmlFor="email" style={{ marginBottom: 8 }}>
-                    Field of activity
-                    </label>
-                    <MultiSelect value={field} options={FilteredOptions} 
-                        onChange={(e) => setFields(e.value)} optionLabel="label" 
-                        placeholder="Select fields" display="chip" filter />
-                </div>
-                <div className="field">
-                    <label className='input-lable-titles'  htmlFor="orgname" style={{ marginBottom: 8 }}>
-                        Start Date
-                    </label> 
+                        placeholder="Select a branch of knowledge" display="chip" filter className='drop-downs' />
+                  </Component>
+                </InputWrapper>
+              </FormParentInner>
+            </FormParent>
+          </div>
+          <div className="rows">
+            <FormParent>
+              <FormParentInner>
+                <InputWrapper>
+                  <Titles> Start Date</Titles>
+                  <Component>
+                    {/* <SelectCountry>Venture Title</SelectCountry> */}
                     <Calendar  id="date" 
                     name="date" value={new Date()}  dateFormat="dd/mm/yy" 
                     // onChange={(e)=>onvalueChange("startDate",e.value)}
-                    mask="99/99/9999" showIcon />
-                </div>
-            {/* <div className="input-group-user">
-                <label className='input-lable-titles'  htmlFor="email" style={{ marginBottom: 8 }}>
-                  Show projects created from
-                </label>
-                <Calendar  id="date" name="date"  dateFormat="dd/mm/yy" mask="99/99/9999" showIcon />
-            </div> */}
-            <button onClick={()=> queryData({first,rows:rowsPerPage,sortField,sortOrder}) } className='reset-password-button'>Search</button>
+                    mask="99/99/9999" showIcon className='drop-downs' />
+                  </Component>
+                </InputWrapper>
+              </FormParentInner>
+            </FormParent>
+            <FormParent>
+              <FormParentInner>
+                <InputWrapper>
+                  <Titles> Business Sector/ Trade</Titles>
+                  <Component>
+                    {/* <SelectCountry>Venture Title</SelectCountry> */}
+                    <MultiSelect value={subDisciplines} options={industryFilteredOptions} 
+                        onChange={(e) => setSubDisciplines(e.value)} optionLabel="label" 
+                        placeholder="Select a sub discipline" display="chip" filter className='drop-downs'/>
+                  </Component>
+                </InputWrapper>
+              </FormParentInner>
+            </FormParent>
           </div>
-          </AccordionTab>
-        </Accordion>
-        </div>
-      </div>
+          <div className="rows">
+            <FormParent>
+              <FormParentInner>
+                <InputWrapper>
+                  <Titles>Field of activity</Titles>
+                  <Component>
+                    {/* <SelectCountry>Venture Title</SelectCountry> */}
+                    <MultiSelect value={field} options={FilteredOptions} 
+                        onChange={(e) => setFields(e.value)} optionLabel="label" 
+                        placeholder="Select fields" display="chip" filter className='drop-downs'/>
+                  </Component>
+                </InputWrapper>
+              </FormParentInner>
+            </FormParent>
+            <FormParent>
+              <FormParentInner>
+                <InputWrapper style={{width:"28rem"}}>
+                  <CustomButtom style={{margin:"auto"}} onClick={()=> queryData({first,rows:rowsPerPage,sortField,sortOrder}) } className='reset-password-button'>Search</CustomButtom>
+                </InputWrapper>
+              </FormParentInner>
+            </FormParent>
+          </div>
+       </VentureParentContainer>
       
-      <div className="grid grid-margins">
-      <Dialog className='dialog-box' header="Project Details" 
-        visible={showDialog}  modal style={{ width: '50vw' }}  
-          onHide={()=> setShowDialog(false) }>
-      <ViewProject name={rowData.name} id = {rowData.id}
-              industry={rowData.industry} 
-              category={rowData.category} 
-              desc={rowData.desc} country={rowData.country} 
-              lat={0} long={0} sponsors={rowData.sponsors} 
-              participants={rowData.participants} 
-              organization={rowData.organization} 
-              createdOn={rowData.createdOn} status={rowData.status} budget={rowData.budget} 
-              acronym={rowData.acronym} fields={rowData.fields} groupDesc={rowData.groupDesc} 
-              startDate={rowData.startDate} 
-              endDate={rowData.endDate} partners={rowData.partners} nature={rowData.nature}  />                      
-      </Dialog>
-        <div className="col">
-            
-            <div className="table-style">
-            {totalItems > 0 ? 
-
-                <TabView>
-                 <TabPanel header="Table view">
-                        <DataTable 
-                        value={data} 
-                        responsiveLayout="scroll"
-                        header={tableHeader}
-                        scrollHeight="400px"
-                        ref={dt}
-                        >
-                              <Column field="name" header="Title"></Column>
-                              <Column field="country" header="Country"></Column>
-                              <Column field="category" header="Discipline"></Column>
-                              <Column field="industry" header="Industry"></Column>
-                              <Column field="fields" header="Field"></Column>
-                              <Column field="quantity" header="Actions" 
-                                  body={(row:ProjectDto)=>(
-                                  <div>
-                                      <button onClick={()=> {
-                                        setShowDialog(true)
-                                        setRowData(row)
-                                      }} className='admin-actions'>View</button>
-                                  </div>
-                               )}  
-                              />
-                        </DataTable>
-                </TabPanel>
-                  <TabPanel header="Map view">
-                      <MapServices Projects={projects}/>   
-                  </TabPanel>
-                </TabView>
-                     
-                :<></>
-                }
-            </div>
-        </div>
-      </div>
-    </div>
+      <VentureParentContainer>
+      {totalItems > 0 ? 
+        <TabView>
+          <TabPanel header="Table view">
+                  <DataTable 
+                  value={data} 
+                  responsiveLayout="scroll"
+                  header={tableHeader}
+                  scrollHeight="400px"
+                  ref={dt}
+                 className='tablestyle'
+                  >
+                        <Column field="name" header="Title"></Column>
+                        <Column field="country" header="Country"></Column>
+                        <Column field="category" header="Discipline"></Column>
+                        <Column field="industry" header="Industry"></Column>
+                        <Column field="fields" header="Field"></Column>
+                        <Column field="quantity" header="Actions" 
+                            body={(row:ProjectDto)=>(
+                            <div>
+                                <button onClick={()=> {
+                                  setShowDialog(true)
+                                  setRowData(row)
+                                }} className='admin-actions'>View</button>
+                            </div>
+                        )}  
+                        />
+                  </DataTable>
+          </TabPanel>
+            <TabPanel header="Map view">
+               {projectCoords && (<MapServices coordinates={projectCoords}/>)}    
+            </TabPanel>
+        </TabView>
+          :<></>
+        }
+      </VentureParentContainer>
+    </MainContainer>
   )
 }
