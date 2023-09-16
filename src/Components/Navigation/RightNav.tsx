@@ -1,68 +1,62 @@
 import React from 'react'
 import styled from 'styled-components'
+import { SIDEBAR_DATA as sidebar_items } from '../SideBar/Item'
+import { NavLink, useNavigate } from 'react-router-dom'
+import { Icons } from '../SideBar/SidebarItems'
 const Ul = styled.ul<{open:boolean}>`
-    .geofence-icon{
-      width:1.1rem !important;
-      margin-bottom: -4px;
-    }
+    display:none;
     list-style:none;
-    display:flex;
-    flex-flow:row nowrap;
-    .signout{
-      display:none;
-    }
-   a{
-    padding: 18px 10px !important;
-    cursor: pointer;
-    text-decoration:none;
-    color:blue;
-   }
-    li{
-      padding: 18px 10px !important;
-      cursor: pointer;
+    .innerlist{
+      display: flex;
+      gap: 10px;
     }
     @media (max-width:768px) {
+        display:flex;
         flex-flow:column nowrap;
         background-color:#ddd9d9f0; 
         position:fixed;
         transform:${({open})=> open ? 'translateX(0)' : 'translateX(100%)'};
-        right:0;
-        top:0;
         height:100vh;
         width:250px;
         padding-top:3.5rem;
         transition:transform 0.3s ease-in-out;
         z-index:505;
-        .signout{
-          display:flex;
-          justify-content: flex-end;
-          color: brown;
-          font-weight: bold;
-          font-size: 1rem;
-        }
-        .elipse{
-          display:none;
-        }
-        li{
-            color:white;
-            font-weight:400px;
-            font-size:14px;
-            cursor:pointer
-        }
-        .user{
-          font-size: 12px;
-          margin-right: 0px;
-          margin-left: 7px;
-        }
+        right:0;
+
     }
   
 `
+const Logo = styled.p`
+    margin-top:-2.7rem;
+    font-size: 20px;
+        line-height: 42px;
+        color: #227699;
+        font-family:var(--title);
+`
 const RightNav = (props:any) => {
+  const navigate = useNavigate();
+  const logout = ()=>{
+    window.localStorage.setItem("refreshToken","");
+    navigate('/auth')
+    window.location.reload()
+  }
   return (
     <Ul open={props.open}>
-        <div className="icon13">
-         <p>Login/register</p>
-        </div>
+        
+          <Logo>Akademates</Logo>
+       
+        {sidebar_items.map((x,r)=>  
+          <NavLink to={`/workspace/${x.path}`} className={({ isActive }) =>
+            (isActive ? "active-links" : "link")}>
+              <div className='innerlist'>
+              <Icons imageSource={x.icon} />
+                <span>{x.name}</span>
+              </div>
+          </NavLink>)}
+          <div className='innerlist' onClick={logout}>
+              <Icons imageSource={'/assets/logoutIcon.svg'} />
+                <span>{"Logout"}</span>
+          </div>
     </Ul>
   
   )

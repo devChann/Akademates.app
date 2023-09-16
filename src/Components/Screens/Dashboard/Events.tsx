@@ -155,7 +155,7 @@ const ListingPerformanceParent = styled.div`
     
   }
   @media (max-width: 768px) {
-    width:80vw;
+    width:100vw;
   }
 `;
 const  EventViewContainer =  styled.div`

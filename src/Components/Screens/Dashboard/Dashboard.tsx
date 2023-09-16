@@ -78,6 +78,7 @@ const List = styled.div`
       justify-content:center;
       padding:0 2rem 0 0;
       /* align-items:center */
+      width:100vw;
   }
   /* margin-left:12px; */
 `;
@@ -106,10 +107,12 @@ const DashboardCockpitRoot = styled.div`
     width:91vw;
   }
     @media (max-width: 768px) {
-   
+      .side-panel{
+        width:100vw;
+      }
       .inner-panel-wrapper{
         /* flex-direction:column; */
-        width:82vw;
+        width:100vw;
       }
   }
 `;

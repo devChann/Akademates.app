@@ -15,7 +15,7 @@ interface SidebarProps {
 interface IconsProps {
     imageSource:string
 }
-const Icons:FC<IconsProps> = ({imageSource})=>{
+export const Icons:FC<IconsProps> = ({imageSource})=>{
     return <img src={imageSource} alt=""></img>
 }
 const SidebarItems:FC<SidebarProps> = ({displaySidebar}) => {

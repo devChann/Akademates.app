@@ -284,7 +284,6 @@ export const Login: React.FC<{}> = () => {
       Password : password, 
     })
     .then(function (response) {
-      console.log(response.data)
       growl.current.show({
         severity:"success",
         summary:"Account created successfully"

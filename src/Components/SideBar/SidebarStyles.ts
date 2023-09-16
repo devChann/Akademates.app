@@ -39,8 +39,9 @@ export const Children = styled.div<{displaySidebar:boolean}>`
     width: ${({ displaySidebar }) => (displaySidebar ? "60vw" : "70vw")};
   }
   @media (max-width: 468px) {
-    margin-left: 5rem;
+    margin-left: 0rem;
   }
+  
 `;
 
 export const SidebarWrapper = styled.div`
@@ -214,5 +215,6 @@ export const SidebarContainer = styled.div<{displaySidebar:boolean}>`
 
   @media (max-width: 468px) {
     width: 5rem;
+    display:none;
   }
 `;

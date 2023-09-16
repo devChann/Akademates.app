@@ -255,8 +255,8 @@ const TagsParent = styled.div`
   display:flex;
   flex-direction:row;
   justify-content:space-between;
-  width:100%;
-  /* margin-left:12px; */
+  width:95vw;
+  padding:1.2rem;
 `
 
 const Tags = styled.div`

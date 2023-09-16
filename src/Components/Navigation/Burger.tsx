@@ -3,13 +3,11 @@ import styled from 'styled-components';
 import RightNav from './RightNav';
 
 const StyledHumbugger = styled.div<{open:boolean}>`
-    width:2rem;
-    height:2rem;
-    position:relative;
-    top:15px;
-    right:20px;
-    z-index:560;
-    display:none;
+width: 2rem;
+height: 2rem;
+z-index: 560;
+display: none;
+align-self: center;
 
     @media (max-width: 768px) {
         display:flex;
@@ -41,16 +39,23 @@ const StyledHumbugger = styled.div<{open:boolean}>`
     }
 
 `
+const Main = styled.div`
+    @media (max-width: 768px) {
+        display:block;
+    }
+`
+const MOBILE_VIEW = window.innerWidth < 768;
 const Burger = () => {
     const [open, setOpen] = React.useState(false);
   return (
     <>
+    
         <StyledHumbugger open={open} onClick={()=>setOpen(!open)}>
             <div />
             <div />
             <div /> 
         </StyledHumbugger>
-        <RightNav/>
+        <RightNav open={open}/>
     </>
   )
 }

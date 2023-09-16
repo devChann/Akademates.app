@@ -13,6 +13,7 @@ import { HttpTransportType, HubConnection, HubConnectionBuilder, LogLevel } from
 import getFullUrl from '../../../configs/axios-custom';
 import axios from 'axios';
 import { Divider } from 'primereact/divider';
+import Burger from '../../Navigation/Burger';
 // styles
 const NairobiKenya = styled.div`
   position: relative;
@@ -59,7 +60,9 @@ const Header = styled.div`
       flex-direction:row;
       gap:var( --gap-5xs);
       line-height: 42px;
-      height:69px
+      height:69px;
+      width:auto;
+      justify-content:space-between;
     }
     .logo{
         font-style: normal;
@@ -79,6 +82,9 @@ const Header = styled.div`
       padding-left:20px;
       padding-right:20px;
       background: #cfcfcf1a;
+      .icons-header{
+        width:inherit;
+      }
       .logo{
         display:none;
       }
@@ -253,6 +259,10 @@ const  NortificationHeader = styled.div`
   font-size:15px;
   font-weight:500;
 `
+const UserDetailsContainer = styled.div`
+    display:flex;
+    gap:15px;s
+`
 type CoordsProps ={
     lng:number,
     lat:number,
@@ -271,7 +281,6 @@ export  const  NavBar:FC<UserData> = ({user})=>{
   const [notification, setNotification] = React.useState<Array<Notification>>([]);
   const userObject =JSON.parse( window.localStorage.getItem("refreshToken") || "{}")
   const {id} = userObject
-
   React.useEffect(()=>{
     const connect = new HubConnectionBuilder()
         .withUrl(getFullUrl(`/notificationHub`), {
@@ -305,7 +314,6 @@ export  const  NavBar:FC<UserData> = ({user})=>{
   React.useEffect(()=>{
     try {
       axios.get(getFullUrl(`/api/Auth/notifications/${id}`)).then((res)=>{
-        
           const n = res.data as Array<Notification>
           setNotification(n)
       })
@@ -328,6 +336,7 @@ export  const  NavBar:FC<UserData> = ({user})=>{
         </NortificationContainer>
         
       </Sidebar>
+      
         <p className='logo' onClick={()=> navigate('/')}>Akademates</p>
         <div className="innerHeader">
           <p>For Industry</p>
@@ -335,13 +344,17 @@ export  const  NavBar:FC<UserData> = ({user})=>{
         </div>
         <div className="icons-header">
           { user ? <>
+          <UserDetailsContainer>
           <HelpCircleIcon alt="" src="/assets/message.svg" onClick={()=> navigate('/workspace/messages')} />
           <HelpCircleIcon alt="" src="/assets/bell1.svg" onClick={()=> setShowSidebar(true)}/>
          
           <p onClick={()=> navigate('workspace/cockpit')} className='user-name'>{user.firstName + " " + user.lastName}</p>
+          </UserDetailsContainer>
+          <Burger />
           </>
           :  
             <Login>
+              <p className='logo' onClick={()=> navigate('/')}>Akademates</p>
               <NairobiKenya onClick={()=> navigate('/auth')}>Login</NairobiKenya>
             </Login>}
         </div>

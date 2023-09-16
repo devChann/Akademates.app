@@ -29,21 +29,23 @@ const Main = styled.div`
 function App() {
 
   const userObject =JSON.parse( window.localStorage.getItem("refreshToken") || "{}")
-  const [userContext] = React.useState(userObject);
+ 
   
   const [isAuthenticated, setisAuthenticated] = React.useState(false)
   const [userInfo,setUserInfo] = React.useState<UserDto | null>(null);
   const growl = React.useRef()
   const  navigate = useNavigate();
-
+  const {id} = userObject
     
 
   React.useEffect(()=>{
-    if (!userContext) {
+    
+    if (!userObject) {
+      console.log("something")
       navigate('/auth')
       return
   }else{
-    const {id} = userContext
+    
     axios.get(getFullUrl(`/api/Auth/user/${id}`)).then((res)=>{
       const a = res.data
       const data = a as UserDto
@@ -53,7 +55,7 @@ function App() {
       console.log(error)
   })
   }
-  },[userContext,isAuthenticated])
+  },[id])
 
   return (
     <>
