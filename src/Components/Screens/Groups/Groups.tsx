@@ -68,7 +68,8 @@ const Groups = () => {
   
   return (
     <MainContainer>
-    <HeaderRow>
+      <p>Comming soon</p>
+    {/* <HeaderRow>
       <AddGroupButton>Create new group</AddGroupButton>
     </HeaderRow>
     <Divider />
@@ -82,7 +83,7 @@ const Groups = () => {
                 <p>Group Settings</p>
             </Rows>)}
             <Divider />
-        </>)}
+        </>)} */}
     </MainContainer>
   )
 }
