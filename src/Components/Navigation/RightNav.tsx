@@ -43,7 +43,7 @@ const RightNav = (props:any) => {
   return (
     <Ul open={props.open}>
         
-          <Logo>Akademates</Logo>
+          {/* <Logo>Akademates</Logo> */}
        
         {sidebar_items.map((x,r)=>  
           <NavLink to={`/workspace/${x.path}`} className={({ isActive }) =>

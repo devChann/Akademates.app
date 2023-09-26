@@ -274,7 +274,9 @@ export interface MapProps {
 interface UserData {
   user: UserDto | null
 }
+
 export  const  NavBar:FC<UserData> = ({user})=>{
+  const MobileView = window.innerWidth < 768 ? true : false
   const [showSideBar,setShowSidebar] =  React.useState(false)
   const navigate = useNavigate();
   const [connection, setConnection] = React.useState<HubConnection |null>(null);
@@ -354,7 +356,7 @@ export  const  NavBar:FC<UserData> = ({user})=>{
           </>
           :  
             <Login>
-              <p className='logo' onClick={()=> navigate('/')}>Akademates</p>
+              {MobileView && (<p className='logo' onClick={()=> navigate('/')}>Akademates</p>)}
               <NairobiKenya onClick={()=> navigate('/auth')}>Login</NairobiKenya>
             </Login>}
         </div>
