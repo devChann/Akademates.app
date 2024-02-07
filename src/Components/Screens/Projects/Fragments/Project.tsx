@@ -8,16 +8,30 @@ import getFullUrl from '../../../../configs/axios-custom'
 import GrowlContext from '../../../../configs/growlContext'
 import Select from 'react-select';
 import { AllCountries } from '../../../../Services/countries'
-import { Disciplines, Industries, FIELDS } from '../../../../Services/dropDowns'
+import { Disciplines, Industries, FIELDS, ANZSIC_Subdivision, ANZSIC_Group, ANZSIC_Class } from '../../../../Services/dropDowns'
 import { Dialog } from 'primereact/dialog'
 import Mapwraper from '../../UserScreen/Mapwraper'
 import { Chips } from 'primereact/chips';
 import styled from 'styled-components'
+import { Divider } from 'primereact/divider'
+import { Button } from 'react-bootstrap'
 
 const Main= styled.div`
     .input-size{
         width:100;
     }
+      .drop-downs{
+        width:18rem;
+        max-width:18rem;
+        border-radius: var(--br-9xs);
+        background-color: var(--surface);
+        border: 1px solid var(--line);
+        font-family: "Plus Jakarta Sans";
+      }
+      .p-multiselect-panel {
+        max-width: 18rem !important;
+      }
+
 `
 export interface ProjectDto{
     id:string
@@ -76,7 +90,10 @@ interface ProjectProps {
     rowData : ProjectDto
     toggleEditing: boolean
 }
-
+type selectedSpecialization = {
+    value:string | number,
+    label:string,
+  }
 export default function Project({ID,rowData,toggleEditing}:ProjectProps) {
     const growl = React.useContext(GrowlContext)
     const [data,setData] = React.useState<ProjectDto>(defaultSettings);
@@ -96,6 +113,35 @@ export default function Project({ID,rowData,toggleEditing}:ProjectProps) {
 
     const [startdate, setstartdate] = React.useState<Date | string>(new Date)
     const [enddate, setEndDate] = React.useState<Date | string>(new Date)
+
+    const [anzsicsubdivision,setAnzsicsubdivision] =  React.useState(Array<selectedSpecialization>());
+    const [anzsicgroupOptions,setAnzsicgroupOptions] = React.useState<Array<selectedSpecialization>>();
+    const [anzsicclassOptions,setAnzsicclassOptions] = React.useState<Array<selectedSpecialization>>();
+  
+    const [anzsicgroup,setAnzsicgroup] =  React.useState(Array<selectedSpecialization>());
+    const [anzsicclass,setAnzsicclass] =  React.useState(Array<selectedSpecialization>());
+
+    React.useEffect(()=>{
+        const group = ANZSIC_Group.filter((sa)=>{
+            return anzsicsubdivision.some((f:any)=>{
+                return f === sa.value.toString().slice(0,2)
+            })
+        })
+        setAnzsicgroupOptions(group)
+    },[anzsicsubdivision])
+
+    React.useEffect(()=>{
+
+        console.log(anzsicgroup)
+        const classGroup = ANZSIC_Class.filter((sa)=>{
+            return anzsicgroup.some((f:any)=>{
+                return f === sa.value.toString().slice(0,3)
+            })
+        })
+        console.log(classGroup)
+        setAnzsicclassOptions(classGroup)
+    
+        },[anzsicgroup])
 
     React.useEffect(()=>{
         if(toggleEditing){
@@ -138,6 +184,8 @@ export default function Project({ID,rowData,toggleEditing}:ProjectProps) {
         })
         setFieldOptions(i)
     },[industry])
+
+    const canSave = fieldValues.name !== '' && fieldValues.desc !== '' && fieldValues.lat !==0 && fieldValues.long !==0
     const CreateProject = () => {
         
         const selectedindustry = industry.map((s)=>(s.label))
@@ -185,7 +233,7 @@ export default function Project({ID,rowData,toggleEditing}:ProjectProps) {
             </label>
         
             <InputTextarea value={fieldValues.name} onChange={(e)=>{onvalueChange("name",e.currentTarget.value)}} rows={3} cols={35} 
-            placeholder="Venture title"   className='space-textarea input-textarea'  
+            placeholder="Project title"   className='space-textarea input-textarea'  
             />
         </div>
         <div className="input-group-inline">
@@ -271,13 +319,15 @@ export default function Project({ID,rowData,toggleEditing}:ProjectProps) {
                 />
             {/* <Dropdown placeholder='select country' className='search-inputs' id="country" name="country" value={""} options={countries} optionLabel="name" /> */}
         </div>
-                
+            < Divider align="center">
+                <span className="p-tag">Academic  fields</span>
+            </Divider> 
         <div className="input-group-inline">
             <label className='input-lable-titles'  htmlFor="email" style={{ marginBottom: 8 }}>
-                Discipline
+                Branch of knowledge
             </label>
             <Select  
-                classNamePrefix="Select"
+                classNamePrefix="Select branch of knowledge"
                 isMulti
                 name='discipline'
                 options={Disciplines}
@@ -288,10 +338,10 @@ export default function Project({ID,rowData,toggleEditing}:ProjectProps) {
         </div>
         <div className="input-group-inline">
             <label className='input-lable-titles'  htmlFor="email" style={{ marginBottom: 8 }}>
-                Industry
+               Discipline
             </label>
             <Select  
-                classNamePrefix="Select"
+                classNamePrefix="Select discipline"
                 isMulti
                 name='industry'
                 options={indOptions}
@@ -301,10 +351,10 @@ export default function Project({ID,rowData,toggleEditing}:ProjectProps) {
         </div>
         <div className="input-group-inline">
             <label className='input-lable-titles'  htmlFor="email" style={{ marginBottom: 8 }}>
-                Fields
+                Sub discipline
             </label>
             <Select  
-                classNamePrefix="Select"
+                classNamePrefix="Select sub discipline"
                 isMulti
                 name='fields'
                 options={FieldOptions}
@@ -312,9 +362,36 @@ export default function Project({ID,rowData,toggleEditing}:ProjectProps) {
                 onChange = {(x:any)=> setFields(x)}
             />
         </div>
+        < Divider align="center">
+                <span className="p-tag">Industry  fields</span>
+        </Divider> 
+        <div className="input-group-inline">
+            <label className='input-lable-titles'  htmlFor="email" style={{ marginBottom: 8 }}>
+                Trade
+            </label>
+            <MultiSelect value={anzsicsubdivision} options={ANZSIC_Subdivision} 
+                        onChange={(e) => setAnzsicsubdivision(e.value)} optionLabel="label" 
+                        placeholder="Select trade" display="chip" filter className='drop-downs' />
+        </div>
+        <div className="input-group-inline">
+            <label className='input-lable-titles'  htmlFor="email" style={{ marginBottom: 8 }}>
+                Sector
+            </label>
+            <MultiSelect value={anzsicgroup} options={anzsicgroupOptions} 
+                        onChange={(e) => setAnzsicgroup(e.value)} optionLabel="label" 
+                        placeholder="Select  sector" display="chip" filter className='drop-downs'/>
+        </div>
+        <div className="input-group-inline">
+            <label className='input-lable-titles'  htmlFor="email" style={{ marginBottom: 8 }}>
+               Sub sector
+            </label>
+            <MultiSelect value={anzsicclass} options={anzsicclassOptions} 
+                        onChange={(e) => setAnzsicclass(e.value)} optionLabel="label" 
+                        placeholder="Select sub sector" display="chip" filter className='drop-downs'/>
+        </div>
         <div className="input-group-inline">
             <label className='input-lable-titles'  htmlFor="orgname" style={{ marginBottom: 8 }}>
-                Sponsors
+                Funding agency
             </label>
             <Chips  style={{width:"18rem", marginRight:"15px"}} width={100} value={partners} onChange={(e) => setPartners(e.value)} />
         </div>
@@ -324,7 +401,7 @@ export default function Project({ID,rowData,toggleEditing}:ProjectProps) {
             </label>
             <Chips  style={{width:"18rem" ,maxWidth:"18rem"}} className='input-textarea' value={sponsors} onChange={(e) => setSponsors(e.value)} />
         </div>
-        <button onClick={CreateProject} className='reset-password-button'>Save</button>
+        <Button disabled={!canSave} onClick={CreateProject} className='reset-password-button'>Save</Button>
   
     </Main>
   )

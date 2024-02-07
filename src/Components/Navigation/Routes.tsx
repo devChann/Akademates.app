@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import Sidebar from '../SideBar';
 import { UserDto } from '../../types';
 import MessageComponent from '../Screens/Messaging/Message';
+import GroupChat from '../Screens/Groups/GroupChat';
 interface ProtectedRoutesProps {
   isSignedIn:boolean;
   children:any
@@ -69,9 +70,12 @@ const BaseRouter:React.FunctionComponent<BaseRouterProps> = ({user,isAuthenticat
             <Route path='messages' index  element={
                 <Item User={user} component = {<MessageComponent />}  setCurrentPath={setCurrentPath} page="Message" />
               }/>
-                <Route path='notification' index  element={
-                <Item User={user} component = {<></>}  setCurrentPath={setCurrentPath} page="Notification" />
-              }/>
+              <Route path='notification' index  element={
+              <Item User={user} component = {<></>}  setCurrentPath={setCurrentPath} page="Notification" />}/>
+              
+              <Route path='groups/:groupId' index  element={
+              <Item User={user} component = {<GroupChat />}  setCurrentPath={setCurrentPath} page="Groups" />
+            }/>
           {sideBarItems &&
             sideBarItems.map((item, index) => (
               <Route

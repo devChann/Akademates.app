@@ -6,7 +6,7 @@ export const Children = styled.div<{displaySidebar:boolean}>`
   height: 88vh;
   max-height: 88vh;
   transition: margin-left 1s ease; /* Add transition property */
-  margin-left:${({displaySidebar})=> displaySidebar ? "14rem" : "4rem"};
+  margin-left:${({displaySidebar})=> displaySidebar ? "14rem" : "5rem"};
   /* resize graph size depending on sidebar  status */
 
   .events-container{
@@ -17,7 +17,7 @@ export const Children = styled.div<{displaySidebar:boolean}>`
     margin-left : ${({ displaySidebar }) => (displaySidebar ? "0rem" : "1rem")};
   }
   .post-wrapper{
-    width: ${({ displaySidebar }) => (displaySidebar ? "80vw" : "88vw")};
+    width: ${({ displaySidebar }) => (displaySidebar ? "80vw" : "80vw")};
   }
   .project-table{
     max-width: ${({ displaySidebar }) => (displaySidebar ? "50vw" : "55vw")};

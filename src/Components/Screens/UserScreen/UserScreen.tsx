@@ -663,6 +663,7 @@ const  UserScreen: React.FunctionComponent<UserScreenProps> = ({user})=> {
     if(!user){
       return
     }
+    console.log(user)
     const sortedExperiences = user.experiences.sort((a, b) => {
       const dateA = a.end === "Present" ? new Date().getTime() : new Date(a.end).getTime();
       const dateB = b.end === "Present" ? new Date().getTime() : new Date(b.end).getTime();
@@ -717,7 +718,7 @@ const  UserScreen: React.FunctionComponent<UserScreenProps> = ({user})=> {
               <All>Profile</All>
             </TagButtons>
             <TagButtons onClick={()=>switchProfile("ventures")}>
-              <All>Personal ventures</All>
+              <All>My projects</All>
             </TagButtons>
           </Tags>
        
@@ -821,7 +822,7 @@ const  UserScreen: React.FunctionComponent<UserScreenProps> = ({user})=> {
       </CouponApply>
       <Language>
         <Location1>Name:</Location1>
-        <EnglishVietnamese>{user ? user.firstName + " " + user.lastName : ""}</EnglishVietnamese>
+        {user?.firstName  || user?.firstName && (<EnglishVietnamese>{user ? user.firstName + " " + user.lastName : ""}</EnglishVietnamese>)}
       </Language>
       <CouponApply>
         <Location1>Email</Location1>

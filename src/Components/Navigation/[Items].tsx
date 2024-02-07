@@ -18,7 +18,7 @@ const Item:FunctionComponent<ItemProps> = ({page,setCurrentPath,component,User})
     }
   }, [page])
   
-  if (page === "personalized") {
+  if (page === "My Profile") {
     return <div id="page">
         <UserScreen user={User} />
     </div>;

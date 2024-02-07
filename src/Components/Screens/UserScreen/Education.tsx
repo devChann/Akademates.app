@@ -5,6 +5,7 @@ import React from 'react'
 import getFullUrl from '../../../configs/axios-custom'
 import GrowlContext from '../../../configs/growlContext'
 import { Academics } from '../../../types'
+import { Button } from 'primereact/button'
 
   interface educationProps {
     setshowEditwindow: React.Dispatch<React.SetStateAction<boolean>>
@@ -18,7 +19,9 @@ import { Academics } from '../../../types'
   const [course, setcourse] = React.useState<string>()
   const [city, setcity] = React.useState<string>()
   const [startdate, setStartdate] = React.useState<Date | string>(new Date())  
-  const [enddate, setEndDate] = React.useState<Date | string>(new Date()) 
+  const [enddate, setEndDate] = React.useState<Date | string>(new Date())
+  
+  const  canSave = institution !== undefined && course !== undefined && startdate !== undefined && enddate !== undefined
 
   const addEduction =  ()=>{
     axios.post(getFullUrl('/api/auth/academics'),{
@@ -86,7 +89,7 @@ import { Academics } from '../../../types'
                         <Calendar className='modal-inputs' id="date" name="date" value={enddate as Date}  onChange={(e)=>setEndDate(e.target.value as Date)} dateFormat="dd/mm/yy" mask="99/99/9999" showIcon />   
                     </div>                  
                 </div>
-                <div className='dialog-footer'><button onClick={addEduction} className='reset-password-button'>Save</button></div>
+                <div className='dialog-footer'><Button disabled={!canSave} onClick={addEduction} className='reset-password-button'>Save</Button></div>
             </div>
         </div>
     </div>

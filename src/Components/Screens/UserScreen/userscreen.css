@@ -218,7 +218,8 @@ h3{
     font-family: 'Plus Jakarta Sans';
 }
 .select-inputs{
-    max-width: 66rem;
+    /* max-width: 66rem; */
+    width: 100%;
 }
 .modal-content{
     padding: 1rem;

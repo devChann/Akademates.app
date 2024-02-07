@@ -58,7 +58,7 @@ const  ChatContainer = styled.div`
 `
 export const Chat:FC<ChatProps> = ({messages,currentUserContext,newUserMessage})=>{
     const growl = React.useContext(GrowlContext);
-    const [messageText, setmessageText] =  React.useState("");
+    const [messageText, setmessageText] =  React.useState<string>();
     const [keyword, setKeyword] =  React.useState<string>();
     const [searchText, setsearchText] =  React.useState<string>("");
     const [conversations,setconversations] = React.useState(Array<Message>());
@@ -275,7 +275,7 @@ export const Chat:FC<ChatProps> = ({messages,currentUserContext,newUserMessage})
                 {showMsgBox && (
                 <MessageGroup>
                         <span className="p-input-icon-right">
-                            <i onClick={send} className="pi pi-send" style={{cursor:"pointer"}} />
+                            {messageText && (<i onClick={send} className="pi pi-send" style={{cursor:"pointer"}} />)}
                             <InputTextarea value={messageText}  style={{borderRadius:"10px", fontFamily:"Plus Jakarta Sans"}}
                             onChange={(e) => setmessageText(e.target.value)} rows={2} cols={60} autoResize />
                         </span>

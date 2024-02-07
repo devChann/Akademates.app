@@ -19,7 +19,7 @@ export const SIDEBAR_DATA = [
     },
     {
       id: 2,
-      name: "ventures",
+      name: "projects",
       path: "project",
       icon: "/assets/work.svg",
       element: <ProjectScreen />,
@@ -33,8 +33,8 @@ export const SIDEBAR_DATA = [
     },
     {
       id: 4,
-      name: "personalized",
-      path: "personalized",
+      name: "My Profile",
+      path: "profile",
       icon: "/assets/personalised.svg",
       element: <UserScreen user={{} as UserDto}/>,
     },

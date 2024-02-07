@@ -169,3 +169,22 @@ element.style {
   outline: 0;
   height: 56vh !important;
 }
+
+/* filters */
+.jPjBMw .p-menubar .p-submenu-list {
+  z-index: 10000 !important;
+  font-family: "Plus Jakarta Sans" !important;
+  position: absolute;
+
+}
+/* p-tags */
+.p-tag {
+  background: #227699 !important;
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 400;
+  padding: 0.25rem 0.4rem;
+  border-radius: 4px;
+  font-family: 'Plus Jakarta Sans' !important;
+  text-transform: none;
+}

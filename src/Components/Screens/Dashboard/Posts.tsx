@@ -5,7 +5,7 @@ import { PostRecords } from '../../../types';
 import getFullUrl from '../../../configs/axios-custom';
 import { Dialog } from 'primereact/dialog';
 import { Dropdown } from 'primereact/dropdown';
-import { Editor } from 'primereact/editor';
+import { Editor, EditorTextChangeParams } from 'primereact/editor';
 import { PostOptions } from '../../../configs/constants';
 import { Button } from 'primereact/button';
 import GrowlContext from '../../../configs/growlContext';
@@ -36,26 +36,6 @@ const Icon = styled.img`
   width: 20px;
   height: 20px;
   margin:5px;
-`;
-const Heading06Wrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-`;
-const August132023 = styled.div`
-  position: relative;
-  font-size: var(--button-small-size);
-  line-height: 22px;
-  color: var(--secondary);
-  display: inline-block;
-  width: 120.87px;
-`;
-const User1 = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
 `;
 const Project = styled.div`
   position: relative;
@@ -127,6 +107,11 @@ const UserFollowSvgrepoCom1Parent = styled.div`
   justify-content: flex-start;
   gap: var(--gap-4xs);
   z-index: 2;
+  span{
+    display: flex;
+    gap:5px;
+    cursor:pointer;
+  }
 `;
 const Text11 = styled.div`
     width: 100%;
@@ -171,9 +156,10 @@ const FrameParent = styled.div`
   font-size: var(--button-small-size);
   color: var(--color-steelblue);
   font-family: var(--title);
-  max-height:500px;
+  /* max-height:500px; */
   overflow:auto;
   width:100%;
+  height:-webkit-fill-available
   /* margin-left:12px; */
   .engage-buttons{
     display:flex;
@@ -255,7 +241,7 @@ const TagsParent = styled.div`
   display:flex;
   flex-direction:row;
   justify-content:space-between;
-  width:95vw;
+  width:100%;
   padding:1.2rem;
 `
 
@@ -281,31 +267,16 @@ const Tags = styled.div`
     }
   }
 `;
-const Tag = styled.div`
-  border-radius: var(--br-5xl);
-  height: 32px;
-  display: flex;
-  flex-direction: row;
-  padding: var(--padding-9xs) var(--padding-xs);
-  box-sizing: border-box;
-  align-items: center;
-  justify-content: center;
-  &.active {
-    background-color: var(--color-steelblue); // Active color
-    color: white;
-  }
-
-  &.normal {
-    background-color:rgb(163 163 163); // Normal color
-    color:black;
-  }
-`;
 type PostProps = {
   post:PostRecords[];
   id:string;
 }
-const Posts:React.FC<PostProps> = ({post,id}) => {
-  const [postCategory,setPostCategory] = React.useState();
+
+type PostCategories = {
+  name:string; value:string
+}
+const Posts:React.FC<PostProps> = ({id}) => {
+  const [postCategory,setPostCategory] = React.useState<PostCategories>();
   const [postString, setPost] = React.useState<string>('');
   const growl = React.useContext(GrowlContext)
   const [showDialog,setShowDialog] =  React.useState(false);
@@ -313,11 +284,12 @@ const Posts:React.FC<PostProps> = ({post,id}) => {
   const [currentFilter, setcurrentFilter] = React.useState("All");
   const [userPostsserverrecord,setPostsServerrecord] = React.useState(Array<PostRecords>())
   const navigate = useNavigate()
+  const [wordCount, setWordCount] = React.useState(0);
+
   const loadPosts = useCallback(() => {
     axios.get(getFullUrl(`/api/Auth/postdata/${id}`))
     .then((res)=>{
       const p = res.data as Array<PostRecords>
-      console.log(p)
       setUserPosts(p);
       setPostsServerrecord(p)
     }).catch(()=>{
@@ -329,25 +301,37 @@ const Posts:React.FC<PostProps> = ({post,id}) => {
       loadPosts()
   }, [])
   
+
   const  createPost = ()=>{
+  
+    if (wordCount < 10 ) {
+      growl.current.show({
+        severity:"info", summary:"Post should be more than 10 words"
+      })
+      return
+    }
+    
     const data = {
-      postData: postString,
+      postData: postString, 
       category: postCategory,
       userID: id
     };
     axios.post(getFullUrl('/api/Auth/post'), data, {
-  headers: {
-    'accept': '*/*',
-    'Content-Type': 'application/json'
-  }
-})
+    headers: {
+      'accept': '*/*',
+      'Content-Type': 'application/json'
+    }
+  })
   .then(response => {
-        console.log('Response:', response.data);
+        const data = response.data as PostRecords
+        setUserPosts((prev)=> [...prev, response.data])
       growl.current.show({
         severity:"success",
         summary:"Post created"
       })
       setShowDialog(false);
+      setPost("")
+      
   })
   .catch(error => {
     console.error('Error:', error);
@@ -371,12 +355,12 @@ const Posts:React.FC<PostProps> = ({post,id}) => {
     if(!id && !authorID){
         return
     }
-    axios.post(getFullUrl(`/api/auth/${id}/follow/${authorID}`)).then((x)=>{
+    axios.post(getFullUrl(`/api/auth/${id}/follow/${authorID}`)).then(()=>{
         growl.current.show({
             summary:`your now  following ${firstname + " " + lastname}`,
             severity:"success"
         })   
-    }).catch((error)=>{
+    }).catch(()=>{
         growl.current.show({
             summary:`you have already  followed  ${firstname + " " + lastname}`,
             severity:"error"
@@ -401,7 +385,7 @@ const Posts:React.FC<PostProps> = ({post,id}) => {
               separator: true
             },
             {
-                label: 'Grants',
+                label: 'Grant',
                 icon: '',
                 command: () => {
                   let grants = userPosts.filter((f)=> f.category === "Grant")
@@ -432,12 +416,36 @@ const Posts:React.FC<PostProps> = ({post,id}) => {
               setUserPosts(funding);
               setcurrentFilter("Funding")
             },
-        },
+          },
         {
           separator: true
         },
         {
-          label: 'Ventures',
+          label: 'Consultancy',
+          icon: '',
+          command: () => {
+            const funding = userPosts.filter((f)=> f.category === "Funding")
+            setUserPosts(funding);
+            setcurrentFilter("Funding")
+          },
+        },
+      {
+        separator: true
+      },
+      {
+        label: 'Hot task',
+        icon: '',
+        command: () => {
+          const funding = userPosts.filter((f)=> f.category === "Funding")
+          setUserPosts(funding);
+          setcurrentFilter("Funding")
+        },
+      },
+    {
+      separator: true
+    },
+        {
+          label: 'Projects',
           icon: '',
           command: () => {
             const projects = userPosts.filter((f)=> f.category === "projects")
@@ -448,28 +456,50 @@ const Posts:React.FC<PostProps> = ({post,id}) => {
         ]
     }
   ]
-  const start = <>
+
+  const handleTextChange = (event: EditorTextChangeParams) => {
+    const text = event.htmlValue as string;
+    console.log(text)
+    const words = text.split(/\s+/).filter((word) => word.length > 0);
+    setWordCount(words.length);
+    setPost(event.htmlValue as string)
+  };
+
+
+  const  canSave = postString !== "" && postCategory !== undefined
+
+  const editPost = (post:PostRecords)=>{
+      let sele = PostOptions.find((f)=> f.name === post.category)
+      console.log(post)
+     if (sele) {
+      setPostCategory(sele)
+     }
+      setPost(post.postData)
+      setShowDialog(true)
+    }
     
-  </>
   return (
     <FrameParent>
-       <Dialog header="Create new post" visible={showDialog} onHide={() => setShowDialog(false)} style={{ width: '45vw',padding:"3px" }}>
+       <Dialog header="Create new post" visible={showDialog} onHide={() => {
+        setShowDialog(false)
+       }} style={{ width: '45vw',padding:"3px" }}>
         <DialogContentWrapper>
           <Dropdown value={postCategory} options={PostOptions} 
               onChange={(e)=> setPostCategory(e.target.value)}  className="drop-downs"
               optionLabel="name" placeholder="Select post category" />
+
             <Editor headerTemplate={header} 
                   // placeholder="What's on your mind..."
                   style={{ height: '250px' }} value={postString}
-                  onTextChange={(e) => setPost(e.htmlValue as string)} />
+                  onTextChange={(e) => handleTextChange(e)} />
             <div className='button'>
-                    <Button onClick={createPost} label='Create' />
+                <Button disabled = {!canSave} onClick={createPost} label='Create' />
             </div>     
         </DialogContentWrapper>    
       </Dialog>
       <TagsParent>
         <Tags>
-          <Menubar  model={items} start={start} className='menu-bar'/>
+          <Menubar  model={items}  className='menu-bar'/>
           {/* {filters && filters.map((r,i)=><Tag  onClick={()=> filterPost(r.name, r.id)} key={i}  className={currentFilter === r.id ? 'active' : 'normal'}><All>{r.name}</All></Tag>)} */}
         </Tags>
         <Tag5>
@@ -483,7 +513,7 @@ const Posts:React.FC<PostProps> = ({post,id}) => {
           <Text11>
             <TextParent>
               <Text2 className='post-titles'>
-                  <Cockpit>{r.user.firstname + " " + r.user.lastname}</Cockpit>
+                  {r.user?.firstname || r.user?.lastname && (<Cockpit>{r.user?.firstname + " " + r.user?.lastname}</Cockpit>)}
                 <Helpful>
                   <Project>{r.category}</Project>
                 </Helpful>
@@ -504,9 +534,18 @@ const Posts:React.FC<PostProps> = ({post,id}) => {
                     </>)
                   }
 
-                  {r.userID === id ? <UserFollowSvgrepoCom1Parent>
-                      <Icon alt="" src="/assets/editicon.svg "/>
-                      <Message>Edit</Message>
+                  {r.userID === id ? 
+                  <UserFollowSvgrepoCom1Parent>
+                      {/* <Icon alt="" src="/assets/editicon.svg "/> */}
+                      <span onClick={()=> editPost(r)}>
+                      <i className="pi pi-pencil"></i>
+                      <p>Edit</p>
+                      </span>
+                      <span style={{marginLeft:"10px"}}>
+                      <i className="pi pi-trash"></i>
+                      <p>Delete</p>
+                      </span>
+                     
                   </UserFollowSvgrepoCom1Parent> : null}
                   
           </div>

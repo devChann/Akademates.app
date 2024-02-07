@@ -210,7 +210,7 @@ const DashboardComponent: FunctionComponent = () => {
           </Heading>
           <Heading1>
             <Div1>{followers}</Div1>
-            <Audience>Audience</Audience>
+            <Audience>My Audience</Audience>
           </Heading1>
         </Div>
         <Div>
@@ -219,7 +219,7 @@ const DashboardComponent: FunctionComponent = () => {
           </Heading>
           <Heading1>
             <Div1>{following}</Div1>
-            <Audience>Tracking</Audience>
+            <Audience>Tracking me</Audience>
           </Heading1>
         </Div>
         <Div>
@@ -228,7 +228,7 @@ const DashboardComponent: FunctionComponent = () => {
           </Heading>
           <Heading1>
             <Div1>{allProjects}</Div1>
-            <Audience>Ventures</Audience>
+            <Audience>Projects</Audience>
           </Heading1>
         </Div>
         <Div>

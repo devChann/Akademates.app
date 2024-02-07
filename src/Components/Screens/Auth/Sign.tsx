@@ -411,11 +411,10 @@ export const Sign: React.FC<{}> = () => {
               </Details>
             </FormContainer>
           </Content>
-          <Buttons>
+          <Buttons  onClick={login}>
             <Button1>
               <PostJob onClick={login}>Register</PostJob>
             </Button1>
-           
           </Buttons>
          
         </FormLogin>

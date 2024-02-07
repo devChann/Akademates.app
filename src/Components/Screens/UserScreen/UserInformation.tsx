@@ -6,12 +6,12 @@ import { InputText } from 'primereact/inputtext'
 import { InputTextarea } from 'primereact/inputtextarea'
 import { MultiSelect } from 'primereact/multiselect'
 import { Timeline } from 'primereact/timeline'
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent, useState } from 'react'
 import getFullUrl from '../../../configs/axios-custom'
 import GrowlContext from '../../../configs/growlContext'
 import ThemeContext from '../../../configs/theme'
 import { Disciplines, Industries,SPECIALIZATION,ANZSIC_Subdivision,
-    ANZSIC_Group,ANZSIC_Class } from '../../../Services/dropDowns'
+    ANZSIC_Group,ANZSIC_Class, FIELDS } from '../../../Services/dropDowns'
 import SectionHeader from '../Fragments/SectionHeaders'
 import Education from './Education'
 import Experience from './Experience'
@@ -116,6 +116,8 @@ const All = styled.div`
   font-size:0.75rem;
   margin:auto;
 `
+
+
 interface ExperienceDto  {
     title:string,
     desc:string,
@@ -205,6 +207,11 @@ const useStyle = () => {
         }
     };
 };
+
+interface City {
+    name: string;
+    code: string;
+}
 const Chip: FunctionComponent<ChipProps> = ({label, onIconClick}) => {
 
     const style = useStyle();
@@ -227,9 +234,13 @@ export const UserInformation = (props:any) => {
     const [data,setData] = React.useState<UserDto>(defaultUserSettings)
     const growl = React.useContext(GrowlContext)
     const [showDialog,setShowDialog] = React.useState(false)
+
     const [discipline,setDiscipline] =  React.useState(Array<selectedTypes>());
     const [industry,setIndustry] =  React.useState(Array<selectedTypes>());
-    const [indOptions,setIndOptions] = React.useState<Array<selectedTypes>>();
+    const [field,setFields]  = React.useState(Array<selectedTypes>());
+    const [indOptions,setIndOptions] =  React.useState(Array<selectedTypes>());
+    const [FilteredOptions,setFilteredOptions] =  React.useState(Array<selectedTypes>());
+
     const[fieldValues,setUserFields] = React.useState<UserDto>(defaultUserSettings);
     // profile image
     const [img, setImg] = React.useState({ preview: "", raw: "" });
@@ -243,10 +254,13 @@ export const UserInformation = (props:any) => {
     const [anzsicsubdivision,setAnzsicsubdivision] =  React.useState(Array<selectedSpecialization>());
     const [anzsicgroup,setAnzsicgroup] =  React.useState(Array<selectedSpecialization>());
     const [anzsicclass,setAnzsicclass] =  React.useState(Array<selectedSpecialization>());
+
     const [anzsicgroupOptions,setAnzsicgroupOptions] = React.useState<Array<selectedSpecialization>>();
+
     const [anzsicclassOptions,setAnzsicclassOptions] = React.useState<Array<selectedSpecialization>>();
 
-
+    // interests
+    const [userInterests,setuserInterests] =  React.useState(Array<selectedSpecialization>());
     const onvalueChange =<O extends keyof UserDto> (prop:O, value:UserDto[O])=>{
         setUserFields({...fieldValues, [prop]:value})
     } 
@@ -261,7 +275,7 @@ export const UserInformation = (props:any) => {
         axios.get(getFullUrl(`/api/Auth/user/${props.id}`)).then((res)=>{
             const a = res.data
             const data = a as UserDto
-            console.log(data)
+            
             setData(data)
             setUserFields(data);
         }).catch(()=>{
@@ -303,7 +317,6 @@ export const UserInformation = (props:any) => {
     },[])
 
 
-
     React.useEffect(()=>{
         const i = Industries.filter((sa)=>{
             return discipline.some((f)=>{
@@ -313,27 +326,39 @@ export const UserInformation = (props:any) => {
         setIndOptions(i)
     },[discipline])
 
+
+    React.useEffect(()=>{
+        const f = FIELDS.filter((sa)=>{
+            return industry.some((f:any)=>{
+                return f== sa.code
+            })
+        }) as Array<selectedTypes>
+        setFilteredOptions(f)
+      },[industry])
+
+
+    //   industry filteres
     React.useEffect(()=>{
         const group = ANZSIC_Group.filter((sa)=>{
-            return anzsicsubdivision.some((f)=>{
-                return f.value === sa.value.toString().slice(0,2)
+            return anzsicsubdivision.some((f:any)=>{
+                return f === sa.value.toString().slice(0,2)
             })
         })
         setAnzsicgroupOptions(group)
     },[anzsicsubdivision])
 
     React.useEffect(()=>{
+
+        console.log(anzsicgroup)
         const classGroup = ANZSIC_Class.filter((sa)=>{
-            if(anzsicgroupOptions){
-                return anzsicgroupOptions.some((f)=>{
-                    return f.value === sa.value.toString().slice(0,3)
-                })
-            } 
-            return
+            return anzsicgroup.some((f:any)=>{
+                return f === sa.value.toString().slice(0,3)
+            })
         })
+        console.log(classGroup)
         setAnzsicclassOptions(classGroup)
 
-    },[anzsicgroupOptions])
+    },[anzsicgroup])
 
     const events = [
         { status: 'Ordered', date: '15/10/2020 10:30', icon: 'pi pi-shopping-cart', color: '#9C27B0', image: 'game-controller.jpg' },
@@ -343,7 +368,7 @@ export const UserInformation = (props:any) => {
     const UpdateUserInformation =()=>{
         const selectedindustry = industry.map((s)=>(s.label))
         const selecteddiscipline= discipline.map((s)=>(s.label))
-        const ANZSICSubdivision = ""
+        const selectedFields = field.map((s)=>(s.label))
 
         axios.put(getFullUrl(`/api/Auth/edituser/${props.id}`),{
             FirstName: fieldValues.firstName,
@@ -354,6 +379,7 @@ export const UserInformation = (props:any) => {
             Discipline: selecteddiscipline.join('|').toString(),
             Industry:selectedindustry.join('|').toString(),
             Country: fieldValues.country,
+            field:selectedFields.join('|').toString()
 
         }).then((res)=>{
             growl.current.show({
@@ -467,12 +493,12 @@ export const UserInformation = (props:any) => {
 
     React.useEffect(()=>{
         axios.get(getFullUrl(`/api/Auth/userexperience/${props.id}`)).then((res)=>{
-            console.log(res.data)
+            
             const d = res.data as Array<ExperienceDto>
             const a = groupBy(d, function(n) {
                 return n.org;
               });
-            console.log(a)
+            
         }).catch(()=>{
             growl.current.show({
                 severity:"error",
@@ -480,6 +506,113 @@ export const UserInformation = (props:any) => {
             })
         })
     },[])
+
+
+    const Academia=()=>{
+       return(
+       <>
+            <div className="input-group-user">
+                <label className='input-lable-titles'  htmlFor="orgname" style={{ marginBottom: 8 }}>
+                Branch of knowledge<span className='required'>*</span>
+                </label>  
+            <MultiSelect value={discipline} options={Disciplines} 
+                        onChange={(e) => setDiscipline(e.value)} optionLabel="label" maxSelectedLabels={3}
+                        placeholder="Select a branch of knowledge" display="chip" filter className='select-inputs' />
+             {/* <Select  
+                classNamePrefix="Select your discipline"
+                isMulti
+                name='discipline'
+                options={Disciplines}
+                className='select-inputs'
+                onChange = {(x:any)=> setDiscipline(x)}
+                /> */}
+           </div>
+            <div className="input-group-user">
+                <label className='input-lable-titles'  htmlFor="orgname" 
+                style={{ marginBottom: 8 }}>
+                    Sub  knowledge<span className='required'>*</span>
+                </label> 
+                <MultiSelect value={industry} onChange={(e) => setIndustry(e.value)} options={indOptions} display="chip" optionLabel="label" 
+                placeholder="Select Cities" maxSelectedLabels={3} className='select-inputs' /> 
+                {/* <Select  
+                    classNamePrefix="Select your industry"
+                    isMulti
+                    name='industry'
+                    options={indOptions}
+                    className='select-inputs'
+                    onChange = {(x:any)=> setIndustry(x)}
+                    />  */}
+            </div>
+            <div className="input-group-user">
+                <label className='input-lable-titles'  htmlFor="orgname" 
+                style={{ marginBottom: 8 }}>
+                    Field of activity<span className='required'>*</span>
+                </label>  
+
+                <MultiSelect value={field}
+                 onChange={(e) => setFields(e.value)} options={FilteredOptions} display="chip" optionLabel="label" 
+                placeholder="Select Cities" maxSelectedLabels={3} className='select-inputs' /> 
+
+                    {/* <Select  
+                    classNamePrefix="Select your industry"
+                    isMulti
+                    name='industry'
+                    options={indOptions}
+                    className='select-inputs'
+                    onChange = {(x:any)=> setIndustry(x)}
+                    /> */}
+            </div>
+
+        </>
+    )
+    }
+
+    const IndustruGroup =()=>{
+        return (
+            <>
+            <div className="input-group-user">
+            <label className='input-lable-titles'  htmlFor="orgname" 
+            style={{ marginBottom: 8 }}>
+                Subdivision<span className='required'>*</span>
+            </label>  
+
+                <MultiSelect value={anzsicsubdivision}
+                 onChange={(e) => setAnzsicsubdivision(e.value)} options={ANZSIC_Subdivision} display="chip" optionLabel="label" 
+                placeholder="Select  Subdivision" maxSelectedLabels={3} className='select-inputs' /> 
+               
+        </div>
+        <div className="input-group-user">
+            <label className='input-lable-titles'  htmlFor="orgname" 
+            style={{ marginBottom: 8 }}>
+                Group<span className='required'>*</span>
+            </label>  
+
+            <MultiSelect value={anzsicgroup}
+                 onChange={(e) => setAnzsicgroup(e.value)} options={anzsicgroupOptions} display="chip" optionLabel="label" 
+                placeholder="Select sub class" maxSelectedLabels={3} className='select-inputs' /> 
+
+                {/* <Select  
+                classNamePrefix="Select your  ANZSIC group"
+                isMulti
+                name='ANZSIC Group'
+                options={anzsicgroupOptions}
+                className='select-inputs'
+                onChange = {(x:any)=> setAnzsicgroupOptions(x)}
+            /> */}
+        </div>
+        <div className="input-group-user">
+            <label className='input-lable-titles'  htmlFor="orgname" 
+            style={{ marginBottom: 8 }}>
+                Class<span className='required'>*</span>
+            </label>  
+            <MultiSelect value={anzsicclass}
+                 onChange={(e) => setAnzsicclass(e.value)} options={anzsicclassOptions} display="chip" optionLabel="label" 
+                placeholder="Select sub class" maxSelectedLabels={3} className='select-inputs' />  
+              
+        </div>
+        </>
+        )
+    }
   return (
      <Main>
         <div>
@@ -504,7 +637,7 @@ export const UserInformation = (props:any) => {
                         <div className="input-group">
                             <div style={{marginRight:"5px"}}>
                                 <label className='input-lable-titles'  htmlFor="firstname" style={{ marginBottom: 8 }}>
-                                    Surname<span className='required'>*</span>
+                                    First name<span className='required'>*</span>
                                 </label>
                                 <InputText value={fieldValues.firstName} className="inputs"
                                 placeholder="first name"  onChange={(e)=>{onvalueChange("firstName",e.currentTarget.value)}}  
@@ -540,7 +673,7 @@ export const UserInformation = (props:any) => {
                 
                 </CustomRows>  
                 <CustomRows>
-                <div className="input-group-user">
+                    <div className="input-group-user">
                         <label className='input-lable-titles'  htmlFor="orgname" style={{ marginBottom: 8 }}>
                             Domain<span className='required'>*</span>
                         </label>
@@ -578,206 +711,45 @@ export const UserInformation = (props:any) => {
                         />
                     </div>
                     
-                </CustomRows>           
-            <div>
-                  {userSpecialization?.label === "CROSS CUTTING" ? <>
-                    <div className="input-group-user">
-                        <label className='input-lable-titles'  htmlFor="orgname" style={{ marginBottom: 8 }}>
-                        Branch of knowledge<span className='required'>*</span>
-                        </label>   
-                        <MultiSelect
-                            optionLabel="label"
-                            filter={true}
-                            // style={styles.multiSelect}
-                            placeholder="select your discipline"
-                            fixedPlaceholder
-                            value={discipline}
-                            options={Disciplines}
-                            onChange={(e) => setDiscipline(e.value)}
-                        />
-                        <div style={customStyles.chipsContainer}>
-                            {discipline
-                                .sort((c1, c2) => c1.label.localeCompare(c2.label))
-                                .map((d) => (
-                                <Chip
-                                    key={d.code}
-                                    label={d.label}
-                                    onIconClick={() => unSelectedDiscipline(d, discipline)}
-                                />
-                                ))}
-                        </div>
-                    </div>
-                        <div className="input-group-user">
-                            <label className='input-lable-titles'  htmlFor="orgname" 
-                                style={{ marginBottom: 8 }}>
-                                 Group<span className='required'>*</span>
-                            </label>   
-                            <Select  
-                            classNamePrefix="Select your industry"
-                            isMulti
-                            name='industry'
-                            options={indOptions}
-                            className='select-inputs'
-                            onChange = {(x:any)=> setIndustry(x)}
-                            />
-                        </div>
-                        <div className="input-group-user">
-                        <label className='input-lable-titles'  htmlFor="orgname" 
-                        style={{ marginBottom: 8 }}>
-                             Subdivision<span className='required'>*</span>
-                        </label>   
-                            <Select  
-                            classNamePrefix="Select   Subdivision"
-                            isMulti
-                            name='ANZSIC Subdivision'
-                            options={ANZSIC_Subdivision}
-                            className='select-inputs'
-                            onChange = {(x:any)=> setAnzsicsubdivision(x)}
-                            />
-                    </div>
-                    <div className="input-group-user">
-                        <label className='input-lable-titles'  htmlFor="orgname" 
-                        style={{ marginBottom: 8 }}>
-                            ANZSIC Group<span className='required'>*</span>
-                        </label>   
-                            <Select  
-                            classNamePrefix="Select your  ANZSIC group"
-                            isMulti
-                            name='ANZSIC Group'
-                            options={anzsicgroupOptions}
-                            className='select-inputs'
-                            onChange = {(x:any)=> setAnzsicgroupOptions(x)}
-                        />
-                    </div>
-                    <div className="input-group-user">
-                        <label className='input-lable-titles'  htmlFor="orgname" 
-                        style={{ marginBottom: 8 }}>
-                            ANZSIC Class<span className='required'>*</span>
-                        </label>   
-                            <Select  
-                            classNamePrefix="Select your anzsic class"
-                            isMulti
-                            name='anzsic class'
-                            options={anzsicclassOptions}
-                            className='select-inputs'
-                            onChange = {(x:any)=> setAnzsicclassOptions(x)}
-                            />
-                    </div>            
-                    </> : null}
+                </CustomRows>   
+                          
+                 <div>
+                  {userSpecialization?.label === "CROSS CUTTING" &&(
+                    <>
+                     <Divider align="center">
+                        <span className="p-tag">Academia</span>
+                    </Divider> 
+                     <Academia /> 
+                     <Divider align="center">
+                        <span className="p-tag">industry fields</span>
+                    </Divider>
+                     <IndustruGroup />
+                    </>
+                  )}
                    {userSpecialization?.label === "INDUSTRY" ? 
-                    <>
-                        <div className="input-group-user">
-                        <label className='input-lable-titles'  htmlFor="orgname" 
-                        style={{ marginBottom: 8 }}>
-                            ANZSIC Subdivision<span className='required'>*</span>
-                        </label>   
-                            <Select  
-                            classNamePrefix="Select  ANZSIC Subdivision"
-                            isMulti
-                            name='ANZSIC Subdivision'
-                            options={ANZSIC_Subdivision}
-                            className='select-inputs'
-                            onChange = {(x:any)=> setAnzsicsubdivision(x)}
-                            />
-                    </div>
-                    <div className="input-group-user">
-                        <label className='input-lable-titles'  htmlFor="orgname" 
-                        style={{ marginBottom: 8 }}>
-                            ANZSIC Group<span className='required'>*</span>
-                        </label>   
-                            <Select  
-                            classNamePrefix="Select your  ANZSIC group"
-                            isMulti
-                            name='ANZSIC Group'
-                            options={anzsicgroupOptions}
-                            className='select-inputs'
-                            onChange = {(x:any)=> setAnzsicgroupOptions(x)}
-                        />
-                    </div>
-                    <div className="input-group-user">
-                        <label className='input-lable-titles'  htmlFor="orgname" 
-                        style={{ marginBottom: 8 }}>
-                            ANZSIC Class<span className='required'>*</span>
-                        </label>   
-                            <Select  
-                            classNamePrefix="Select your anzsic class"
-                            isMulti
-                            name='anzsic class'
-                            options={anzsicclassOptions}
-                            className='select-inputs'
-                            onChange = {(x:any)=> setAnzsicclassOptions(x)}
-                            />
-                    </div>
-                    </>: null}
-                   {userSpecialization?.label === "ACADEMIA" ? 
-                    <>
-                     <div className="input-group-user">
-                        <label className='input-lable-titles'  htmlFor="orgname" style={{ marginBottom: 8 }}>
-                        Branch of knowledge<span className='required'>*</span>
-                        </label>   
-                        <Select  
-                            classNamePrefix="Select your discipline"
-                            isMulti
-                            name='discipline'
-                            options={Disciplines}
-                            className='select-inputs'
-                            onChange = {(x:any)=> setDiscipline(x)}
-                            />
-                    </div>
-                    <div className="input-group-user">
-                        <label className='input-lable-titles'  htmlFor="orgname" 
-                        style={{ marginBottom: 8 }}>
-                            Field of activity<span className='required'>*</span>
-                        </label>   
-                            <Select  
-                            classNamePrefix="Select your industry"
-                            isMulti
-                            name='industry'
-                            options={indOptions}
-                            className='select-inputs'
-                            onChange = {(x:any)=> setIndustry(x)}
-                            />
-                    </div>
-                    </>: null}
-                    
+                   <IndustruGroup />: null}
                     {userSpecialization?.label === "ACADEMIA"  &&(
-                    <>
-                     <label className='input-lable-titles'  htmlFor="orgname" 
-                        style={{ marginBottom: 8 }}>
-                            Field of activity<span className='required'>*</span>
-                    </label>
-                        <Select  
-                            classNamePrefix="Select your industry"
-                            isMulti
-                            name='industry'
-                            options={indOptions}
-                            className='select-inputs'
-                            onChange = {(x:any)=> setIndustry(x)}
-                            />
-                    </> )
-                    }     
-                     {userSpecialization?.label === "INDUSTRY"  &&(
-                    <>
-                     <label className='input-lable-titles'  htmlFor="orgname" 
-                        style={{ marginBottom: 8 }}>
-                            Body of knowledge<span className='required'>*</span>
-                    </label>
-                        <Select  
-                            classNamePrefix="Select your discipline"
-                            isMulti
-                            name='discipline'
-                            options={Disciplines}
-                            className='select-inputs'
-                            onChange = {(x:any)=> setDiscipline(x)}
-                            />
-                    </> )
-                    } 
+                        <Academia /> 
+                    )
+                    }
+                     <Divider align="center">
+                        <span className="p-tag">Your interest</span>
+                    </Divider>  
+                    <div className="input-group-user">
+                        <label className='input-lable-titles'  htmlFor="orgname" style={{ marginBottom: 8 }}>
+                            Interest<span className='required'>*</span>
+                        </label>
+                        <MultiSelect value={userInterests}
+                            onChange={(e) => setuserInterests(e.value)} options={SPECIALIZATION} display="chip" optionLabel="label" 
+                            placeholder="Select your insterest" maxSelectedLabels={1} multiple className='select-inputs' /> 
+                    </div>
                      <TagButtons onClick={UpdateUserInformation}>
                         <All>Save changes</All>
                      </TagButtons>               
                   
             </div>
          </div> 
+         
         <div>
             <CustomRows>
                

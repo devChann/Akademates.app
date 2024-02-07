@@ -11,7 +11,7 @@ import ThemeContext from '../../../configs/theme'
 import SectionHeader from '../Fragments/SectionHeaders'
 import Select from 'react-select';
 import { AllCountries } from '../../../Services/countries';
-import { COUNTRIES, Disciplines, FIELDS, Industries } from '../../../Services/dropDowns'
+import { ANZSIC_Class, ANZSIC_Group, ANZSIC_Subdivision, COUNTRIES, Disciplines, FIELDS, Industries } from '../../../Services/dropDowns'
 import GrowlContext from '../../../configs/growlContext'
 import { Dialog } from 'primereact/dialog'
 import Profile from '../Projects/Fragments/Profile'
@@ -19,6 +19,8 @@ import { Button } from 'primereact/button'
 import { TableHeaderContainer, VentureParentContainer } from '../Projects/ProjectScreen'
 import styled from 'styled-components'
 import { UserDto } from '../../../types'
+import { Divider } from 'primereact/divider'
+import { MultiSelect } from 'primereact/multiselect'
 const FormParent = styled.div`
   align-self: stretch;
   border-radius: 0px 0px var(--br-5xs) var(--br-5xs);
@@ -81,6 +83,7 @@ const Component = styled.div`
     text-align: start;
     font-size: var(--body-03-default-size);
     font-family: 'Plus Jakarta Sans';
+    text-transform:none;
     span{
       
     }
@@ -125,6 +128,10 @@ type selectedTypes = {
     code:number,
     label:string,
 }
+type selectedSpecialization = {
+  value:string | number,
+  label:string,
+}
 export default function ExpertsScreen() {
   const growl = React.useContext(GrowlContext);
   const  theme = React.useContext(ThemeContext)
@@ -143,6 +150,19 @@ export default function ExpertsScreen() {
    const [discipline,setDiscipline] =  React.useState(Array<selectedTypes>());
    const [country,setCountry] =  React.useState(Array<selectedTypes>());
    const [field,setFields]  = React.useState(Array<selectedTypes>());
+
+   const [subDisciplines,setSubDisciplines] =  React.useState(Array<selectedTypes>());
+   const [industryFilteredOptions,setIndustryFilteredOptions] =  React.useState(Array<selectedTypes>());
+   const [FilteredOptions,setFilteredOptions] =  React.useState(Array<selectedTypes>());
+
+
+  const [anzsicsubdivision,setAnzsicsubdivision] =  React.useState(Array<selectedSpecialization>());
+
+  const [anzsicgroupOptions,setAnzsicgroupOptions] = React.useState<Array<selectedSpecialization>>();
+  const [anzsicclassOptions,setAnzsicclassOptions] = React.useState<Array<selectedSpecialization>>();
+
+  const [anzsicgroup,setAnzsicgroup] =  React.useState(Array<selectedSpecialization>());
+  const [anzsicclass,setAnzsicclass] =  React.useState(Array<selectedSpecialization>());
 
    const [rowsPerPage,setRowsPerPage] = React.useState(20) ;
    const [sortBy,setSortBy] = React.useState('firstName');
@@ -281,6 +301,47 @@ export default function ExpertsScreen() {
     setProfile(user)
     setShowProfile(true)
   }
+
+  React.useEffect(()=>{
+      const industriesOptions = Industries.filter((sa)=>{
+          return discipline.some((f)=>{
+              return f.code == sa.code
+          })
+      }) as Array<selectedTypes>
+      setIndustryFilteredOptions(industriesOptions)
+  },[discipline])
+
+  React.useEffect(()=>{
+    console.log(subDisciplines)
+    const f = FIELDS.filter((sa)=>{
+        return subDisciplines.some((f:any)=>{
+            return f== sa.code
+        })
+    }) as Array<selectedTypes>
+    setFilteredOptions(f)
+  },[subDisciplines])
+  
+  React.useEffect(()=>{
+    const group = ANZSIC_Group.filter((sa)=>{
+        return anzsicsubdivision.some((f:any)=>{
+            return f === sa.value.toString().slice(0,2)
+        })
+    })
+    setAnzsicgroupOptions(group)
+    },[anzsicsubdivision])
+
+    React.useEffect(()=>{
+
+    console.log(anzsicgroup)
+    const classGroup = ANZSIC_Class.filter((sa)=>{
+        return anzsicgroup.some((f:any)=>{
+            return f === sa.value.toString().slice(0,3)
+        })
+    })
+    console.log(classGroup)
+    setAnzsicclassOptions(classGroup)
+
+    },[anzsicgroup])
   return (
     <MainContainer>
        <Dialog className='dialog-box' header="User Profile"    visible={showProfile}  modal style={{ width: '60vw' }}  onHide={()=> setShowProfile(false)}>
@@ -291,6 +352,7 @@ export default function ExpertsScreen() {
              } 
         </Dialog>
          <VentureParentContainer>
+          
           <div className="rows">
             <FormParent>
               <FormParentInner>
@@ -313,7 +375,7 @@ export default function ExpertsScreen() {
                   <Component>
                     {/* <SelectCountry>Venture Title</SelectCountry> */}
                     <InputText value={lastName} className="inputs"
-                      placeholder="Keyword" 
+                      placeholder="Other names" 
                         onChange={(e)=> setLastName(e.target.value)}
                       />
                   </Component>
@@ -342,24 +404,46 @@ export default function ExpertsScreen() {
             </FormParent>
             <FormParent>
               <FormParentInner>
-                <InputWrapper>
-                  <Titles> Branch of knowledge</Titles>
-                  <Component>
-                  <Select  
-                        classNamePrefix="Select"
-                        isMulti
-                        name='discipline'
-                        options={Disciplines}
-                        onChange = {(x:any)=> setDiscipline(x)}
-                        className='drop-downs'
-                     />
-                  </Component>
+                <InputWrapper style={{width:"28rem"}}>
+                  <CustomButtom style={{margin:"auto"}} onClick={()=> queryData({rows,first,sortBy,sortOrder}) } className='reset-password-button'>Search</CustomButtom>
                 </InputWrapper>
               </FormParentInner>
             </FormParent>
           </div>
-          <div className="rows">
+          <Accordion style={{width:"94%", margin:"1rem"}}>
+            <AccordionTab header="Advanced Filters">
+            < Divider align="center">
+                <span className="p-tag">Filter based on academic fields</span>
+            </Divider>
+              <div className='rows'>
+              <FormParent>
+              <FormParentInner>
+                <InputWrapper>
+                  <Titles> Branch of knowledge</Titles>
+                  <Component>
+                  <MultiSelect value={discipline} options={Disciplines} 
+                        onChange={(e) => setDiscipline(e.value)} optionLabel="label" 
+                        placeholder="Select a branch of knowledge" display="chip" filter className='drop-downs' />
+                  </Component>
+                </InputWrapper>
+              </FormParentInner>
+            </FormParent>
             <FormParent>
+              <FormParentInner>
+                <InputWrapper>
+                  <Titles> Discipline</Titles>
+                  <Component>
+                  <MultiSelect value={subDisciplines} options={industryFilteredOptions} 
+                        onChange={(e) => setSubDisciplines(e.value)} optionLabel="label" 
+                        placeholder="Select discipline" display="chip" 
+                        filter className='drop-downs'/>
+                  </Component>
+                </InputWrapper>
+              </FormParentInner>
+            </FormParent>
+              </div>
+              <div className="rows">
+              <FormParent>
               <FormParentInner>
                 <InputWrapper>
                   <Titles> Start Date</Titles>
@@ -376,50 +460,65 @@ export default function ExpertsScreen() {
             <FormParent>
               <FormParentInner>
                 <InputWrapper>
-                  <Titles> Business Sector/ Trade</Titles>
+                  <Titles>Sub discipline</Titles>
                   <Component>
-                  <Select  
-                        classNamePrefix="Select"
-                        isMulti
-                        name='industry'
-                        options={Industries}
-                        onChange = {(x:any)=> setIndustry(x)}
-                        className='drop-downs'
-                     />
+                    {/* <SelectCountry>Venture Title</SelectCountry> */}
+                    <MultiSelect value={field} options={FilteredOptions} 
+                        onChange={(e) => setFields(e.value)} optionLabel="label" 
+                        placeholder="Select sub discipline" display="chip" filter className='drop-downs'/>
                   </Component>
                 </InputWrapper>
               </FormParentInner>
             </FormParent>
-          </div>
-          <div className="rows">
+              </div>
+            < Divider align="center">
+                <span className="p-tag">Filter based on industry fields</span>
+            </Divider>
+            <div className='rows'>
+                <FormParent>
+              <FormParentInner>
+                <InputWrapper>
+                  <Titles> Trade</Titles>
+                  <Component>
+                    {/* <SelectCountry>Venture Title</SelectCountry> */}
+                    <MultiSelect value={anzsicsubdivision} options={ANZSIC_Subdivision} 
+                        onChange={(e) => setAnzsicsubdivision(e.value)} optionLabel="label" 
+                        placeholder="Select trade" display="chip" filter className='drop-downs' />
+                  </Component>
+                </InputWrapper>
+              </FormParentInner>
+            </FormParent>
             <FormParent>
               <FormParentInner>
                 <InputWrapper>
-                  <Titles>Field of activity</Titles>
+                  <Titles> Sector</Titles>
                   <Component>
                     {/* <SelectCountry>Venture Title</SelectCountry> */}
-                    <Select  
-                        classNamePrefix="Select"
-                        isMulti
-                        name='industry'
-                        options={FIELDS}
-                        onChange = {(x:any)=> setFields(x)}
-                        className='drop-downs'
-                     />
+                    <MultiSelect value={anzsicgroup} options={anzsicgroupOptions} 
+                        onChange={(e) => setAnzsicgroup(e.value)} optionLabel="label" 
+                        placeholder="Select  sector" display="chip" filter className='drop-downs'/>
                   </Component>
                 </InputWrapper>
               </FormParentInner>
             </FormParent>
-            <FormParent>
+              </div>
+              <div className='rows'>
+              <FormParent>
               <FormParentInner>
-                <InputWrapper style={{width:"28rem"}}>
-                  <CustomButtom style={{margin:"auto"}} onClick={()=> queryData({rows,first,sortBy,sortOrder}) } className='reset-password-button'>Search</CustomButtom>
+                <InputWrapper>
+                  <Titles> Sub sector</Titles>
+                  <Component>
+                    {/* <SelectCountry>Venture Title</SelectCountry> */}
+                    <MultiSelect value={anzsicclass} options={anzsicclassOptions} 
+                        onChange={(e) => setAnzsicclass(e.value)} optionLabel="label" 
+                        placeholder="Select sub sector" display="chip" filter className='drop-downs'/>
+                  </Component>
                 </InputWrapper>
               </FormParentInner>
             </FormParent>
-          </div>
-       </VentureParentContainer>
-       <VentureParentContainer>
+              </div>
+            </AccordionTab>
+          </Accordion>
        <div className="table-style">
                 {totalItems > 0 ? 
                         <DataTable 

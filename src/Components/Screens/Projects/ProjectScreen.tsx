@@ -7,7 +7,8 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import './ProjectsScreen.css'
 import ThemeContext from '../../../configs/theme';
-import { COUNTRIES, Disciplines, FIELDS, Industries } from '../../../Services/dropDowns';
+import { ANZSIC_Class, 
+  ANZSIC_Group, ANZSIC_Subdivision, COUNTRIES, Disciplines, FIELDS, Industries } from '../../../Services/dropDowns';
 import axios from 'axios';
 import getFullUrl from '../../../configs/axios-custom';
 import GrowlContext from '../../../configs/growlContext';
@@ -126,6 +127,7 @@ const Component = styled.div`
     text-align: start;
     font-size: var(--body-03-default-size);
     font-family: 'Plus Jakarta Sans';
+    text-transform:none;
     span{
       
     }
@@ -211,6 +213,10 @@ let defaultDate = new Date()
 interface ViewProjectProps {
   project:ProjectDto
 }
+type selectedSpecialization = {
+  value:string | number,
+  label:string,
+}
 export const ViewProject : FunctionComponent<ViewProjectProps> = ({project})=>{
     const [showDialog,setShowdialog] = React.useState(false)
     const showCustomDialog = ()=>{
@@ -275,7 +281,7 @@ export const ViewProject : FunctionComponent<ViewProjectProps> = ({project})=>{
       <Divider />
         {disp && (
           <>
-             <SectionHeader title='Disciplines' 
+             <SectionHeader title='Branch of knowledge' 
               icontext='pi pi-stop-circle' titleStyle={theme.customStyle.modalDialogLabels}
               sectionStyle={theme.customStyle.icons}/>
             <div className="details-group-chips">
@@ -286,7 +292,7 @@ export const ViewProject : FunctionComponent<ViewProjectProps> = ({project})=>{
         <Divider />
        {indu && (
           <>
-             <SectionHeader title='Sub disciplines' 
+             <SectionHeader title='Discipline' 
               icontext='pi pi-stop-circle' titleStyle={theme.customStyle.modalDialogLabels}
               sectionStyle={theme.customStyle.icons}/>
             <div className="details-group-chips">
@@ -297,7 +303,7 @@ export const ViewProject : FunctionComponent<ViewProjectProps> = ({project})=>{
       <Divider />
        {field && (
           <>
-             <SectionHeader title='Fields' 
+             <SectionHeader title='Sub discipline' 
               icontext='pi pi-stop-circle' titleStyle={theme.customStyle.modalDialogLabels}
               sectionStyle={theme.customStyle.icons}/>
             <div className="details-group-chips">
@@ -346,6 +352,15 @@ export  const ProjectScreen=()=> {
   const [industryFilteredOptions,setIndustryFilteredOptions] =  React.useState(Array<selectedTypes>());
   const [FilteredOptions,setFilteredOptions] =  React.useState(Array<selectedTypes>());
   // 
+
+  const [anzsicsubdivision,setAnzsicsubdivision] =  React.useState(Array<selectedSpecialization>());
+
+  const [anzsicgroupOptions,setAnzsicgroupOptions] = React.useState<Array<selectedSpecialization>>();
+  const [anzsicclassOptions,setAnzsicclassOptions] = React.useState<Array<selectedSpecialization>>();
+
+  const [anzsicgroup,setAnzsicgroup] =  React.useState(Array<selectedSpecialization>());
+  const [anzsicclass,setAnzsicclass] =  React.useState(Array<selectedSpecialization>());
+
   const [keyword,setKeyword]= React.useState("")
   const [totalItems,setTotalItems] = React.useState(0); 
   const [Coords,setCoords] = React.useState<MapProps>(defaultMapSettings);
@@ -356,7 +371,27 @@ export  const ProjectScreen=()=> {
   const [showDialog,setShowDialog] =  React.useState(false);
 
   const dt = useRef<DataTable>(null);
+  React.useEffect(()=>{
+    const group = ANZSIC_Group.filter((sa)=>{
+        return anzsicsubdivision.some((f:any)=>{
+            return f === sa.value.toString().slice(0,2)
+        })
+    })
+    setAnzsicgroupOptions(group)
+    },[anzsicsubdivision])
 
+    React.useEffect(()=>{
+
+    console.log(anzsicgroup)
+    const classGroup = ANZSIC_Class.filter((sa)=>{
+        return anzsicgroup.some((f:any)=>{
+            return f === sa.value.toString().slice(0,3)
+        })
+    })
+    console.log(classGroup)
+    setAnzsicclassOptions(classGroup)
+
+    },[anzsicgroup])
   React.useEffect(()=>{
         const industriesOptions = Industries.filter((sa)=>{
             return discipline.some((f)=>{
@@ -369,12 +404,11 @@ export  const ProjectScreen=()=> {
   React.useEffect(()=>{
     console.log(subDisciplines)
     const f = FIELDS.filter((sa)=>{
-        return subDisciplines.some((f)=>{
-            return f.code == sa.code
+        return subDisciplines.some((f:any)=>{
+            return f== sa.code
         })
     }) as Array<selectedTypes>
-    console.log(f)
-    setIndustryFilteredOptions(f)
+    setFilteredOptions(f)
   },[subDisciplines])
 
   function queryData(event:{
@@ -502,7 +536,7 @@ export  const ProjectScreen=()=> {
     return(
       <TableHeaderContainer>
          <p className="records">Total records : {data.length}</p>
-         <div className="button-group-table">
+          <div className="button-group-table">
                   <Button type="button" icon="pi pi-file"   onClick={() => exportCSV(false)} data-pr-tooltip="CSV" className='export-table' />
                   <Button type="button" icon="pi pi-file-excel" onClick={exportExcel} data-pr-tooltip="XLS"  className='export-table'/>
                   {/* <Button type="button" icon="pi pi-file-pdf"  data-pr-tooltip="PDF"  className='export-table'/> */}
@@ -527,14 +561,14 @@ export  const ProjectScreen=()=> {
             <FormParent>
               <FormParentInner>
                 <InputWrapper>
-                  <Titles>Venture Title</Titles>
+                  <Titles>Project Title</Titles>
                   <Component>
                     {/* <SelectCountry>Venture Title</SelectCountry> */}
                     <InputText value={title} className="inputs"
-                      placeholder=" Venture Title" 
+                      placeholder=" Project Title" 
                         onChange={(e)=> setTitle(e.target.value)}
                       />
-                  </Component>
+                  </Component>  
                 </InputWrapper>
               </FormParentInner>
             </FormParent>
@@ -571,6 +605,21 @@ export  const ProjectScreen=()=> {
             </FormParent>
             <FormParent>
               <FormParentInner>
+                <InputWrapper style={{width:"28rem"}}>
+                  <CustomButtom style={{margin:"auto"}} onClick={()=> queryData({first,rows:rowsPerPage,sortField,sortOrder}) } className='reset-password-button'>Search</CustomButtom>
+                </InputWrapper>
+              </FormParentInner>
+            </FormParent>
+          </div>
+       
+          <Accordion style={{width:"94%", margin:"1rem"}}>
+              <AccordionTab header="Advance filters">
+              <Divider align="center">
+                        <span className="p-tag">Filter based on academic fields</span>
+              </Divider>
+                <div className='rows'>
+                <FormParent>
+              <FormParentInner>
                 <InputWrapper>
                   <Titles> Branch of knowledge</Titles>
                   <Component>
@@ -582,8 +631,21 @@ export  const ProjectScreen=()=> {
                 </InputWrapper>
               </FormParentInner>
             </FormParent>
-          </div>
-          <div className="rows">
+            <FormParent>
+              <FormParentInner>
+                <InputWrapper>
+                  <Titles> Discipline</Titles>
+                  <Component>
+                    {/* <SelectCountry>Venture Title</SelectCountry> */}
+                    <MultiSelect value={subDisciplines} options={industryFilteredOptions} 
+                        onChange={(e) => setSubDisciplines(e.value)} optionLabel="label" 
+                        placeholder="Select discipline" display="chip" filter className='drop-downs'/>
+                  </Component>
+                </InputWrapper>
+              </FormParentInner>
+            </FormParent>
+              </div>
+              <div className="rows">
             <FormParent>
               <FormParentInner>
                 <InputWrapper>
@@ -601,42 +663,69 @@ export  const ProjectScreen=()=> {
             <FormParent>
               <FormParentInner>
                 <InputWrapper>
-                  <Titles> Business Sector/ Trade</Titles>
-                  <Component>
-                    {/* <SelectCountry>Venture Title</SelectCountry> */}
-                    <MultiSelect value={subDisciplines} options={industryFilteredOptions} 
-                        onChange={(e) => setSubDisciplines(e.value)} optionLabel="label" 
-                        placeholder="Select a sub discipline" display="chip" filter className='drop-downs'/>
-                  </Component>
-                </InputWrapper>
-              </FormParentInner>
-            </FormParent>
-          </div>
-          <div className="rows">
-            <FormParent>
-              <FormParentInner>
-                <InputWrapper>
-                  <Titles>Field of activity</Titles>
+                  <Titles>Sub discipline</Titles>
                   <Component>
                     {/* <SelectCountry>Venture Title</SelectCountry> */}
                     <MultiSelect value={field} options={FilteredOptions} 
                         onChange={(e) => setFields(e.value)} optionLabel="label" 
-                        placeholder="Select fields" display="chip" filter className='drop-downs'/>
+                        placeholder="Select sub discipline" display="chip" filter className='drop-downs'/>
+                  </Component>
+                </InputWrapper>
+              </FormParentInner>
+            </FormParent>
+          </div>
+           < Divider align="center">
+                <span className="p-tag">Filter based on industry fields</span>
+            </Divider>
+            <div className='rows'>
+                <FormParent>
+              <FormParentInner>
+                <InputWrapper>
+                  <Titles> Trade</Titles>
+                  <Component>
+                    {/* <SelectCountry>Venture Title</SelectCountry> */}
+                    <MultiSelect value={anzsicsubdivision} options={ANZSIC_Subdivision} 
+                        onChange={(e) => setAnzsicsubdivision(e.value)} optionLabel="label" 
+                        placeholder="Select trade" display="chip" filter className='drop-downs' />
                   </Component>
                 </InputWrapper>
               </FormParentInner>
             </FormParent>
             <FormParent>
               <FormParentInner>
-                <InputWrapper style={{width:"28rem"}}>
-                  <CustomButtom style={{margin:"auto"}} onClick={()=> queryData({first,rows:rowsPerPage,sortField,sortOrder}) } className='reset-password-button'>Search</CustomButtom>
+                <InputWrapper>
+                  <Titles> Sector</Titles>
+                  <Component>
+                    {/* <SelectCountry>Venture Title</SelectCountry> */}
+                    <MultiSelect value={anzsicgroup} options={anzsicgroupOptions} 
+                        onChange={(e) => setAnzsicgroup(e.value)} optionLabel="label" 
+                        placeholder="Select sector" display="chip" filter className='drop-downs'/>
+                  </Component>
                 </InputWrapper>
               </FormParentInner>
             </FormParent>
-          </div>
+              </div>
+              <div className='rows'>
+              <FormParent>
+              <FormParentInner>
+                <InputWrapper>
+                  <Titles> Sub sector</Titles>
+                  <Component>
+                    {/* <SelectCountry>Venture Title</SelectCountry> */}
+                    <MultiSelect value={anzsicclass} options={anzsicclassOptions} 
+                        onChange={(e) => setAnzsicclass(e.value)} optionLabel="label" 
+                        placeholder="Select sub sector" display="chip" filter className='drop-downs'/>
+                  </Component>
+                </InputWrapper>
+              </FormParentInner>
+            </FormParent>
+              </div>
+          </AccordionTab>
+          </Accordion>
        </VentureParentContainer>
       
       <VentureParentContainer>
+
       {totalItems > 0 ? 
         <TabView>
           <TabPanel header="Table view">
@@ -666,7 +755,7 @@ export  const ProjectScreen=()=> {
                   </DataTable>
           </TabPanel>
             <TabPanel header="Map view">
-               {projectCoords && (<MapServices coordinates={projectCoords}/>)}    
+               {projectCoords && (<MapServices zoom={2} width='70vw' coordinates={projectCoords}/>)}    
             </TabPanel>
         </TabView>
           :<></>

@@ -1,6 +1,6 @@
 import React, { FC, FunctionComponent } from 'react';
 import './Home.css';
-import {MapContainer,TileLayer,Marker,Popup} from 'react-leaflet'
+
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import CounterComponent from './Fragment/Counter';
@@ -14,6 +14,7 @@ import getFullUrl from '../../../configs/axios-custom';
 import axios from 'axios';
 import { Divider } from 'primereact/divider';
 import Burger from '../../Navigation/Burger';
+import Map, { Marker, NavigationControl } from 'react-map-gl';
 // styles
 const NairobiKenya = styled.div`
   position: relative;
@@ -261,7 +262,7 @@ const  NortificationHeader = styled.div`
 `
 const UserDetailsContainer = styled.div`
     display:flex;
-    gap:15px;s
+    gap:15px;
 `
 type CoordsProps ={
     lng:number,
@@ -269,12 +270,15 @@ type CoordsProps ={
 }
 export interface MapProps {
     coordinates : Array<CoordsProps>;
+    width:string;
+    zoom:number;
 }
 
 interface UserData {
   user: UserDto | null
 }
 
+const MAPBOX_TOKEN = process.env.REACT_APP_TOKEN;
 export  const  NavBar:FC<UserData> = ({user})=>{
   const MobileView = window.innerWidth < 768 ? true : false
   const [showSideBar,setShowSidebar] =  React.useState(false)
@@ -340,17 +344,18 @@ export  const  NavBar:FC<UserData> = ({user})=>{
       </Sidebar>
       
         <p className='logo' onClick={()=> navigate('/')}>Akademates</p>
-        <div className="innerHeader">
+        {/* <div className="innerHeader">
           <p>For Industry</p>
           <p>For Academia</p>
-        </div>
+        </div> */}
         <div className="icons-header">
           { user ? <>
           <UserDetailsContainer>
           <HelpCircleIcon alt="" src="/assets/message.svg" onClick={()=> navigate('/workspace/messages')} />
           <HelpCircleIcon alt="" src="/assets/bell1.svg" onClick={()=> setShowSidebar(true)}/>
          
-          <p onClick={()=> navigate('workspace/cockpit')} className='user-name'>{user.firstName + " " + user.lastName}</p>
+          <p onClick={()=> navigate('workspace/cockpit')} 
+              className='user-name'>{user.firstName ? user.firstName : ""  + " " + user.lastName ? user.lastName: "" }</p>
           </UserDetailsContainer>
           <Burger />
           </>
@@ -358,28 +363,40 @@ export  const  NavBar:FC<UserData> = ({user})=>{
             <Login>
               {MobileView && (<p className='logo' onClick={()=> navigate('/')}>Akademates</p>)}
               <NairobiKenya onClick={()=> navigate('/auth')}>Login</NairobiKenya>
+              /
+              <NairobiKenya onClick={()=> navigate('/register')}>Register</NairobiKenya>
             </Login>}
         </div>
      </Header>
     )
 }
-export const  MapServices : FunctionComponent<MapProps> = ({coordinates}) => {
-    
+export const  MapServices : FunctionComponent<MapProps> = ({coordinates,width,zoom}) => {
+      console.log(coordinates)
     return (
-        <MapContainer style={{width:"100%", height:"40vh"}} center={[coordinates[0].lat,  coordinates[0].lng]} zoom={6} scrollWheelZoom={true} className='maps'>
-            <TileLayer 
-                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-            />
-            {coordinates && coordinates.map((p)=> 
-                 <Marker position={[p.lat	, p.lng]}>
+            <Map
+          mapboxAccessToken={MAPBOX_TOKEN}
+          initialViewState={{
+            longitude:36.07,
+            latitude: -0.27,
+            zoom: zoom
+          }}
+          scrollZoom={false}
+          style={{height:"60vh",width:`${width}`}} 
+          mapStyle='mapbox://styles/chann/clef9nc62000601pgkf94y02a'
+          >
+            {coordinates && coordinates.map((p,index)=>   <Marker key={index} longitude={p.lng} latitude={p.lat} anchor="bottom" >
+          {/* <img src="./pin.png" /> */}
+        </Marker>)}
+      
+        {/* {coordinates && coordinates.map((p)=> 
+            <Marker position={[p.lat	, p.lng]}>
                  <Popup>
  
                  </Popup>
              </Marker>
-            )}
-           
-        </MapContainer>
+            )} */}
+          <NavigationControl />
+        </Map>
     )
 }
 
@@ -413,7 +430,7 @@ const Home = ()=>{
               </ForgingLinksBetween>
             </TitleWrapperInner>
             <CreatingNewConnections>
-                Creating new connections, innovations, and opportunities with our
+                Create new connections, innovations, and opportunities with our
                 transformative online hub.
             </CreatingNewConnections>
             <Button>
@@ -427,10 +444,10 @@ const Home = ()=>{
       <CounterComponent total={totals as HomeTotals} />
       {/* <ProjectCategories /> */}
       <Heading8>
-        <SmallToMedium>Featured Ventures</SmallToMedium>
+        <SmallToMedium>Featured projects</SmallToMedium>
         <Subtitle>Find the right opportunity for you</Subtitle>
       </Heading8>
-         {projectcoords &&(<MapServices coordinates={projectcoords as CoordsProps[]} />)} 
+         {projectcoords &&(<MapServices zoom={5} width='100vw' coordinates={projectcoords as CoordsProps[]} />)} 
       <HowItsWorks />
       <Footer />
       </>

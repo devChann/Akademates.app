@@ -116,7 +116,7 @@ const  CounterComponent:React.FunctionComponent<CounterProps> = ({total}) =>{
           <Traders>
             <K>{total?.totalVentures}</K>
             <VenturesWrapper>
-              <Ventures>Ventures</Ventures>
+              <Ventures>Projects</Ventures>
             </VenturesWrapper>
           </Traders>
           <Traders1>

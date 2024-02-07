@@ -36,7 +36,7 @@ const Icon2 = styled.img`
 const ConnectWithAcademic = styled.b`
   position: relative;
   line-height: 30px;
-  text-transform: capitalize;
+  text-transform: none;
   display: inline-block;
   width: 256px;
   font-size: 15px;
@@ -117,8 +117,7 @@ const HowItsWorks = () => {
         <Title>
           <Heading1>
             <ConnectWithAcademic>
-              <HowItWorks>{`Discover‘Who does What Where &`}</HowItWorks>
-              <HowItWorks>Wherein your field.</HowItWorks>
+              <HowItWorks>Discover who does what & where in your field</HowItWorks>
             </ConnectWithAcademic>
           </Heading1>
         </Title>
@@ -139,7 +138,7 @@ const HowItsWorks = () => {
           <Heading1>
             <ConnectWithAcademic>
               Find collaborators and specialists for idea development,
-              grants,or ventures.
+              grants,or projects.
             </ConnectWithAcademic>
           </Heading1>
         </Title>
@@ -149,7 +148,7 @@ const HowItsWorks = () => {
         <Title>
           <Heading1>
             <ConnectWithAcademic>
-              <HowItWorks>{`Discover leading specialists `}</HowItWorks>
+              <HowItWorks>Discover leading specialists</HowItWorks>
               <HowItWorks>for consulting or project needs.</HowItWorks>
             </ConnectWithAcademic>
           </Heading1>
@@ -160,8 +159,8 @@ const HowItsWorks = () => {
         <Title>
           <Heading1>
             <ConnectWithAcademic>
-              Work with a with a partnership manager to advance your
-              partnership.
+              Work with a partnership manager to advance your
+              collaboration.
             </ConnectWithAcademic>
           </Heading1>
         </Title>

@@ -46,7 +46,8 @@ const MessageComponent = () => {
       
           const result = Object.entries(grouped).map(([key, value]) => ({Id: key, data: value}));
           setMessages(result)
-      
+          
+          console.log(result)
       
         }).catch((error)=>{
           console.log(error)

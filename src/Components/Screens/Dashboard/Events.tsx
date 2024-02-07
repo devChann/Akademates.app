@@ -139,7 +139,7 @@ const Tags = styled.div`
 `;
 const ListingPerformanceParent = styled.div`
     position: relative;
-    width: 91vw;
+    width: 85vw;
     height: auto;
     margin-top: 3rem;
     background: white;
@@ -393,6 +393,7 @@ export const CreateNewEventComponent = (props:any) => {
     </span>
    
   );
+  const  canSave = title !=="" && organization !== "" && to && From
   return (
     <EventContainer>
       <div className="rows">
@@ -426,6 +427,10 @@ export const CreateNewEventComponent = (props:any) => {
         <Calendar value={to} onChange={(e) => setto(e.value)} className='inputs'/>
         </div>
       </div>
+      <div className="field-container">
+        <label className='labels'>location</label>
+        <InputText placeholder="location" className='inputs' onChange={(e)=>setorganization(e.target.value)} />
+        </div>
       <div className="content">
         <label className='description'>Event Description</label>
         <Editor headerTemplate={header} 
@@ -434,7 +439,7 @@ export const CreateNewEventComponent = (props:any) => {
                   onTextChange={(e) => setContent(e.htmlValue as string)} />
         </div>
       <div className='button'>
-        <Button label='Create event' onClick={createEVent} />
+        <Button disabled={!canSave} label='Create event' onClick={createEVent} />
       </div>
     </EventContainer>
   )

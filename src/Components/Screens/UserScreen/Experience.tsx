@@ -5,6 +5,7 @@ import { InputTextarea } from 'primereact/inputtextarea'
 import React, { useCallback } from 'react'
 import getFullUrl from '../../../configs/axios-custom'
 import GrowlContext from '../../../configs/growlContext'
+import { Button } from 'primereact/button'
 
 export interface  ExperienceDto {
     title:string,
@@ -51,6 +52,8 @@ const  ExperienceComponent:React.FunctionComponent<ExperienceProps> =({setshowEd
         }
     },[editMode])
 
+    const canSave = fieldValues.title !== "" && fieldValues.org !== "" && fieldValues.desc && 
+        fieldValues.start !== null &&  fieldValues.end !== null && fieldValues.location !== ""
     const saveExperience =()=>{
         if(!id){
             return
@@ -168,7 +171,7 @@ const  ExperienceComponent:React.FunctionComponent<ExperienceProps> =({setshowEd
                         className="modal-inputs"  />
                     </div>
                     <div className="field button-group">
-                        {!editMode ? <button onClick={saveExperience} className='reset-password-button'>Save</button> :<button onClick={EditExperience} className='reset-password-button'>Save edits</button>}
+                        {!editMode ? <Button disabled={!canSave} onClick={saveExperience} className='reset-password-button'>Save</Button> :<Button onClick={EditExperience} className='reset-password-button'>Save edits</Button>}
                         
                     </div>                                                               
                 </div>

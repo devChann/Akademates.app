@@ -41,7 +41,6 @@ function App() {
   React.useEffect(()=>{
     
     if (!userObject) {
-      console.log("something")
       navigate('/auth')
       return
   }else{

@@ -312,38 +312,27 @@ function Footer() {
         <FollowUs>Follow Us:</FollowUs>
         <SocialIconInner>
           <FacebookIcon alt="" src="/assets/facebook.svg" />
-          <FacebookIcon alt="" src="/assets/linkedin.svg" />
+          {/* <FacebookIcon alt="" src="/assets/linkedin.svg" /> */}
           <FacebookIcon alt="" src="/assets/twitter.svg" />
-          <FacebookIcon alt="" src="/assets/pinterest.svg" />
-          <FacebookIcon alt="" src="/assets/pinterest1.svg" />
-          <FacebookIcon alt="" src="/assets/pinterest2.svg" />
+          {/* <FacebookIcon alt="" src="/assets/pinterest.svg" />
+          <FacebookIcon alt="" src="/assets/pinterest1.svg" /> */}
+          {/* <FacebookIcon alt="" src="/assets/pinterest2.svg" /> */}
         </SocialIconInner>
       </SocialIconParent>
     </Logo>
     <Menu>
       <About>
         <Info>
-          <Phone>
-            <PhoneIcon
-              alt=""
-              src="/assets/vuesaxbulkcallcalling.svg"
-            />
-            <HelpContainer>
-              <div className='inner'>{`Need help? 24/7 `}</div>
-              <p>
-                <b>000-000-000</b>
-              </p>
-            </HelpContainer>
-          </Phone>
+         
           <ShareProjectInfo>
             <div className='share-project-info-inner'>
               Share your project or venture to draw in exceptional talent,
               collaborators, and supporters
             </div>
-            <MapPinParent>
+            {/* <MapPinParent>
               <MapPinIcon alt="" src="/assets/mappin.svg" />
               <div className='location-info'>Nairobi, Kenya</div>
-            </MapPinParent>
+            </MapPinParent> */}
           </ShareProjectInfo>
         </Info>
         <Newsletter>
