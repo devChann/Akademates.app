@@ -460,7 +460,7 @@ const Posts:React.FC<PostProps> = ({id}) => {
   const handleTextChange = (event: EditorTextChangeParams) => {
     const text = event.htmlValue as string;
     console.log(text)
-    const words = text.split(/\s+/).filter((word) => word.length > 0);
+    const words = text?.split(/\s+/).filter((word) => word.length > 0);
     setWordCount(words.length);
     setPost(event.htmlValue as string)
   };
